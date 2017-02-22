@@ -260,7 +260,7 @@ public class Utilitarios {
                   ban=true;
                   break;
                 }
-            }   
+            }
             if(!ban){
                 break;
             }
@@ -331,8 +331,73 @@ public class Utilitarios {
                
     }
     
+     
+    /*Ver si se tienen FS disponibles en un vector de Utilziacion de Espectro
+    * Util principalmente para los esquemas de Ruteo
+    * Parametros:
+    * int [] OE: vector de utilizacion del espectro
+    * int capacidad: tamaño de OE
+    * int N: los N FS requeridos 
+    */
+    public static boolean buscarFSdisponibles(int [] OE, int capacidad, int N){
+        int inicio=0;
+        int fin=0;
+        int cont=0;
+        boolean fsEcontrados=false;
+        for(int i=0;i<capacidad;i++){
+            if(OE[i]==1){
+                inicio=i;
+                for(int j=inicio;j<capacidad;j++){
+                    if(OE[j]==1){
+                        cont++;
+                    }
+                    else{
+                        cont=0;
+                        break;
+                    }
+                    //si se encontro un bloque valido, salimos de todos los bloques
+                    if(cont==N){
+                        fin=j;
+                        fsEcontrados=true;
+                        break;
+                    }
+                }
+            }
+            if(fsEcontrados==true){
+                    break;
+            }
+        }
+        return fsEcontrados;
+    }
     /*Algoritmo que se encarga de asignar a una demanda los FSs requeridos en la red*/
-    public static void asignarFS(ListaEnlazada ksp[],Resultado r,GrafoMatriz G,Demanda d, int conexid){
+    public static void asignarFS(ListaEnlazada ksp[],Resultado r,GrafoMatriz G,Demanda d){
+        int util=0;
+        int cont=0;
+        for(Nodo nod=ksp[r.getCamino()].getInicio();nod.getSiguiente().getSiguiente()!=null;nod=nod.getSiguiente()){
+            for(int p=r.getInicio();cont<=d.getNroFS() && p<=r.getFin();p++){
+                cont++;
+                G.acceder(nod.getDato(), nod.getSiguiente().getDato()).getFS()[p].setEstado(0);
+                G.acceder(nod.getDato(), nod.getSiguiente().getDato()).getFS()[p].setTiempo(d.getTiempo());
+                util= G.acceder(nod.getDato(), nod.getSiguiente().getDato()).getUtilizacion()[p]++;
+                G.acceder(nod.getDato(), nod.getSiguiente().getDato()).setUtilizacionFS(p,util);
+                G.acceder(nod.getSiguiente().getDato(), nod.getDato()).getFS()[p].setEstado(0);
+                G.acceder(nod.getSiguiente().getDato(), nod.getDato()).getFS()[p].setTiempo(d.getTiempo());
+                util=G.acceder(nod.getSiguiente().getDato(), nod.getDato()).getUtilizacion()[p]++;
+                G.acceder(nod.getSiguiente().getDato(), nod.getDato()).setUtilizacionFS(p,util);
+            }   
+        }
+    }
+    /*
+    ****************************************************************************************
+    ****************************************************************************************
+    ************DESDE AQUI, SON LOS UTILITARIOS  PARA LOS ALGORITMOS DE DEFRAGMENTACION*****
+    ****************************************************************************************
+    ****************************************************************************************
+    */
+    
+    /*Algoritmo que se encarga de asignar a una demanda los FSs requeridos en la red donde se realiza defragmentaciones- se utiiza
+    en la  clase ventanaPricipal_Defrag*/
+    public static void asignarFS_Defrag(ListaEnlazada ksp[],Resultado r,GrafoMatriz G,Demanda d, int conexid){
         int util=0;
         int cont=0;
         for(Nodo nod=ksp[r.getCamino()].getInicio();nod.getSiguiente().getSiguiente()!=null;nod=nod.getSiguiente()){
@@ -400,7 +465,37 @@ public class Utilitarios {
         }
 
     }
-    
+    /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
+    public static void GraficarResultado(List result[],JPanel panelResultado, JLabel etiquetaResultado, List<String> lista,int paso){
+        double sum=0;
+        XYSplineRenderer renderer=new XYSplineRenderer();
+        XYSeries series[]=new XYSeries[result.length];
+        XYSeriesCollection datos=new  XYSeriesCollection();
+        ValueAxis ejex=new NumberAxis();
+        ValueAxis ejey=new NumberAxis();
+        XYPlot plot;
+        panelResultado.removeAll();
+        for(int i=0;i<result.length;i++){
+            series[i]= new XYSeries((String)lista.get(i));
+            for(int j=0;j<result[i].size();j++){
+                sum+=paso;
+                series[i].add(sum, (double)result[i].get(j));   
+            }
+            sum=1;
+            datos.addSeries(series[i]);
+        }
+        
+        ejex.setLabel("Erlang");
+        ejey.setLabel("Probalididad de bloqueo(%)");
+        plot =new XYPlot(datos,ejex,ejey,renderer);
+        JFreeChart grafica = new JFreeChart(plot);
+        //grafica.setTitle("Probabilidad de Bloqueo");
+        ChartPanel panel= new ChartPanel(grafica);
+        panel.setBounds(2, 2, 466, 268);
+        panelResultado.add(panel);
+        panelResultado.repaint();
+        panelResultado.setVisible(true);
+    }
     
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
     public static void GraficarResultado(List result[],JPanel panelResultado, JLabel etiquetaEntropia, List<String> lista,int paso, String label){
@@ -453,6 +548,9 @@ public class Utilitarios {
             }
         }
     }
+    
+    
+    
     /*
         Disminuir with route
     */
@@ -1261,7 +1359,7 @@ public class Utilitarios {
             Resultado r = Algoritmos_Defrag.KSP_FF_Algorithm_MBBR(G, Gaux, d, ksp, capacidad);
             if (r!= null){
                 if (calcularSaltos(ksp[r.getCamino()])<=saltos){
-                    asignarFS(ksp,r,Gaux,d,-1);
+                    asignarFS_Defrag(ksp,r,Gaux,d,-1);
                     asignado++;
                     results[i]=r;
                 }else{

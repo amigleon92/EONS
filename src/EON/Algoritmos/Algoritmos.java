@@ -1,6 +1,8 @@
 
 package EON.Algoritmos;
 
+import EON.*;
+import EON.ResultadoRuteo;
 import EON.Demanda;
 import EON.FrecuencySlots;
 import EON.GrafoMatriz;
@@ -11,12 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import EON.Utilitarios.*;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Random;
-
 /**
  *
  * @author Fernando
@@ -217,16 +217,16 @@ public class Algoritmos {
         int demandaColocada=0; // bandera para controlar si ya se encontro espectro disponible para la demanda.
         int [] OE= new int[capacidad]; //Ocupacion de Espectro.
         //Inicializadomos el espectro, inicialmente todos los FSs estan libres
-        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
         /*Probamos para cada camino, si exite espectro para ubicar la damanda*/
         int k=0;
-        while(k<ksp.length && ksp[k]!=null && demandaColocada==0){
-            for(int i=0;i<capacidad;i++){
-                OE[i]=1;
-            }
+        while(k<3 && ksp[k]!=null && demandaColocada==0){
             /*Calcular la ocupacion del espectro para cada camino k*/
             for(int i=0;i<capacidad;i++){
                 for(Nodo n=ksp[k].getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
+                   //System.out.println("v1 "+n.getDato()+" v2 "+n.getSiguiente().getDato()+" cant vertices "+G.getCantidadDeVertices()+" i "+i+" FSs "+G.acceder(n.getDato(),n.getSiguiente().getDato()).getFS().length);
                     if(G.acceder(n.getDato(),n.getSiguiente().getDato()).getFS()[i].getEstado()==0){
                         OE[i]=0;
                         break;
@@ -295,13 +295,12 @@ public class Algoritmos {
         int [] OE= new int[capacidad]; //Ocupacion de Espectro.
         int [] auxiliar= new int[capacidad];
         //Inicializadomos el espectro, inicialmente todos los FSs estan libres
-        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
         /*Probamos para cada camino, si exite espectro para ubicar la damanda*/
         int k=0;
-        while(k<ksp.length && ksp[k]!=null && demandaColocada==0){
-            for(int i=0;i<capacidad;i++){
-                OE[i]=1;
-            }
+        while(k<3 && ksp[k]!=null && demandaColocada==0){
             /*Calcular la ocupacion del espectro para cada camino k*/
             for(int i=0;i<capacidad;i++){
                 for(Nodo n=ksp[k].getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
@@ -371,13 +370,12 @@ public class Algoritmos {
         int demandaColocada=0; // bandera para controlar si ya se encontro espectro disponible para la demanda.
         int [] OE= new int[capacidad]; //Ocupacion de Espectro.
         //Inicializadomos el espectro, inicialmente todos los FSs estan libres
-        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
         /*Probamos para cada camino, si exite espectro para ubicar la damanda*/
         int k=0;
-        while(k<ksp.length && ksp[k]!=null && demandaColocada==0){
-            for(int i=0;i<capacidad;i++){
-                OE[i]=1;
-            }
+        while(k<3 && ksp[k]!=null && demandaColocada==0){
             /*Calcular la ocupacion del espectro para cada camino k*/
             for(int i=0;i<capacidad;i++){
                 for(Nodo n=ksp[k].getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
@@ -452,10 +450,7 @@ public class Algoritmos {
         }
         /*Probamos para cada camino, si exite espectro para ubicar la damanda*/
         int k=0;
-        while(k<ksp.length && ksp[k]!=null && demandaExact==0){
-            for(int i=0;i<capacidad;i++){
-                OE[i]=1;
-            }
+        while(k<3 && ksp[k]!=null && demandaExact==0){
             /*Calcular la ocupacion del espectro para cada camino k*/
             for(int i=0;i<capacidad;i++){
                 for(Nodo n=ksp[k].getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
@@ -489,7 +484,7 @@ public class Algoritmos {
                             break;
                         }
                         //si se encontro un bloque valido, qeu satisface exactamente la demanda, salimos de todos los bucles
-                        if(cont==demanda.getNroFS() && i+cont+1<capacidad && OE[i+cont +1]==0){
+                        if(cont==demanda.getNroFS() && i+cont+1<capacidad && OE[i+cont+1]==0){
                             fin=j;
                             demandaExact=1;
                             break;
@@ -558,13 +553,12 @@ public class Algoritmos {
         List bloques = new LinkedList(); // lista de bloques de FSs libres
         int pos_menor=0; //posicion del bloque menor en la lista de bloques
         //Inicializadomos el espectro, inicialmente todos los FSs estan libres
-        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
         /*Probamos para cada camino, si exite espectro para ubicar la damanda*/
         int k=0;
-        while(k<ksp.length && ksp[k]!=null && demandaColocada==0){
-            for(int i=0;i<capacidad;i++){
-                OE[i]=1;
-            }
+        while(k<3 && ksp[k]!=null && demandaColocada==0){
             /*Calcular la ocupacion del espectro para cada camino k*/
             /*Calcular la utilizacion de los FSs en el espectro*/
             for(int i=0;i<capacidad;i++){
@@ -680,13 +674,12 @@ public class Algoritmos {
         List bloques = new LinkedList(); // lista de bloques de FSs libres
         int pos_mayor=0; //posicion del bloque menor en la lista de bloques
         //Inicializadomos el espectro, inicialmente todos los FSs estan libres
-        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
         /*Probamos para cada camino, si exite espectro para ubicar la damanda*/
         int k=0;
-        while(k<ksp.length && ksp[k]!=null && demandaColocada==0){
-            for(int i=0;i<capacidad;i++){
-                OE[i]=1;
-            }
+        while(k<3 && ksp[k]!=null && demandaColocada==0){
             /*Calcular la ocupacion del espectro para cada camino k*/
             /*Calcular la utilizacion de los FSs en el espectro*/
             for(int i=0;i<capacidad;i++){
@@ -776,18 +769,286 @@ public class Algoritmos {
        }
        return null;
     }
-        /*
-    * Algoritmo KSP para asignar los FS a cualquier camino, utilizando para el ruteo los k camino mas cortos desde el nodo origen al final.
-    * 
-    * Paramentros:
-    *   GrafoMatriz G: Topologia representada en forma de un grafo(Matriz de adjacencia).
-    *   Demanda demanda: Solicitud con un otigen o, destino d y n FSs solicitados.
-    *   ListaEnlazada [] ksp: Lista enlazada con los k caminos mas cortos.
-    *   int capacidad: capacidad de cada enlaca en la topologia.
-    * Retorna:
-    *   Resultado: Es una estructura que representa el indice i origen, y j destino utilizados del espectro.
-                 Retorna null en caso de que no exista espectro disponible.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ /*
+ * Algoritmo de Ruteo FAR.
+ * En la version 0.2, se da la posibilidad de Modulacion. Por lo tanto, se dividio los algoritmos de Ruteo y Asignacion de espectro en metodos
+    diferntes.
+    Parametros:
+    GrafoMatriz G: Mstriz de adyacencia que almacena la red
+    ListaEnlazada [] ksp: lista de los k-caminos mas cortos indicado por al demanda
+    Demada demanda: objeto que contiene el origen, fin, tiempo de pemanencia, y ancho de banda requerido por el usuario
+    int capacidad: cantidad de FS en un enlace
+    boolean modulacion: true si se considera modulacion, false en caso contrario.
+    Retorna:
+    ResultadoRuteo : un objeto con el camino elegido entre los ksp.
+    null: si no se encontro un camino con FS disponibles
+ */    
+    public static ResultadoRuteo Ruteo_FAR(GrafoMatriz G, Demanda demanda, ListaEnlazada [] ksp,int capacidad, boolean modulacion){
+        boolean demandaAsignada=false; // false si no se asigna la demanda, true en caso contrario
+        int N=0; // numero de FS que seran asignados dependiendo del tipo de modulacion (o si no se requiere se hace con considerando BPSK)
+        int [] OE= new int[capacidad]; //Ocupacion de Espectro.
+        int k=0; // se consideran 3 caminos alternativos
+        Modulacion M = new Modulacion(); // esquema de modulacion
+        int distancia; //distancia de un camino
+        boolean existenFSdisponibles;// true si se encontraron FS disponibles en una ruta, false en caso contrario
+        ResultadoRuteo resultado= null; // almacena el resutaldo obtenido en el algoritmo de ruteo (ruta y nro de ruta)
+        //Inicializadomos el espectro, inicialmente todos los FSs estan libres
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
+        while(demandaAsignada==false && k<3){
+            /*Calcular la ocupacion del espectro para cada camino k*/
+            for(int i=0;i<capacidad;i++){
+                for(Nodo n=ksp[k].getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
+                    if(G.acceder(n.getDato(),n.getSiguiente().getDato()).getFS()[i].getEstado()==0){
+                        OE[i]=0;
+                        break;
+                    }
+                }
+            }
+            /*
+            *Se considera modulacion?
+            */
+            if(modulacion==true){ // si es asi vemos que tipo de modulacion se se utilizara y cuanto FS
+               distancia = ksp[k].getFin().getDato(); // al final de la lista enlazada se guarda la distancia total del camino
+                N=M.getNroFS(demanda.getAnchoBanda(), distancia); // obtenemos la cantidad de FS necesarios para la demanda segun la modulacion
+                demanda.setNroFS(N);
+            }else{ // si no, se considera como predeterminado BPSK
+                N=M.getNroFSbpsk(demanda.getAnchoBanda());
+                demanda.setNroFS(N);
+            }
+            existenFSdisponibles=Utilitarios.buscarFSdisponibles(OE, capacidad, N); // buscamos si en esa ruta se encontro espectro disponible
+            if(existenFSdisponibles){ // si fue asi, dejamos de buscar un camino valido
+                demandaAsignada=true;
+                break;
+            }
+            k++;// si no, avanzamos en el siguiente camino
+        }
+        if(demandaAsignada){ // si se encontro, creamos el resultado del ruteo
+           resultado = new ResultadoRuteo(ksp[k],k,demanda); 
+        }
+        return resultado;
+    }
+    /*
+    * Asignacion de Spectro FF:
+    Parametros:
+    GrafoMatriz G: Mstriz de adyacencia que almacena la red
+    ResultadoRuteo resultadoR: objeto que almacena el camino elegido por el algoritmo de ruteo y el nro de camino entre los ksp.
+    Demada demanda: objeto que contiene el origen, fin, tiempo de pemanencia, y ancho de banda requerido por el usuario
+    int capacidad: cantidad de FS en un enlace
+    Retorna:
+    Resultado: indices origen y fin y nro de camino ksp que se utilizara para reservar los FS en la red.
     */
+    public static Resultado asignacionSpectro_FF(GrafoMatriz G,ResultadoRuteo resultadoR,int capacidad,Demanda demanda)      {
+        
+        int inicio, fin , cont;
+        int [] OE = new int[capacidad];
+        boolean demandaColocada=false;
+        ListaEnlazada ruta = resultadoR.getRuta();
+        int k=resultadoR.getNroCaminoKsp();
+        Resultado r = new Resultado();
+        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
+        /*Calcular la ocupacion del espectro para la ruta*/
+        for(int i=0;i<capacidad;i++){
+            for(Nodo n=ruta.getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
+                if(G.acceder(n.getDato(),n.getSiguiente().getDato()).getFS()[i].getEstado()==0){
+                    OE[i]=0;
+                    break;
+                }
+            }
+        }
+        /*la variablre inicio guardara la primera aparicion de FS disponibles*/
+        inicio=fin=cont=0;
+            for(int i=0;i<capacidad;i++){
+                if(OE[i]==1){
+                    inicio=i;
+                    for(int j=inicio;j<capacidad;j++){
+                        if(OE[j]==1){
+                            cont++;
+                        }
+                        else{
+                            cont=0;
+                            break;
+                        }
+                        //si se encontro un bloque valido, salimos de todos los bloques
+                        if(cont==demanda.getNroFS()){
+                            fin=j;
+                            demandaColocada=true;
+                            break;
+                        }
+                    }
+                }
+                if(demandaColocada==true){
+                        break;
+                }
+          }
+          r.setCamino(k);
+          r.setFin(fin);
+          r.setInicio(inicio);
+         // Utilitarios.asignarFS(ruta, r, G, null);
+         return r;
+    }       
+    /*
+    * Asignacion de Spectro EF:
+    Parametros:
+    GrafoMatriz G: Mstriz de adyacencia que almacena la red
+    ResultadoRuteo resultadoR: objeto que almacena el camino elegido por el algoritmo de ruteo y el nro de camino entre los ksp.
+    Demada demanda: objeto que contiene el origen, fin, tiempo de pemanencia, y ancho de banda requerido por el usuario
+    int capacidad: cantidad de FS en un enlace
+    Retorna:
+    Resultado: indices origen y fin y nro de camino ksp que se utilizara para reservar los FS en la red.
+    */
+    public static Resultado asignacionSpectro_EF(GrafoMatriz G,ResultadoRuteo resultadoR,int capacidad,Demanda demanda)      {
+        
+        int inicio, fin , cont,inicio2,fin2;
+        int [] OE = new int[capacidad];
+        boolean demandaColocada=false;
+        boolean demandaExact=false;
+        ListaEnlazada ruta = resultadoR.getRuta();
+        int k=resultadoR.getNroCaminoKsp();
+        Resultado r = new Resultado();
+        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
+        /*Calcular la ocupacion del espectro para la ruta*/
+        for(int i=0;i<capacidad;i++){
+            for(Nodo n=ruta.getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
+                if(G.acceder(n.getDato(),n.getSiguiente().getDato()).getFS()[i].getEstado()==0){
+                    OE[i]=0;
+                    break;
+                }
+            }
+        }
+        /*Teniendo la ocupacion del espectro del camino k, buscamos un bloque continuo de FS
+        * que satisfazca exactamente la demanda.
+        */
+        inicio=fin=cont=inicio2=fin2=0;
+        if(demandaColocada==false){
+            inicio2=fin2=0;
+        }
+        for(int i=0;i<capacidad;i++){
+            if(OE[i]==1){
+                inicio=i;
+                //Si aun no se encontro ningun bloque de FS que cumple,
+                // guadamos tambien en el inicio auxiliar.
+                if(demandaColocada==false){
+                    inicio2=i;
+                }
+                for(int j=inicio;j<capacidad;j++){
+                    if(OE[j]==1){
+                        cont++;
+                    }
+                    else{
+                        cont=0;
+                        break;
+                    }
+                    //si se encontro un bloque valido, qeu satisface exactamente la demanda, salimos de todos los bucles
+                    if(cont==demanda.getNroFS() && i+cont+1<capacidad && OE[i+cont+1]==0){
+                        fin=j;
+                        demandaExact=true;
+                        break;
+                    }
+                    //Guardamos el fin auxiliar del primer bloque de FS encontrado que cumple,
+                    // para el caso que no se encuentre uno que exactamente cumpla la demanda
+                    if(cont==demanda.getNroFS() && demandaColocada==false){
+                        fin2=j;
+                        demandaColocada=true;
+                    }
+                }
+            }
+            if(demandaExact==true){
+                    break;
+            }
+        }
+        if(demandaExact){
+            r.setCamino(k);
+            r.setFin(fin);
+            r.setInicio(inicio);
+        }else{
+            r.setCamino(k);
+            r.setFin(fin2);
+            r.setInicio(inicio2);
+        }
+        
+        
+        // Utilitarios.asignarFS(ruta, r, G, null);
+        return r;
+    }  
+    /*
+    * Asignacion de Spectro RF:
+    Parametros:
+    GrafoMatriz G: Mstriz de adyacencia que almacena la red
+    ResultadoRuteo resultadoR: objeto que almacena el camino elegido por el algoritmo de ruteo y el nro de camino entre los ksp.
+    Demada demanda: objeto que contiene el origen, fin, tiempo de pemanencia, y ancho de banda requerido por el usuario
+    int capacidad: cantidad de FS en un enlace
+    Retorna:
+    Resultado: indices origen y fin y nro de camino ksp que se utilizara para reservar los FS en la red.
+    */
+    public static Resultado asignacionSpectro_RF(GrafoMatriz G,ResultadoRuteo resultadoR,int capacidad,Demanda demanda)      {
+        
+        int inicio, fin , cont,inicio2,fin2;
+        int [] OE = new int[capacidad];
+        boolean demandaColocada=false;
+        boolean demandaExact=false;
+        int [] auxiliar = new int[capacidad]; 
+        ListaEnlazada ruta = resultadoR.getRuta();
+        int k=resultadoR.getNroCaminoKsp();
+        Resultado r = new Resultado();
+        
+        for(int i=0;i<capacidad;i++){
+            OE[i]=1;
+        }
+        /*Calcular la ocupacion del espectro para la ruta*/
+        for(int i=0;i<capacidad;i++){
+            for(Nodo n=ruta.getInicio();n.getSiguiente().getSiguiente()!=null;n=n.getSiguiente()){
+                if(G.acceder(n.getDato(),n.getSiguiente().getDato()).getFS()[i].getEstado()==0){
+                    OE[i]=0;
+                    break;
+                }
+            }
+        }
+        /*Teniendo la ocupacion del espectro del camino k, buscamos un bloque continuo de FS
+        * que satisfazca la demanda.
+        * La busqueda se realiza de forma aleatoria, probando desde cada indice del espectro,
+        * si tenemos un bloque de FSs que satisfaga la demanda.
+        */
+        auxiliar=Utilitarios.listaDeNumeros(capacidad);
+        inicio=fin=cont=0;
+        int n=0;
+        int i=0;
+        while(i<capacidad && demandaColocada==false){
+            inicio=auxiliar[i];
+            for(int j=inicio;j<capacidad;j++){
+                if(OE[j]==1){
+                    cont++;
+                }
+                else{
+                    cont=0;
+                    break;
+                }
+                //si se encontro un bloque valido, salimos de todos los bloques
+                if(cont==demanda.getNroFS()){
+                    fin=j;
+                    demandaColocada=true;
+                    break;
+                }
+            }
+            i++;
+        }
+        if(demandaColocada){
+            r.setCamino(k);
+            r.setFin(fin);
+            r.setInicio(inicio);
+        }
+        // Utilitarios.asignarFS(ruta, r, G, null);
+        return r;
+    }
     public static Resultado KSP_FF_Algorithm2_Greedy(GrafoMatriz G, Demanda demanda,ListaEnlazada [] ksp,int capacidad){
         
         /*Definicion de variables las variables*/
@@ -989,4 +1250,4 @@ public class Algoritmos {
         
     }
     
-}   
+}

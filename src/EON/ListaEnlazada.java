@@ -20,6 +20,9 @@ public class ListaEnlazada {
     public Nodo getInicio(){
         return this.inicio;
     }
+    public Nodo getFin(){
+        return this.fin;
+    }
     public void insertarAlfinal (int dato) {
         Nodo nodo = new Nodo();
 

@@ -639,7 +639,7 @@ public class Algoritmos_Defrag {
             ksp = Utilitarios.KSP(Gaux, d.getOrigen(), d.getDestino(), 5);
             r = Utilitarios.buscarEspacioCBD(ksp, d, selectos[i][0], Gaux, capacidad);
             if (r!=null){
-                Utilitarios.asignarFS(ksp,r,Gaux,d,-1);
+                Utilitarios.asignarFS_Defrag(ksp,r,Gaux,d,-1);
                 results[i] = r;
             }else{
                 results[i] = new Resultado();
