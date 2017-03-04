@@ -127,9 +127,7 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         spinnerFactorTiempo = new javax.swing.JSpinner();
-        etiquetaMSI = new javax.swing.JLabel();
         etiquetaImagen = new javax.swing.JLabel();
-        panelBFR = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         etiqueta1 = new javax.swing.JLabel();
         etiqueta2 = new javax.swing.JLabel();
@@ -145,8 +143,6 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         textFieldCapacidadEnlace = new javax.swing.JTextField();
         textFieldAnchoFS = new javax.swing.JTextField();
-        PanelMSI = new javax.swing.JPanel();
-        etiquetaBFR = new javax.swing.JLabel();
         bar1 = new javax.swing.JProgressBar();
         lbl1 = new javax.swing.JLabel();
         btndefrag = new javax.swing.JButton();
@@ -158,10 +154,16 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         listaRSADF = new javax.swing.JList<String>();
-        panelResultado = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        PanelMSI = new javax.swing.JPanel();
         PanelEntropia = new javax.swing.JPanel();
+        panelResultado = new javax.swing.JPanel();
+        panelBFR = new javax.swing.JPanel();
         etiquetaResultado = new javax.swing.JLabel();
         etiquetaEntropia = new javax.swing.JLabel();
+        etiquetaMSI = new javax.swing.JLabel();
+        etiquetaBFR = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowStateListener(new java.awt.event.WindowStateListener() {
@@ -333,7 +335,7 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
                 .addComponent(botonCerrarCerrarDatosEnlaces)
                 .addGap(18, 18, 18)
                 .addComponent(PaneleEditarEnalce, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(584, Short.MAX_VALUE))
             .addGroup(panelCambiarDatosdelosEnlacesLayout.createSequentialGroup()
                 .addGroup(panelCambiarDatosdelosEnlacesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCambiarDatosdelosEnlacesLayout.createSequentialGroup()
@@ -405,28 +407,7 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
 
         spinnerFactorTiempo.setModel(new javax.swing.SpinnerNumberModel(0.1d, 0.001d, 0.9d, 0.01d));
         getContentPane().add(spinnerFactorTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 390, 70, 20));
-
-        etiquetaMSI.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        etiquetaMSI.setText("Promedio de MSI");
-        getContentPane().add(etiquetaMSI, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 610, 180, 20));
-        etiquetaMSI.getAccessibleContext().setAccessibleName("Entropia");
-
         getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 320, 170));
-
-        panelBFR.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        javax.swing.GroupLayout panelBFRLayout = new javax.swing.GroupLayout(panelBFR);
-        panelBFR.setLayout(panelBFRLayout);
-        panelBFRLayout.setHorizontalGroup(
-            panelBFRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 466, Short.MAX_VALUE)
-        );
-        panelBFRLayout.setVerticalGroup(
-            panelBFRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(panelBFR, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 640, 470, 280));
 
         jLabel5.setText("Unidades");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, 20));
@@ -471,26 +452,6 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
         textFieldAnchoFS.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldAnchoFS.setText("2");
         getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 80, 20));
-
-        PanelMSI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        javax.swing.GroupLayout PanelMSILayout = new javax.swing.GroupLayout(PanelMSI);
-        PanelMSI.setLayout(PanelMSILayout);
-        PanelMSILayout.setHorizontalGroup(
-            PanelMSILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 466, Short.MAX_VALUE)
-        );
-        PanelMSILayout.setVerticalGroup(
-            PanelMSILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(PanelMSI, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 640, 470, 280));
-        PanelMSI.getAccessibleContext().setAccessibleName("");
-
-        etiquetaBFR.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        etiquetaBFR.setText("Promedio de BFR");
-        getContentPane().add(etiquetaBFR, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 610, 180, 20));
 
         bar1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -558,20 +519,18 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1042, 90, 100, 58));
 
-        panelResultado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        PanelMSI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        javax.swing.GroupLayout panelResultadoLayout = new javax.swing.GroupLayout(panelResultado);
-        panelResultado.setLayout(panelResultadoLayout);
-        panelResultadoLayout.setHorizontalGroup(
-            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout PanelMSILayout = new javax.swing.GroupLayout(PanelMSI);
+        PanelMSI.setLayout(PanelMSILayout);
+        PanelMSILayout.setHorizontalGroup(
+            PanelMSILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 466, Short.MAX_VALUE)
         );
-        panelResultadoLayout.setVerticalGroup(
-            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        PanelMSILayout.setVerticalGroup(
+            PanelMSILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 276, Short.MAX_VALUE)
         );
-
-        getContentPane().add(panelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, 470, 280));
 
         PanelEntropia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
@@ -586,15 +545,101 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
             .addGap(0, 276, Short.MAX_VALUE)
         );
 
-        getContentPane().add(PanelEntropia, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 470, 280));
+        panelResultado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        javax.swing.GroupLayout panelResultadoLayout = new javax.swing.GroupLayout(panelResultado);
+        panelResultado.setLayout(panelResultadoLayout);
+        panelResultadoLayout.setHorizontalGroup(
+            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 466, Short.MAX_VALUE)
+        );
+        panelResultadoLayout.setVerticalGroup(
+            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 276, Short.MAX_VALUE)
+        );
+
+        panelBFR.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        javax.swing.GroupLayout panelBFRLayout = new javax.swing.GroupLayout(panelBFR);
+        panelBFR.setLayout(panelBFRLayout);
+        panelBFRLayout.setHorizontalGroup(
+            panelBFRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 466, Short.MAX_VALUE)
+        );
+        panelBFRLayout.setVerticalGroup(
+            panelBFRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 276, Short.MAX_VALUE)
+        );
 
         etiquetaResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         etiquetaResultado.setText("Probabilidad de bloqueo");
-        getContentPane().add(etiquetaResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 180, 20));
 
         etiquetaEntropia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         etiquetaEntropia.setText("Promedio Entropía");
-        getContentPane().add(etiquetaEntropia, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 290, 150, 20));
+
+        etiquetaMSI.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        etiquetaMSI.setText("Promedio de MSI");
+
+        etiquetaBFR.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        etiquetaBFR.setText("Promedio de BFR");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(panelBFR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelMSI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(panelResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelEntropia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(161, 161, 161)
+                .addComponent(etiquetaResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(etiquetaEntropia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(137, 137, 137))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(172, 172, 172)
+                .addComponent(etiquetaBFR, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(etiquetaMSI, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaEntropia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanelEntropia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(etiquetaMSI, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaBFR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(PanelMSI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelBFR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        PanelMSI.getAccessibleContext().setAccessibleName("");
+        etiquetaMSI.getAccessibleContext().setAccessibleName("Entropia");
+
+        jScrollPane8.setViewportView(jPanel1);
+
+        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 300, 980, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -2167,12 +2212,14 @@ public class VentanaPrincipal_Defrag extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbldefrag;
     private javax.swing.JList<String> listaDemandas;
