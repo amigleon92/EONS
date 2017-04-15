@@ -88,11 +88,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaRedes = new javax.swing.JList<>();
+        listaRedes = new javax.swing.JList<String>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listaAlgoritmosRuteo = new javax.swing.JList<>();
+        listaAlgoritmosRuteo = new javax.swing.JList<String>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        listaDemandas = new javax.swing.JList<>();
+        listaDemandas = new javax.swing.JList<String>();
         botonEjecutarSimulacion = new javax.swing.JButton();
         etiquetaTopologia = new javax.swing.JLabel();
         etiquetaDemanda = new javax.swing.JLabel();
@@ -148,10 +148,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 112, 58));
 
-        listaAlgoritmosRuteo.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "FAR", "FA-CA" };
+        listaAlgoritmosRuteo.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "FAR" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         listaAlgoritmosRuteo.setToolTipText("");
         listaAlgoritmosRuteo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -163,10 +163,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 112, 110));
 
-        listaDemandas.setModel(new javax.swing.AbstractListModel<String>() {
+        listaDemandas.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Tiempo de permanecia y FS Fijos", "Tiempo de permanecia Fijo y FS Variables" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane3.setViewportView(listaDemandas);
         listaDemandas.getAccessibleContext().setAccessibleName("");
@@ -457,7 +457,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         for(int a=0; a<RSA.size();a++){ 
                             
                             String algoritmoAejecutar = RSA.get(a);
-                            //System.out.println("Algoritmo a ejecutar!!: " + algoritmoAejecutar);
                             
                             switch(algoritmoAejecutar){
                                 case "FAR - M - FF":
@@ -525,11 +524,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     }else{
                                         contB[a]++;
                                     }
-                                    break; 
-                                case "FA-CA":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    System.out.println("Entró");
-                                    break;
+                                    break;  
                             }
                             
                         }
@@ -639,17 +634,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void listaAlgoritmosRuteoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosRuteoMouseClicked
         // TODO add your handling code here:
-        List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
-        String algoritmoSeleccionado = (String)algoritmosRuteoSeleccionados.get(0);
-        //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
-        if (algoritmoSeleccionado.equals("FA-CA")) {
-            this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "[FA-CA]");
-            this.cantidadDeAlgoritmosTotalSeleccionados++;
-            this.panelAsignacionSpectro.setVisible(false);
-        }else{
-            this.panelAsignacionSpectro.setVisible(true);
-        }   
- 
+        this.panelAsignacionSpectro.setVisible(true);
+        
+        
+        
     }//GEN-LAST:event_listaAlgoritmosRuteoMouseClicked
 
     private void listaAlgoritmosASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosASMouseClicked
