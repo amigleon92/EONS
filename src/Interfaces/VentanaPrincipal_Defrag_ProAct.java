@@ -149,7 +149,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 112, 58));
 
         listaAlgoritmosRuteo.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "FAR", "FA-CA" };
+            String[] strings = { "FAR", "FA", "FA-CA", " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -378,6 +378,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         if (algoritmoSeleccionado.equals("FA-CA")) {
             this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "FA-CA");
             this.cantidadDeAlgoritmosTotalSeleccionados++;
+        }else if (algoritmoSeleccionado.equals("FA")) {
+            this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "FA");
+            this.cantidadDeAlgoritmosTotalSeleccionados++;
         }
     
         GrafoMatriz G [] = new GrafoMatriz[this.algoritmosCompletosParaGraficar.size()]; // Se tiene una matriz de adyacencia por algoritmo RSA elegidos para por el usuario
@@ -420,6 +423,12 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             RSA= this.algoritmosCompletosParaGraficar; // obtenemos los algoritmos RSA seleccionados
             String redSeleccionada = this.listaRedes.getSelectedValue(); // obtenemos la topologia seleccionada
             String demandaSeleccionada = this.listaDemandas.getSelectedValue(); // obtenemos el tipo de trafico seleccionado
+            
+            int [] conexid=new int [RSA.size()];
+            
+            for (int i=0; i<conexid.length; i++){
+                conexid[i] = 0;
+            }
            
             int [] contB=new int [RSA.size()]; // array encargado de almacenar en cada posicion la cantidad de bloqueo para cada
                                                 // algoritmo seleccionado
@@ -536,13 +545,23 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                         contB[a]++;
                                     }
                                     break;
-                                 case "FA-CA":
-                                    //System.out.println("Entró");
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                    
-                                    break;  
+                                case "FA":
+                                        r=Algoritmos_Defrag.Def_FA(G[a],d,ksp,capacidadE);
+                                        if(r!=null){
+                                           Utilitarios.asignarFS_Defrag(ksp,r,G[a],d,++conexid[a]);
+                                        }  
+                                        else{
+                                            contB[a]++;
+                                        }
+                                    break;
+                                case "FA-CA":
+                                        r=Algoritmos_Defrag.Def_FACA(G[a],d,ksp,capacidadE);
+                                        if(r!=null){
+                                           Utilitarios.asignarFS_Defrag(ksp,r,G[a],d,++conexid[a]);
+                                        }  
+                                        else{
+                                            contB[a]++;
+                                        };
                             }
                             
                         }

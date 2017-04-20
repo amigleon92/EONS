@@ -67,9 +67,11 @@
         <Component class="javax.swing.JList" name="listaAlgoritmosRuteo">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="2">
+              <StringArray count="4">
                 <StringItem index="0" value="FAR"/>
-                <StringItem index="1" value="FA-CA"/>
+                <StringItem index="1" value="FA"/>
+                <StringItem index="2" value="FA-CA"/>
+                <StringItem index="3" value=" "/>
               </StringArray>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
