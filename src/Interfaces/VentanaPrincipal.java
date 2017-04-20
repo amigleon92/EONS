@@ -525,6 +525,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                         contB[a]++;
                                     }
                                     break;  
+                                case "FA":
+                                    ////////////////////////////Ruteo///////////////////////////
+                                    r1=Algoritmos.Ruteo_FA(G[a], d, ksp, capacidadE);
+                                    if(r1!=null){
+                                        /////////////////////Asignacion de Espectro//////////////////////
+                                        r=Algoritmos.asignacionSpectro_EF(G[a], r1, capacidadE, d);
+                                        Utilitarios.asignarFS(ksp, r, G[a], d);
+                                    }else{
+                                        contB[a]++;
+                                    }
+                                    break;
                             }
                             
                         }
