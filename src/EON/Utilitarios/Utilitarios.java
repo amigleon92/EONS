@@ -1780,27 +1780,32 @@ public class Utilitarios {
     minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
     public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos) throws IOException {
         int i, cantidadDemandas, j, origen, destino, fs;
-        Random rand = new Random();
-        for (i = 0; i < t; i++) {
-            cantidadDemandas = poisson(lambda);
-            for (j = 0; j < cantidadDemandas; j++) {
-                rand = new Random();
-                origen = rand.nextInt(cantNodos);
-                destino = rand.nextInt(cantNodos);
-                fs = (int) (Math.random() * maxFS) + minFS;
-                while (origen == destino) {
+        String ruta = "req_" + lambda + "k_" + t + "t";
+        File archivo = new File(ruta);
+        if (archivo.exists()) {
+            return archivo;
+        } else {
+            Random rand = new Random();
+            for (i = 0; i < t; i++) {
+                cantidadDemandas = poisson(lambda);
+                for (j = 0; j < cantidadDemandas; j++) {
+                    rand = new Random();
+                    origen = rand.nextInt(cantNodos);
                     destino = rand.nextInt(cantNodos);
+                    fs = (int) (Math.random() * maxFS) + minFS;
+                    while (origen == destino) {
+                        destino = rand.nextInt(cantNodos);
+                    }
+                    obtenerTiempoDeVida(t);//cual es el parametro que recibe?
+                    archivo = escribirArchivo(origen, destino, fs, lambda, t, ruta);
                 }
-                obtenerTiempoDeVida(t);//cual es el parametro que recibe?
-                escribirArchivo(origen, destino, fs, lambda, t);
             }
+            return archivo;
         }
-        return null;
     }
 
-    public static void escribirArchivo(int o, int d, int fs, int lambda, int t) throws IOException {
+    public static File escribirArchivo(int o, int d, int fs, int lambda, int t, String ruta) throws IOException {
         BufferedWriter bw;
-        String ruta = "req_" + lambda + "k_" + t + "t";
         File archivo = new File(ruta);
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo, true));
@@ -1816,6 +1821,8 @@ public class Utilitarios {
         bw.write("" + fs);
         bw.write("\r\n");
         bw.close();
+        
+        return archivo;
     }
 
     public static Demanda leerLinea(String linea) {
@@ -1845,11 +1852,11 @@ public class Utilitarios {
         double e = Math.E;
         a = (int) (Math.random() * 1) + 0;
         b = 1;
-        aux = -1 * (b/ht);
-        s = 1- (Math.pow(e, (aux)));
-        while (s<a){
-            b++; 
-            s = 1- (Math.pow(e, (aux)));
+        aux = -1 * (b / ht);
+        s = 1 - (Math.pow(e, (aux)));
+        while (s < a) {
+            b++;
+            s = 1 - (Math.pow(e, (aux)));
         }
         return b;
     }

@@ -376,7 +376,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
                             switch (algoritmoAejecutar) {
                                 case "FA":
-                                    r = Algoritmos_Defrag.Def_FA(G[a], d, ksp, capacidadE);
+                                    r = Algoritmos_Defrag_ProAct.Def_FA(G[a], d, ksp, capacidadE);
                                     if (r != null) {
                                         Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
                                     } else {
@@ -384,7 +384,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                     }
                                     break;
                                 case "FA-CA":
-                                    r = Algoritmos_Defrag.Def_FACA(G[a], d, ksp, capacidadE);
+                                    r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], d, ksp, capacidadE);
                                     if (r != null) {
                                         Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
                                     } else {
