@@ -82,66 +82,43 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listaRedes = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         listaAlgoritmosRuteo = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listaDemandas = new javax.swing.JList<>();
         botonEjecutarSimulacion = new javax.swing.JButton();
         etiquetaTopologia = new javax.swing.JLabel();
-        etiquetaDemanda = new javax.swing.JLabel();
         etiquetaError = new javax.swing.JLabel();
         etiquetaCapacidadActual = new javax.swing.JLabel();
         etiquetaTiempoActual = new javax.swing.JLabel();
-        etiquetaAnchoFSActual = new javax.swing.JLabel();
-        etiquetaFactorTiempo = new javax.swing.JLabel();
         spinnerTiempoSimulacion = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
-        spinnerFactorCapacidad = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        spinnerFactorTiempo = new javax.swing.JSpinner();
-        etiquetaResultado = new javax.swing.JLabel();
         etiquetaImagen = new javax.swing.JLabel();
         panelResultado = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        etiqueta1 = new javax.swing.JLabel();
         etiquetaTextoDemandasTotales = new javax.swing.JLabel();
         etiquetaDemandasTotales = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         spinnerEarlang = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        spinnerPaso = new javax.swing.JSpinner();
-        jLabel8 = new javax.swing.JLabel();
         textFieldCapacidadEnlace = new javax.swing.JTextField();
-        textFieldAnchoFS = new javax.swing.JTextField();
-        panelAsignacionSpectro = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listaAlgoritmosAS = new javax.swing.JList();
-        etiquetaRSA = new javax.swing.JLabel();
-        botonGuardarAS = new javax.swing.JButton();
-        botonCancelarAS = new javax.swing.JButton();
-        checkBotonModulacion = new javax.swing.JCheckBox();
         etiquetaRSA1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        listaRedes = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        etiquetaAnchoFSActual1 = new javax.swing.JLabel();
+        textFieldLambda = new javax.swing.JTextField();
+        etiquetaAnchoFSActual2 = new javax.swing.JLabel();
+        textFieldFSminimo = new javax.swing.JTextField();
+        etiquetaAnchoFSActual3 = new javax.swing.JLabel();
+        etiquetaAnchoFSActual4 = new javax.swing.JLabel();
+        textFieldFSmaximo = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        textFieldAnchoFS = new javax.swing.JTextField();
+        etiquetaAnchoFSActual = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        listaRedes.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = {"Red 1","Red 2"};
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        listaRedes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listaRedesMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(listaRedes);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 112, 58));
 
         listaAlgoritmosRuteo.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "FAR", "FA", "FA-CA", " " };
@@ -156,18 +133,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(listaAlgoritmosRuteo);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 112, 110));
-
-        listaDemandas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Tiempo de permanecia y FS Fijos", "Tiempo de permanecia Fijo y FS Variables" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(listaDemandas);
-        listaDemandas.getAccessibleContext().setAccessibleName("");
-        listaDemandas.getAccessibleContext().setAccessibleDescription("");
-
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, 73));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 90, 112, 110));
 
         botonEjecutarSimulacion.setText("Simular");
         botonEjecutarSimulacion.addActionListener(new java.awt.event.ActionListener() {
@@ -175,56 +141,25 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 botonEjecutarSimulacionActionPerformed(evt);
             }
         });
-        getContentPane().add(botonEjecutarSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, 111, 46));
+        getContentPane().add(botonEjecutarSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 240, 111, 46));
 
-        etiquetaTopologia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        etiquetaTopologia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaTopologia.setText("Topologia");
-        getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
-
-        etiquetaDemanda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        etiquetaDemanda.setText("Demanda");
-        getContentPane().add(etiquetaDemanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, -1, -1));
-        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 394, 23));
+        getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 70, -1));
+        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, 770, 23));
 
         etiquetaCapacidadActual.setText("Capacidad");
-        getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 110, 20));
+        getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 110, 20));
 
         etiquetaTiempoActual.setText("Tiempo de Simulacion");
-        getContentPane().add(etiquetaTiempoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 110, 20));
-
-        etiquetaAnchoFSActual.setText("Ancho FS");
-        getContentPane().add(etiquetaAnchoFSActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 110, 20));
-
-        etiquetaFactorTiempo.setText("Tiempo de Pemancia");
-        getContentPane().add(etiquetaFactorTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 110, 20));
+        getContentPane().add(etiquetaTiempoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 140, 20));
 
         spinnerTiempoSimulacion.setModel(new javax.swing.SpinnerNumberModel(100, 50, 100000, 25));
-        getContentPane().add(spinnerTiempoSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, -1, 20));
-
-        jLabel1.setText("Ancho de Banda x Demanda (Gbps)");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 170, 40));
-
-        spinnerFactorCapacidad.setModel(new javax.swing.SpinnerNumberModel(2, 2, 1000, 50));
-        spinnerFactorCapacidad.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spinnerFactorCapacidadStateChanged(evt);
-            }
-        });
-        getContentPane().add(spinnerFactorCapacidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 530, 70, 20));
+        getContentPane().add(spinnerTiempoSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 60, 20));
 
         jLabel2.setText("FSs por Enlace");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 20));
-
-        jLabel3.setText("GHz");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, 30, 20));
-
-        spinnerFactorTiempo.setModel(new javax.swing.SpinnerNumberModel(0.1d, 0.001d, 0.9d, 0.01d));
-        getContentPane().add(spinnerFactorTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 490, 70, 20));
-
-        etiquetaResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        etiquetaResultado.setText("Resultado de la Simulación");
-        getContentPane().add(etiquetaResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 320, 180, 20));
-        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 320, 170));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, -1, 20));
+        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 320, 170));
 
         panelResultado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
@@ -239,122 +174,98 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             .addGap(0, 276, Short.MAX_VALUE)
         );
 
-        getContentPane().add(panelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 350, 470, 280));
+        getContentPane().add(panelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 470, 280));
 
         jLabel5.setText("Unidades");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, 20));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, -1, 20));
 
-        etiqueta1.setText("Del tiempo de Simulacion");
-        getContentPane().add(etiqueta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 490, -1, 20));
-
-        etiquetaTextoDemandasTotales.setText("Cantidad total de Demandas");
-        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 320, 140, 20));
-        getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 340, 90, 30));
+        etiquetaTextoDemandasTotales.setText("Cantidad total de Demandas:");
+        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 400, 170, 20));
+        getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 390, 90, 30));
 
         jLabel4.setText("Carga de Trafico Maximo");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 120, 20));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 150, 20));
 
         spinnerEarlang.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1500, 100));
-        getContentPane().add(spinnerEarlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 80, -1));
+        getContentPane().add(spinnerEarlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 70, 50, -1));
 
         jLabel6.setText("Earlang");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 40, 20));
-
-        jLabel7.setText("Paso (u)");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, -1, -1));
-
-        spinnerPaso.setModel(new javax.swing.SpinnerNumberModel(10, 1, 100, 10));
-        getContentPane().add(spinnerPaso, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, -1, -1));
-
-        jLabel8.setText("Earlang");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 70, 40, 20));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 70, 50, 20));
 
         textFieldCapacidadEnlace.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldCapacidadEnlace.setText("50");
-        getContentPane().add(textFieldCapacidadEnlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 80, -1));
-
-        textFieldAnchoFS.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        textFieldAnchoFS.setText("2");
-        getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 80, 20));
-
-        listaAlgoritmosAS.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "FF", "EF", "RF" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        listaAlgoritmosAS.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listaAlgoritmosASMouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(listaAlgoritmosAS);
-
-        etiquetaRSA.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        etiquetaRSA.setText("Asignacion de Spectro");
-
-        botonGuardarAS.setText("Guardar");
-        botonGuardarAS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonGuardarASActionPerformed(evt);
-            }
-        });
-
-        botonCancelarAS.setText("Cancelar");
-        botonCancelarAS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCancelarASActionPerformed(evt);
-            }
-        });
-
-        checkBotonModulacion.setText("Desea considerar Modoluacion? ");
-
-        javax.swing.GroupLayout panelAsignacionSpectroLayout = new javax.swing.GroupLayout(panelAsignacionSpectro);
-        panelAsignacionSpectro.setLayout(panelAsignacionSpectroLayout);
-        panelAsignacionSpectroLayout.setHorizontalGroup(
-            panelAsignacionSpectroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                .addGroup(panelAsignacionSpectroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(panelAsignacionSpectroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                                .addGap(53, 53, 53)
-                                .addComponent(botonGuardarAS))
-                            .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(checkBotonModulacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(etiquetaRSA))
-                    .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(botonCancelarAS)))
-                .addGap(20, 20, 20))
-        );
-        panelAsignacionSpectroLayout.setVerticalGroup(
-            panelAsignacionSpectroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAsignacionSpectroLayout.createSequentialGroup()
-                .addComponent(etiquetaRSA)
-                .addGroup(panelAsignacionSpectroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(checkBotonModulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonGuardarAS))
-                    .addGroup(panelAsignacionSpectroLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(botonCancelarAS)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(panelAsignacionSpectro, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 300, 150));
+        getContentPane().add(textFieldCapacidadEnlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 60, -1));
 
         etiquetaRSA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         etiquetaRSA1.setText("Algoritmo de Ruteo");
-        getContentPane().add(etiquetaRSA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
+        getContentPane().add(etiquetaRSA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel9.setText("Otros");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 60, -1, -1));
+
+        listaRedes.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {"Red 1","Red 2"};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        listaRedes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listaRedesActionPerformed(evt);
+            }
+        });
+        getContentPane().add(listaRedes, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 90, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel10.setText("Defragmentación ProActiva");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel11.setText("Resultados");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+
+        etiquetaAnchoFSActual1.setText("Lambda");
+        getContentPane().add(etiquetaAnchoFSActual1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 110, 20));
+
+        textFieldLambda.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textFieldLambda.setText("2");
+        textFieldLambda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldLambdaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(textFieldLambda, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 110, 40, 20));
+
+        etiquetaAnchoFSActual2.setText("mínimo");
+        getContentPane().add(etiquetaAnchoFSActual2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, 70, 20));
+
+        textFieldFSminimo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textFieldFSminimo.setText("2");
+        getContentPane().add(textFieldFSminimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 40, 20));
+
+        etiquetaAnchoFSActual3.setText("FS Rango");
+        getContentPane().add(etiquetaAnchoFSActual3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 150, 70, 20));
+
+        etiquetaAnchoFSActual4.setText("máximo");
+        getContentPane().add(etiquetaAnchoFSActual4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 70, 20));
+
+        textFieldFSmaximo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textFieldFSmaximo.setText("2");
+        getContentPane().add(textFieldFSmaximo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 180, 40, 20));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel12.setText("Red");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        jLabel3.setText("GHz");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 10, 30, 20));
+
+        textFieldAnchoFS.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textFieldAnchoFS.setText("2");
+        getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 80, 20));
+
+        etiquetaAnchoFSActual.setText("Ancho FS");
+        getContentPane().add(etiquetaAnchoFSActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 10, 110, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -552,41 +463,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEjecutarSimulacionActionPerformed
 
-    private void listaRedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaRedesMouseClicked
-        if (this.listaRedes.getSelectedIndex() >= 0) {
-
-            ImageIcon Img = new ImageIcon(getClass().getResource("Imagenes/" + (listaRedes.getSelectedValue() + ".png")));
-            etiquetaImagen.setIcon(Img);
-            etiquetaImagen.setBounds(210, 100, 320, 170);
-            etiquetaImagen.setVisible(true);
-            etiquetaImagen.setOpaque(false);
-            String redseleccionada = this.listaRedes.getSelectedValue();
-            switch (redseleccionada) {
-                case "Red 0":
-                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(0).getCapacidadTotal() / this.Redes.getRed(0).getAnchoFS())));
-                    this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(0).getAnchoFS()));
-                    break;
-                case "Red 1":
-                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(1).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
-                    this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(1).getAnchoFS()));
-                    break;
-                case "Red 2":
-                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(2).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
-                    this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(2).getAnchoFS()));
-                    break;
-            }
-        }
-    }//GEN-LAST:event_listaRedesMouseClicked
-
-    /*
-    En proceso, no esta listo y tampoco es muy necesario
-     */
-    private void spinnerFactorCapacidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerFactorCapacidadStateChanged
-        // TODO add your handling code here:
-        double valor = (int) this.spinnerFactorCapacidad.getValue();
-
-    }//GEN-LAST:event_spinnerFactorCapacidadStateChanged
-
     private void listaAlgoritmosRuteoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosRuteoMouseClicked
         // TODO add your handling code here:
         List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
@@ -601,70 +477,31 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
     }//GEN-LAST:event_listaAlgoritmosRuteoMouseClicked
 
-    private void listaAlgoritmosASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosASMouseClicked
-        // TODO add your handling code here:
-        this.botonGuardarAS.setEnabled(true);
+    private void listaRedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaRedesActionPerformed
+        if (this.listaRedes.getSelectedIndex() >= 0) {
 
-    }//GEN-LAST:event_listaAlgoritmosASMouseClicked
-
-    private void botonGuardarASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarASActionPerformed
-        // TODO add your handling code here:
-        List algoritmosRuteoSeleccionados = new LinkedList();
-        List algoritmosASpectroSeleccionados = new LinkedList();
-        algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
-        if (algoritmosRuteoSeleccionados.size() > 0) {
-            algoritmosASpectroSeleccionados = this.listaAlgoritmosAS.getSelectedValuesList();
-            if (algoritmosASpectroSeleccionados.size() > 0) {
-                boolean modulacion = this.checkBotonModulacion.isSelected();
-                List ruteoASmodulacionAejecutar = new LinkedList();
-                for (int i = 0; i < algoritmosRuteoSeleccionados.size(); i++) {
-                    ruteoASmodulacionAejecutar.add(algoritmosRuteoSeleccionados.get(i)); // en el primer lugar guardamos el algoritmo de ruteo seleccionando
-                    ruteoASmodulacionAejecutar.add(modulacion);
-                    for (int j = 0; j < algoritmosASpectroSeleccionados.size(); j++) {
-                        ruteoASmodulacionAejecutar.add(algoritmosASpectroSeleccionados.get(j));
-                    }
-                }
+            ImageIcon Img = new ImageIcon(getClass().getResource("Imagenes/" + (listaRedes.getSelectedItem() + ".png")));
+            etiquetaImagen.setIcon(Img);
+            etiquetaImagen.setBounds(210, 100, 320, 170);
+            etiquetaImagen.setVisible(true);
+            etiquetaImagen.setOpaque(false);
+            String redseleccionada = (String) this.listaRedes.getSelectedItem();
+            switch (redseleccionada) {
+                case "Red 1":
+                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(1).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
+                    this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(1).getAnchoFS()));
+                    break;
+                case "Red 2":
+                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(2).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
+                    this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(2).getAnchoFS()));
+                    break;
             }
         }
-        List listaAuxilar = new LinkedList();
-        for (int i = 0; i < algoritmosRuteoSeleccionados.size(); i++) {
-            listaAuxilar.add(algoritmosRuteoSeleccionados.get(i));
-            listaAuxilar.add(this.checkBotonModulacion.isSelected());
-            String ruteo = (String) algoritmosRuteoSeleccionados.get(i);
-            for (int j = 0; j < algoritmosASpectroSeleccionados.size(); j++) {
-                listaAuxilar.add(algoritmosASpectroSeleccionados.get(j));
-                String nombreCompletoAlgoritmo;
-                if (this.checkBotonModulacion.isSelected()) {
-                    nombreCompletoAlgoritmo = ruteo + " - M" + " - " + (String) algoritmosASpectroSeleccionados.get(j);
-                } else {
-                    nombreCompletoAlgoritmo = ruteo + " - SM" + " - " + (String) algoritmosASpectroSeleccionados.get(j);
-                }
+    }//GEN-LAST:event_listaRedesActionPerformed
 
-                boolean nombreIgual = false;
-                for (int a = 0; a < this.algoritmosCompletosParaGraficar.size(); a++) {
-                    if (this.algoritmosCompletosParaGraficar.get(a).equals(nombreCompletoAlgoritmo)) {
-                        nombreIgual = true;
-                    }
-                }
-                if (!nombreIgual) {
-                    this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, nombreCompletoAlgoritmo);
-                    this.cantidadDeAlgoritmosTotalSeleccionados++;
-                }
-            }
-            this.algoritmosCompletosParaEjecutar.add(listaAuxilar);
-
-        }
-
-        this.cantidadDeAlgoritmosRuteoSeleccionados += algoritmosRuteoSeleccionados.size();
-        this.panelAsignacionSpectro.setVisible(false);
-
-
-    }//GEN-LAST:event_botonGuardarASActionPerformed
-
-    private void botonCancelarASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarASActionPerformed
+    private void textFieldLambdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldLambdaActionPerformed
         // TODO add your handling code here:
-        this.panelAsignacionSpectro.setVisible(false);
-    }//GEN-LAST:event_botonCancelarASActionPerformed
+    }//GEN-LAST:event_textFieldLambdaActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -730,49 +567,40 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonCancelarAS;
     private javax.swing.JButton botonEjecutarSimulacion;
-    private javax.swing.JButton botonGuardarAS;
-    private javax.swing.JCheckBox checkBotonModulacion;
-    private javax.swing.JLabel etiqueta1;
     private javax.swing.JLabel etiquetaAnchoFSActual;
+    private javax.swing.JLabel etiquetaAnchoFSActual1;
+    private javax.swing.JLabel etiquetaAnchoFSActual2;
+    private javax.swing.JLabel etiquetaAnchoFSActual3;
+    private javax.swing.JLabel etiquetaAnchoFSActual4;
     private javax.swing.JLabel etiquetaCapacidadActual;
-    private javax.swing.JLabel etiquetaDemanda;
     private javax.swing.JLabel etiquetaDemandasTotales;
     private javax.swing.JLabel etiquetaError;
-    private javax.swing.JLabel etiquetaFactorTiempo;
     private javax.swing.JLabel etiquetaImagen;
-    private javax.swing.JLabel etiquetaRSA;
     private javax.swing.JLabel etiquetaRSA1;
-    private javax.swing.JLabel etiquetaResultado;
     private javax.swing.JLabel etiquetaTextoDemandasTotales;
     private javax.swing.JLabel etiquetaTiempoActual;
     private javax.swing.JLabel etiquetaTopologia;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JList listaAlgoritmosAS;
     private javax.swing.JList<String> listaAlgoritmosRuteo;
-    private javax.swing.JList<String> listaDemandas;
-    private javax.swing.JList<String> listaRedes;
-    private javax.swing.JPanel panelAsignacionSpectro;
+    private javax.swing.JComboBox<String> listaRedes;
     private javax.swing.JPanel panelResultado;
     private javax.swing.JSpinner spinnerEarlang;
-    private javax.swing.JSpinner spinnerFactorCapacidad;
-    private javax.swing.JSpinner spinnerFactorTiempo;
-    private javax.swing.JSpinner spinnerPaso;
     private javax.swing.JSpinner spinnerTiempoSimulacion;
     private javax.swing.JTextField textFieldAnchoFS;
     private javax.swing.JTextField textFieldCapacidadEnlace;
+    private javax.swing.JTextField textFieldFSmaximo;
+    private javax.swing.JTextField textFieldFSminimo;
+    private javax.swing.JTextField textFieldLambda;
     // End of variables declaration//GEN-END:variables
 
 }
