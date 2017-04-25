@@ -2,6 +2,10 @@ package EON.Utilitarios;
 
 import EON.*;
 import EON.Algoritmos.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -1767,5 +1771,94 @@ public class Utilitarios {
             }
         }
         return pos;
+    }
+
+    /*Metodo que genera el archivo de demandas
+    Parametros:
+    k: valor para la distribucion de Poisson
+    t: Tiempo de simulacion
+    minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
+    public static File generarArchivoDemandas(int k, int t, int minFS, int maxFS, int cantNodos) throws IOException {
+        int i, cantidadDemandas, j, origen, destino, fs;
+        Random rand = new Random();
+        for (i = 0; i < t; i++) {
+            cantidadDemandas = poisson(k);
+            for (j = 0; j < cantidadDemandas; j++) {
+                rand = new Random();
+                origen = rand.nextInt(cantNodos);
+                destino = rand.nextInt(cantNodos);
+                fs = (int) (Math.random() * maxFS) + minFS;
+                while (origen == destino) {
+                    destino = rand.nextInt(cantNodos);
+                }
+                obtenerTiempoDeVida(t);//cual es el parametro que recibe?
+                escribirArchivo(origen, destino, fs, k, t);
+            }
+        }
+        return null;
+    }
+
+    public static void escribirArchivo(int o, int d, int fs, int lambda, int t) throws IOException {
+        BufferedWriter bw;
+        String ruta = "C:\\Users\\user\\Desktop\\req_" + lambda + "k_" + t + "t";
+        File archivo = new File(ruta);
+        if (archivo.exists()) {
+            bw = new BufferedWriter(new FileWriter(archivo, true));
+        } else {
+            bw = new BufferedWriter(new FileWriter(archivo));
+        }
+        bw.write("" + t);
+        bw.write(",");
+        bw.write("" + o);
+        bw.write(",");
+        bw.write("" + d);
+        bw.write(",");
+        bw.write("" + fs);
+        bw.write("\r\n");
+        bw.close();
+    }
+
+    public static Demanda leerLinea(String linea) {
+        Demanda d = null;
+        String[] line = linea.split(",", 4);
+        return d;
+    }
+
+    public static int poisson(int lambda) {
+        int a, b, bFact;
+        double s;
+        double e = Math.E;
+        a = (int) (Math.random() * 1) + 0;
+        b = 0;
+        bFact = factorial(b);
+        s = (Math.pow(e, (-lambda))) * ((Math.pow(lambda, b)) / (bFact));
+        while (a > s) {
+            b++;
+            s = s + ((Math.pow(e, (-lambda))) * ((Math.pow(lambda, b)) / (bFact)));
+        }
+        return b;
+    }
+
+    public static int obtenerTiempoDeVida(int ht) {
+        int a, b;
+        double s, aux;
+        double e = Math.E;
+        a = (int) (Math.random() * 1) + 0;
+        b = 1;
+        aux = -1 * (b/ht);
+        s = 1- (Math.pow(e, (aux)));
+        while (s<a){
+            b++; 
+            s = 1- (Math.pow(e, (aux)));
+        }
+        return b;
+    }
+
+    public static int factorial(int n) {
+        int resultado = 1;
+        for (int i = 1; i <= n; i++) {
+            resultado *= i;
+        }
+        return resultado;
     }
 }

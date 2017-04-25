@@ -1,7 +1,9 @@
 package Interfaces;
+
 import EON.Utilitarios.*;
 import EON.*;
 import EON.Algoritmos.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -18,18 +20,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.*;
 
-
-
 /**
  *
- * @author Team Delvalle
- * Frame que se encargad de la interfaz con el usurio y realizar la simulacion de una Red Optica Elastica.
- * Permite realizar una simulacion teniendo:
- * - Una topologia
- * - Un conjunto de algoritmos(para esta version dos).
- * - Un tipo de demanda que sera generada. 
- * Para esta version las simulaciones se realizan considerando para cada demanda se tienen el mismo valor
- * en todas las demandas para el tiempo de permanencia en la red como para la cantidad de FSs requeridos.
+ * @author sGaleano - dBaez Frame que se encargad de la interfaz con el usurio y
+ * realizar la simulacion de una Red Optica Elastica. Permite realizar una
+ * simulacion teniendo: - Una topologia - Un conjunto de algoritmos. - Un tipo
+ * de demanda que sera generada y guardada en un archivo.
  */
 public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
@@ -42,47 +38,46 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private int cantidadRedes; //cantidad de redes exitentes en el Simulador
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-    private List  algoritmosCompletosParaEjecutar;
-    private List  algoritmosCompletosParaGraficar;
+    private List algoritmosCompletosParaEjecutar;
+    private List algoritmosCompletosParaGraficar;
     private int cantidadDeAlgoritmosRuteoSeleccionados;
     private int cantidadDeAlgoritmosTotalSeleccionados;
-    
+
     public VentanaPrincipal_Defrag_ProAct() {
         initComponents();
-       /* Inicialmente no se muestran en panel para editar las caracteristicas de los enlaces
-        */
-       
-        /*
-        */
-        this.Redes=new Topologias(); // asignamos todas las topologias disponibles
+        /* Inicialmente no se muestran en panel para editar las caracteristicas de los enlaces
+         */
+
+ /*
+         */
+        this.Redes = new Topologias(); // asignamos todas las topologias disponibles
         //obtenemos el factor de tiempo inidicado por el usuario
-        this.factorTiempo=Double.parseDouble(this.spinnerFactorTiempo.getValue().toString()); 
+        this.factorTiempo = Double.parseDouble(this.spinnerFactorTiempo.getValue().toString());
         //obtenemos la cantidad de FS que tendra cada demanda indicado por el usuario
-        this.factorCapacidad=Double.parseDouble(this.spinnerFactorCapacidad.getValue().toString());
+        this.factorCapacidad = Double.parseDouble(this.spinnerFactorCapacidad.getValue().toString());
         //obtenemos la cantidad de FS de los enlaces indicados por el usuario
-        this.capacidadPorEnlace=Integer.parseInt(this.textFieldCapacidadEnlace.getText());
+        this.capacidadPorEnlace = Integer.parseInt(this.textFieldCapacidadEnlace.getText());
         //Tiempo de simulacion indicado por el usuario
-        this.tiempoTotal=Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString());
+        this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString());
         // ancho de los FSs de la toplogia elegida, tambien indicado por el usuario
-        this.anchoFS=Double.parseDouble(this.textFieldAnchoFS.getText());
+        this.anchoFS = Double.parseDouble(this.textFieldAnchoFS.getText());
         /*No mostramos inicialmente los paneles que muestran los Resultados
-        */
+         */
         this.etiquetaResultado.setVisible(true);
         this.panelResultado.setVisible(false);
         /////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////
-       // this.algoritmosCompletos = new LinkedList();
+        // this.algoritmosCompletos = new LinkedList();
         this.panelAsignacionSpectro.setVisible(false);
         this.botonGuardarAS.setEnabled(false);
-        this.cantidadDeAlgoritmosRuteoSeleccionados=0;
-        this.cantidadDeAlgoritmosTotalSeleccionados=0;
+        this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
+        this.cantidadDeAlgoritmosTotalSeleccionados = 0;
         this.algoritmosCompletosParaEjecutar = new LinkedList();
         this.algoritmosCompletosParaGraficar = new LinkedList();
         this.setTitle("EON Simulator");
-        
+
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -363,388 +358,307 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
+
     private void botonEjecutarSimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarSimulacionActionPerformed
-        
-         /* Al inicio de cada Simulacion e+condemos los paneles de Resultado
-        */
+
+        /* Al inicio de cada Simulacion e+condemos los paneles de Resultado
+         */
         this.etiquetaResultado.setVisible(true);
         this.panelResultado.setVisible(false);
-        
+
         //si seleccionó el algoritmo FA-CA entonces guarda en la lista ahora
-         List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
-        String algoritmoSeleccionado = (String)algoritmosRuteoSeleccionados.get(0);
+        List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
+        String algoritmoSeleccionado = (String) algoritmosRuteoSeleccionados.get(0);
         //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
         if (algoritmoSeleccionado.equals("FA-CA")) {
             this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "FA-CA");
             this.cantidadDeAlgoritmosTotalSeleccionados++;
-        }else if (algoritmoSeleccionado.equals("FA")) {
+        } else if (algoritmoSeleccionado.equals("FA")) {
             this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "FA");
             this.cantidadDeAlgoritmosTotalSeleccionados++;
         }
-    
-        GrafoMatriz G [] = new GrafoMatriz[this.algoritmosCompletosParaGraficar.size()]; // Se tiene una matriz de adyacencia por algoritmo RSA elegidos para por el usuario
-        
-        Demanda d= new Demanda();  // Demanda a recibir
-        Resultado r=new Resultado(); // resultado obtenido en una demanda. Si r==null se cuenta como bloqueo
+
+        GrafoMatriz G[] = new GrafoMatriz[this.algoritmosCompletosParaGraficar.size()]; // Se tiene una matriz de adyacencia por algoritmo RSA elegidos para por el usuario
+
+        Demanda d = new Demanda();  // Demanda a recibir
+        File archivoDemandas;
+        Resultado r = new Resultado(); // resultado obtenido en una demanda. Si r==null se cuenta como bloqueo
         String mensajeError = "Seleccione: "; // mensaje de error a mostrar eal usuario si no ha completado los parametros de
-                                               // simulacion
-        
+        // simulacion
+
         List<String> RSA = new LinkedList<String>(); // lista de Algoritmos RSA seleccionados
         ResultadoRuteo r1 = new ResultadoRuteo(); // resultado optenido luego de ejecutarse un algoritmo de ruteo
-        
-        int E=(int)this.spinnerEarlang.getValue(); // se obtiene el limite de carga (Erlang) de trafico seleccionado por el usuario
-        int demandasPorUnidadTiempo=0; //demandas por unidad de tiempo. Considerando el punt decimal
-        int earlang=0; //Carga de trafico en cada simulacion
-        int k=-1; // contador auxiliar
-        int paso=(int)this.spinnerPaso.getValue(); // siguiente carga de trafico a simular (Erlang)
-        int contD=0; // contador de demandas totales
-        int tiempoT=Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); // Tiempo de simulacion especificada por el usaurio
-        int capacidadE=Integer.parseInt(this.textFieldCapacidadEnlace.getText().toString()); // espectro por enalce
-        double anchoFS=Double.parseDouble(this.textFieldAnchoFS.getText().toString()); // ancho de FS
+
+        int E = (int) this.spinnerEarlang.getValue(); // se obtiene el limite de carga (Erlang) de trafico seleccionado por el usuario
+        int demandasPorUnidadTiempo = 0; //demandas por unidad de tiempo. Considerando el punt decimal
+        int earlang = 0; //Carga de trafico en cada simulacion
+        int k = -1; // contador auxiliar
+        int paso = (int) this.spinnerPaso.getValue(); // siguiente carga de trafico a simular (Erlang)
+        int contD = 0; // contador de demandas totales
+        int tiempoT = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); // Tiempo de simulacion especificada por el usaurio
+        int capacidadE = Integer.parseInt(this.textFieldCapacidadEnlace.getText().toString()); // espectro por enalce
+        double anchoFS = Double.parseDouble(this.textFieldAnchoFS.getText().toString()); // ancho de FS
         //factor del tiempo de simulacion especificado por el usuario
-        
-        System.out.println("El ancho del FS es:"+anchoFS);
-        System.out.println("Cantidad de FS por enlace:"+capacidadE);
-        System.out.println("Cantidad Algoritmos:"+this.cantidadDeAlgoritmosTotalSeleccionados);
-        
-        
+
+        System.out.println("El ancho del FS es:" + anchoFS);
+        System.out.println("Cantidad de FS por enlace:" + capacidadE);
+        System.out.println("Cantidad Algoritmos:" + this.cantidadDeAlgoritmosTotalSeleccionados);
+
         // tiempo de permanencia fijado por el usuario.
-        int t=(int)(Double.parseDouble(this.spinnerFactorTiempo.getValue().toString())*tiempoT);
+        int t = (int) (Double.parseDouble(this.spinnerFactorTiempo.getValue().toString()) * tiempoT);
         //cantidad de FS por demanda expresado pro el usuario (en la version 0.2 es el ancho de banda requerido por el usuario en Gbps)
-        int B=(int)(Double.parseDouble(this.spinnerFactorCapacidad.getValue().toString()));
-        
+        int B = (int) (Double.parseDouble(this.spinnerFactorCapacidad.getValue().toString()));
+
         //if(this.listaDemandas.getSelectedIndex()>=0 && this.listaAlgoritmosRuteo.getSelectedIndex()>=0 && 
         //        this.listaRedes.getSelectedIndex()>=0 && this.listaAlgoritmosAS.getSelectedIndex()>=0 && this.cantidadDeAlgoritmosTotalSeleccionados >0){ // si todos los parametros fueron seleccionados
-        if(this.listaDemandas.getSelectedIndex()>=0 && this.listaAlgoritmosRuteo.getSelectedIndex()>=0 && 
-                this.listaRedes.getSelectedIndex()>=0 && this.cantidadDeAlgoritmosTotalSeleccionados >0){
-        this.etiquetaError.setVisible(true); // habilitamos la etiqueta de error
-           
-            RSA= this.algoritmosCompletosParaGraficar; // obtenemos los algoritmos RSA seleccionados
+        if (this.listaDemandas.getSelectedIndex() >= 0 && this.listaAlgoritmosRuteo.getSelectedIndex() >= 0
+                && this.listaRedes.getSelectedIndex() >= 0 && this.cantidadDeAlgoritmosTotalSeleccionados > 0) {
+            this.etiquetaError.setVisible(true); // habilitamos la etiqueta de error
+
+            RSA = this.algoritmosCompletosParaGraficar; // obtenemos los algoritmos RSA seleccionados
             String redSeleccionada = this.listaRedes.getSelectedValue(); // obtenemos la topologia seleccionada
             String demandaSeleccionada = this.listaDemandas.getSelectedValue(); // obtenemos el tipo de trafico seleccionado
-            
-            int [] conexid=new int [RSA.size()];
-            
-            for (int i=0; i<conexid.length; i++){
+
+            int[] conexid = new int[RSA.size()];
+
+            for (int i = 0; i < conexid.length; i++) {
                 conexid[i] = 0;
             }
-           
-            int [] contB=new int [RSA.size()]; // array encargado de almacenar en cada posicion la cantidad de bloqueo para cada
-                                                // algoritmo seleccionado
-            List prob []= new LinkedList[RSA.size()]; // probabilidad de bloqueo para cada algoritmo RSA selecciondo 
-            
-            
-            for(int i=0;i<prob.length;i++){
-                prob[i]=new LinkedList(); // para cada algoritmo, se tiene una lista enlazada que almacenara la Pb 
-                                            // obtenidad en cada simulacion
-            } 
-            
-            switch(redSeleccionada){ // cagamos los datos en las matrices de adyacencia segun la topologia seleccionada
+
+            int[] contB = new int[RSA.size()]; // array encargado de almacenar en cada posicion la cantidad de bloqueo para cada
+            // algoritmo seleccionado
+            List prob[] = new LinkedList[RSA.size()]; // probabilidad de bloqueo para cada algoritmo RSA selecciondo 
+
+            for (int i = 0; i < prob.length; i++) {
+                prob[i] = new LinkedList(); // para cada algoritmo, se tiene una lista enlazada que almacenara la Pb 
+                // obtenidad en cada simulacion
+            }
+
+            switch (redSeleccionada) { // cargamos los datos en las matrices de adyacencia segun la topologia seleccionada
                 case "Red 0":
                     //de ´rueba no utilizado
-                    for(int i=0;i<RSA.size();i++){
-                        G[i]=new GrafoMatriz(this.Redes.getRed(0).getCantidadDeVertices());
+                    for (int i = 0; i < RSA.size(); i++) {
+                        G[i] = new GrafoMatriz(this.Redes.getRed(0).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(0));
                     }
                     break;
                 case "Red 1":
-                    for(int i=0;i<RSA.size();i++){
-                        G[i]=new GrafoMatriz(this.Redes.getRed(1).getCantidadDeVertices());
+                    for (int i = 0; i < RSA.size(); i++) {
+                        G[i] = new GrafoMatriz(this.Redes.getRed(1).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(1));
                     }
                     break;
                 case "Red 2":
-                    for(int i=0;i<RSA.size();i++){
-                        G[i]=new GrafoMatriz(this.Redes.getRed(2).getCantidadDeVertices());
+                    for (int i = 0; i < RSA.size(); i++) {
+                        G[i] = new GrafoMatriz(this.Redes.getRed(2).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(2));
                     }
             }
-           while(earlang<=E){ // mientras no se llega a la cargad de trafico maxima
-                  for(int i=0;i<tiempoT;i++){ // para cada unidad de tiempo
-                   demandasPorUnidadTiempo = Utilitarios.demandasTotalesPorTiempo(earlang, i); // obtener las demandas
-                     // por unidad de tiempo
-                     for(int j=0;j<demandasPorUnidadTiempo;j++){ // para cada demanda
-                        switch(demandaSeleccionada){ // se ve que modelo de trafico fue seleccionado
-                        case "Tiempo de permanecia y FS Fijos":
-                             d.obtenerDemandasFijoConModulacion(B, i,G[0].getCantidadDeVertices()-1);  // obtenemos un origen, fin, catidad de FS y tiempo de permanecia
-                             break;
-                        case "Tiempo de permanecia Fijo y FS Variables": // aun en duda, no utilizar. Se espera tener listo en la version 0.3
-                            d.obtenerDemandasFSVariable(B, t,G[0].getCantidadDeVertices()-1);  // obtenemos un origen, fin, catidad de FS y tiempo de permanecia
-                             break;
-                        } 
-                        ListaEnlazada[] ksp=Utilitarios.KSP(G[0], d.getOrigen(), d.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
-                        for(int a=0; a<RSA.size();a++){ 
-                            
+            while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
+                for (int i = 0; i < tiempoT; i++) { // para cada unidad de tiempo
+                    //archivoDemandas = Utilitarios.generarArchivoDemandas();
+                    //d=leerLinea(linea);
+                    for (int j = 0; j < demandasPorUnidadTiempo; j++) { // para cada demanda
+                        ListaEnlazada[] ksp = Utilitarios.KSP(G[0], d.getOrigen(), d.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
+                        for (int a = 0; a < RSA.size(); a++) {
+
                             String algoritmoAejecutar = RSA.get(a);
-                            
-                            switch(algoritmoAejecutar){
-                                case "FAR - M - FF":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    r1=Algoritmos.Ruteo_FAR(G[a], d, ksp, capacidadE,true);
-                                    if(r1!=null){
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                        r=Algoritmos.asignacionSpectro_FF(G[a], r1, capacidadE, d);
-                                        Utilitarios.asignarFS(ksp, r, G[a], d);
-                                    }else{
-                                        contB[a]++;
-                                    }
-                                    break;
-                                case "FAR - M - EF":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    r1=Algoritmos.Ruteo_FAR(G[a], d, ksp, capacidadE,true);
-                                    if(r1!=null){
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                        r=Algoritmos.asignacionSpectro_EF(G[a], r1, capacidadE, d);
-                                        Utilitarios.asignarFS(ksp, r, G[a], d);
-                                    }else{
-                                        contB[a]++;
-                                    }
-                                    break;
-                                case "FAR - M - RF":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    r1=Algoritmos.Ruteo_FAR(G[a], d, ksp, capacidadE,true);
-                                    if(r1!=null){
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                        r=Algoritmos.asignacionSpectro_RF(G[a], r1, capacidadE, d);
-                                        Utilitarios.asignarFS(ksp, r, G[a], d);
-                                    }else{
-                                        contB[a]++;
-                                    }
-                                    break;
-                                case "FAR - SM - FF":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    r1=Algoritmos.Ruteo_FAR(G[a], d, ksp, capacidadE,false);
-                                    if(r1!=null){
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                        r=Algoritmos.asignacionSpectro_FF(G[a], r1, capacidadE, d);
-                                        Utilitarios.asignarFS(ksp, r, G[a], d);
-                                    }else{
-                                        contB[a]++;
-                                    }
-                                    break;
-                                case "FAR - SM - EF":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    r1=Algoritmos.Ruteo_FAR(G[a], d, ksp, capacidadE,false);
-                                    if(r1!=null){
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                        r=Algoritmos.asignacionSpectro_EF(G[a], r1, capacidadE, d);
-                                        Utilitarios.asignarFS(ksp, r, G[a], d);
-                                    }else{
-                                        contB[a]++;
-                                    }
-                                    break;
-                                case "FAR - SM - RF":
-                                    ////////////////////////////Ruteo///////////////////////////
-                                    r1=Algoritmos.Ruteo_FAR(G[a], d, ksp, capacidadE,false);
-                                    if(r1!=null){
-                                        /////////////////////Asignacion de Espectro//////////////////////
-                                        r=Algoritmos.asignacionSpectro_RF(G[a], r1, capacidadE, d);
-                                        Utilitarios.asignarFS(ksp, r, G[a], d);
-                                    }else{
-                                        contB[a]++;
-                                    }
-                                    break;
+
+                            switch (algoritmoAejecutar) {
                                 case "FA":
-                                        r=Algoritmos_Defrag.Def_FA(G[a],d,ksp,capacidadE);
-                                        if(r!=null){
-                                           Utilitarios.asignarFS_Defrag(ksp,r,G[a],d,++conexid[a]);
-                                        }  
-                                        else{
-                                            contB[a]++;
-                                        }
+                                    r = Algoritmos_Defrag.Def_FA(G[a], d, ksp, capacidadE);
+                                    if (r != null) {
+                                        Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
+                                    } else {
+                                        contB[a]++;
+                                    }
                                     break;
                                 case "FA-CA":
-                                        r=Algoritmos_Defrag.Def_FACA(G[a],d,ksp,capacidadE);
-                                        if(r!=null){
-                                           Utilitarios.asignarFS_Defrag(ksp,r,G[a],d,++conexid[a]);
-                                        }  
-                                        else{
-                                            contB[a]++;
-                                        };
+                                    r = Algoritmos_Defrag.Def_FACA(G[a], d, ksp, capacidadE);
+                                    if (r != null) {
+                                        Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
+                                    } else {
+                                        contB[a]++;
+                                    }
+                                    break;
                             }
-                            
+
                         }
-                        contD++; 
+                        contD++;
                     }
-                     for(int j=0;j<RSA.size();j++){
-                         Utilitarios.Disminuir(G[j]);
-                     }
+                    for (int j = 0; j < RSA.size(); j++) {
+                        Utilitarios.Disminuir(G[j]);
+                    }
                 }
-            ++k;
-            // almacenamos la probablidad de bloqueo final para cada algoritmo
-            for(int a=0;a<RSA.size();a++){
-                prob[a].add(((double)contB[a]/contD));
-               System.out.println("Probabilidad: "+(double)prob[a].get(k)+" Algoritmo: "+a+" Earlang: "+earlang);
+                ++k;
+                // almacenamos la probablidad de bloqueo final para cada algoritmo
+                for (int a = 0; a < RSA.size(); a++) {
+                    prob[a].add(((double) contB[a] / contD));
+                    System.out.println("Probabilidad: " + (double) prob[a].get(k) + " Algoritmo: " + a + " Earlang: " + earlang);
+                }
+                // avanzamos a la siguiente carga de trafico
+                earlang += paso;
             }
-            // avanzamos a la siguiente carga de trafico
-            earlang+=paso;
-        }
-        this.etiquetaError.setText("Simulacion Terminada...");
-        // una vez finalizado, graficamos el resultado.
-        Utilitarios.GraficarResultado(prob, this.panelResultado, this.etiquetaResultado,RSA,paso);
-        String demandasTotales=""+contD; // mostramos la cantidad de demandas totales recibidas
-        this.etiquetaDemandasTotales.setText(demandasTotales);
-        
-        ////////Vaciar listas para las siguientes simulaciones///////////////
-        /////////////////////////////////////////////////////////////////////
-        this.algoritmosCompletosParaEjecutar.clear();
-        this.algoritmosCompletosParaGraficar.clear();
-        this.cantidadDeAlgoritmosRuteoSeleccionados=0;
-        this.cantidadDeAlgoritmosTotalSeleccionados=0;
-        
-        }else{ // control de errores posibles realizados al no completar los parametros de simulacion
-            if(listaDemandas.getSelectedIndex()<0){
-               mensajeError=mensajeError+"Demanda";
-                
+            this.etiquetaError.setText("Simulacion Terminada...");
+            // una vez finalizado, graficamos el resultado.
+            Utilitarios.GraficarResultado(prob, this.panelResultado, this.etiquetaResultado, RSA, paso);
+            String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
+            this.etiquetaDemandasTotales.setText(demandasTotales);
+
+            ////////Vaciar listas para las siguientes simulaciones///////////////
+            /////////////////////////////////////////////////////////////////////
+            this.algoritmosCompletosParaEjecutar.clear();
+            this.algoritmosCompletosParaGraficar.clear();
+            this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
+            this.cantidadDeAlgoritmosTotalSeleccionados = 0;
+
+        } else { // control de errores posibles realizados al no completar los parametros de simulacion
+            if (listaDemandas.getSelectedIndex() < 0) {
+                mensajeError = mensajeError + "Demanda";
+
             }
-            if (this.listaAlgoritmosRuteo.getSelectedIndex()<0){
-                if(mensajeError=="Seleccione "){
-                    mensajeError=mensajeError+"Algoritmo RSA";
-                }else{
-                    mensajeError=mensajeError+", Algoritmo RSA";
+            if (this.listaAlgoritmosRuteo.getSelectedIndex() < 0) {
+                if (mensajeError == "Seleccione ") {
+                    mensajeError = mensajeError + "Algoritmo RSA";
+                } else {
+                    mensajeError = mensajeError + ", Algoritmo RSA";
                 }
             }
-            if(this.listaRedes.getSelectedIndex()<0){
-                if(mensajeError=="Seleccione "){
-                    mensajeError=mensajeError+"Topologia";
-                }else{
-                    mensajeError=mensajeError+", Topologia";
-                }   
+            if (this.listaRedes.getSelectedIndex() < 0) {
+                if (mensajeError == "Seleccione ") {
+                    mensajeError = mensajeError + "Topologia";
+                } else {
+                    mensajeError = mensajeError + ", Topologia";
+                }
             }
-            if(this.listaAlgoritmosAS.getSelectedIndex()<0){
-                if(mensajeError=="Seleccione "){
-                    mensajeError=mensajeError+"Algoritmo AS";
-                }else{
-                    mensajeError=mensajeError+", Algoritmo AS";
-                }   
+            if (this.listaAlgoritmosAS.getSelectedIndex() < 0) {
+                if (mensajeError == "Seleccione ") {
+                    mensajeError = mensajeError + "Algoritmo AS";
+                } else {
+                    mensajeError = mensajeError + ", Algoritmo AS";
+                }
             }
-            if(this.listaAlgoritmosAS.getSelectedIndex()<0){
-                if(mensajeError=="Seleccione "){
-                    mensajeError=mensajeError+"No se Selecciono Ningun Algoritmo de Ruteo y Asignacion de Espectro";
-                }else{
-                    mensajeError=mensajeError+", No se Selecciono Ningun Algoritmo de Ruteo y Asignacion de Espectro";
-                }   
+            if (this.listaAlgoritmosAS.getSelectedIndex() < 0) {
+                if (mensajeError == "Seleccione ") {
+                    mensajeError = mensajeError + "No se Selecciono Ningun Algoritmo de Ruteo y Asignacion de Espectro";
+                } else {
+                    mensajeError = mensajeError + ", No se Selecciono Ningun Algoritmo de Ruteo y Asignacion de Espectro";
+                }
             }
-            
-            
-            if(mensajeError!="Seleccione "){
+
+            if (mensajeError != "Seleccione ") {
                 this.etiquetaError.setText(mensajeError);
             }
         }
     }//GEN-LAST:event_botonEjecutarSimulacionActionPerformed
 
     private void listaRedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaRedesMouseClicked
-        if(this.listaRedes.getSelectedIndex()>=0){
-          
-            ImageIcon Img = new ImageIcon(getClass().getResource("Imagenes/"+(listaRedes.getSelectedValue()+".png")));
+        if (this.listaRedes.getSelectedIndex() >= 0) {
+
+            ImageIcon Img = new ImageIcon(getClass().getResource("Imagenes/" + (listaRedes.getSelectedValue() + ".png")));
             etiquetaImagen.setIcon(Img);
             etiquetaImagen.setBounds(210, 100, 320, 170);
             etiquetaImagen.setVisible(true);
             etiquetaImagen.setOpaque(false);
-            String redseleccionada=this.listaRedes.getSelectedValue();
-            switch(redseleccionada){
+            String redseleccionada = this.listaRedes.getSelectedValue();
+            switch (redseleccionada) {
                 case "Red 0":
-                    this.textFieldCapacidadEnlace.setText(Integer.toString((int)(this.Redes.getRed(0).getCapacidadTotal()/this.Redes.getRed(0).getAnchoFS())));
+                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(0).getCapacidadTotal() / this.Redes.getRed(0).getAnchoFS())));
                     this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(0).getAnchoFS()));
                     break;
                 case "Red 1":
-                    this.textFieldCapacidadEnlace.setText(Integer.toString((int)(this.Redes.getRed(1).getCapacidadTotal()/this.Redes.getRed(1).getAnchoFS())));
+                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(1).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
                     this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(1).getAnchoFS()));
                     break;
                 case "Red 2":
-                    this.textFieldCapacidadEnlace.setText(Integer.toString((int)(this.Redes.getRed(2).getCapacidadTotal()/this.Redes.getRed(1).getAnchoFS())));
+                    this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(2).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
                     this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(2).getAnchoFS()));
                     break;
             }
         }
     }//GEN-LAST:event_listaRedesMouseClicked
 
-/*
+    /*
     En proceso, no esta listo y tampoco es muy necesario
-*/
+     */
     private void spinnerFactorCapacidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerFactorCapacidadStateChanged
         // TODO add your handling code here:
-        double valor=(int)this.spinnerFactorCapacidad.getValue();
-        
+        double valor = (int) this.spinnerFactorCapacidad.getValue();
+
     }//GEN-LAST:event_spinnerFactorCapacidadStateChanged
 
     private void listaAlgoritmosRuteoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosRuteoMouseClicked
         // TODO add your handling code here:
-         List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
-        String algoritmoSeleccionado = (String)algoritmosRuteoSeleccionados.get(0);
+        List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
+        String algoritmoSeleccionado = (String) algoritmosRuteoSeleccionados.get(0);
         //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
         if (algoritmoSeleccionado.equals("FAR")) {
             this.panelAsignacionSpectro.setVisible(true);
-        }else {
+        } else {
             this.panelAsignacionSpectro.setVisible(false);
         }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_listaAlgoritmosRuteoMouseClicked
 
     private void listaAlgoritmosASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosASMouseClicked
         // TODO add your handling code here:
         this.botonGuardarAS.setEnabled(true);
-        
+
     }//GEN-LAST:event_listaAlgoritmosASMouseClicked
 
     private void botonGuardarASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarASActionPerformed
         // TODO add your handling code here:
-        List algoritmosRuteoSeleccionados= new LinkedList();
+        List algoritmosRuteoSeleccionados = new LinkedList();
         List algoritmosASpectroSeleccionados = new LinkedList();
         algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
-        if(algoritmosRuteoSeleccionados.size()>0){
+        if (algoritmosRuteoSeleccionados.size() > 0) {
             algoritmosASpectroSeleccionados = this.listaAlgoritmosAS.getSelectedValuesList();
-            if(algoritmosASpectroSeleccionados.size()>0){
+            if (algoritmosASpectroSeleccionados.size() > 0) {
                 boolean modulacion = this.checkBotonModulacion.isSelected();
                 List ruteoASmodulacionAejecutar = new LinkedList();
-                for(int i =0; i<algoritmosRuteoSeleccionados.size();i++){
+                for (int i = 0; i < algoritmosRuteoSeleccionados.size(); i++) {
                     ruteoASmodulacionAejecutar.add(algoritmosRuteoSeleccionados.get(i)); // en el primer lugar guardamos el algoritmo de ruteo seleccionando
                     ruteoASmodulacionAejecutar.add(modulacion);
-                    for(int j=0;j<algoritmosASpectroSeleccionados.size();j++){
+                    for (int j = 0; j < algoritmosASpectroSeleccionados.size(); j++) {
                         ruteoASmodulacionAejecutar.add(algoritmosASpectroSeleccionados.get(j));
                     }
-                } 
+                }
             }
         }
         List listaAuxilar = new LinkedList();
-        for(int i=0; i<algoritmosRuteoSeleccionados.size();i++){
+        for (int i = 0; i < algoritmosRuteoSeleccionados.size(); i++) {
             listaAuxilar.add(algoritmosRuteoSeleccionados.get(i));
             listaAuxilar.add(this.checkBotonModulacion.isSelected());
-            String ruteo = (String)algoritmosRuteoSeleccionados.get(i);
-            for(int j=0; j<algoritmosASpectroSeleccionados.size();j++){
+            String ruteo = (String) algoritmosRuteoSeleccionados.get(i);
+            for (int j = 0; j < algoritmosASpectroSeleccionados.size(); j++) {
                 listaAuxilar.add(algoritmosASpectroSeleccionados.get(j));
-                 String nombreCompletoAlgoritmo;
-                if(this.checkBotonModulacion.isSelected()){
-                    nombreCompletoAlgoritmo = ruteo+" - M"+" - "+(String)algoritmosASpectroSeleccionados.get(j);
-                }else{
-                    nombreCompletoAlgoritmo = ruteo+" - SM"+" - "+(String)algoritmosASpectroSeleccionados.get(j);
+                String nombreCompletoAlgoritmo;
+                if (this.checkBotonModulacion.isSelected()) {
+                    nombreCompletoAlgoritmo = ruteo + " - M" + " - " + (String) algoritmosASpectroSeleccionados.get(j);
+                } else {
+                    nombreCompletoAlgoritmo = ruteo + " - SM" + " - " + (String) algoritmosASpectroSeleccionados.get(j);
                 }
-                
-                
-                boolean nombreIgual=false;
-                for(int a =0;a<this.algoritmosCompletosParaGraficar.size();a++){
-                    if(this.algoritmosCompletosParaGraficar.get(a).equals(nombreCompletoAlgoritmo)){
-                        nombreIgual=true;
+
+                boolean nombreIgual = false;
+                for (int a = 0; a < this.algoritmosCompletosParaGraficar.size(); a++) {
+                    if (this.algoritmosCompletosParaGraficar.get(a).equals(nombreCompletoAlgoritmo)) {
+                        nombreIgual = true;
                     }
                 }
-                if(!nombreIgual){
+                if (!nombreIgual) {
                     this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, nombreCompletoAlgoritmo);
                     this.cantidadDeAlgoritmosTotalSeleccionados++;
                 }
             }
             this.algoritmosCompletosParaEjecutar.add(listaAuxilar);
-            
+
         }
-        
-        this.cantidadDeAlgoritmosRuteoSeleccionados+=algoritmosRuteoSeleccionados.size();
+
+        this.cantidadDeAlgoritmosRuteoSeleccionados += algoritmosRuteoSeleccionados.size();
         this.panelAsignacionSpectro.setVisible(false);
-        
-                
-        
+
+
     }//GEN-LAST:event_botonGuardarASActionPerformed
 
     private void botonCancelarASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarASActionPerformed
@@ -860,7 +774,5 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldAnchoFS;
     private javax.swing.JTextField textFieldCapacidadEnlace;
     // End of variables declaration//GEN-END:variables
-  
-   
-}
 
+}
