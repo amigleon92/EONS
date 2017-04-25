@@ -454,7 +454,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         G[i].insertarDatos(this.Redes.getTopologia(2));
                     }
             }
-            while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
+            //while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
                 for (int i = 0; i < tiempoT; i++) { // para cada unidad de tiempo
                     //archivoDemandas = Utilitarios.generarArchivoDemandas();
                     //d=leerLinea(linea);
@@ -497,8 +497,8 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     System.out.println("Probabilidad: " + (double) prob[a].get(k) + " Algoritmo: " + a + " Earlang: " + earlang);
                 }
                 // avanzamos a la siguiente carga de trafico
-                earlang += paso;
-            }
+                //earlang += paso;
+            //}
             this.etiquetaError.setText("Simulacion Terminada...");
             // una vez finalizado, graficamos el resultado.
             Utilitarios.GraficarResultado(prob, this.panelResultado, this.etiquetaResultado, RSA, paso);

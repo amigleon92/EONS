@@ -1775,14 +1775,14 @@ public class Utilitarios {
 
     /*Metodo que genera el archivo de demandas
     Parametros:
-    k: valor para la distribucion de Poisson
+    lambda: valor para la distribucion de Poisson
     t: Tiempo de simulacion
     minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
-    public static File generarArchivoDemandas(int k, int t, int minFS, int maxFS, int cantNodos) throws IOException {
+    public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos) throws IOException {
         int i, cantidadDemandas, j, origen, destino, fs;
         Random rand = new Random();
         for (i = 0; i < t; i++) {
-            cantidadDemandas = poisson(k);
+            cantidadDemandas = poisson(lambda);
             for (j = 0; j < cantidadDemandas; j++) {
                 rand = new Random();
                 origen = rand.nextInt(cantNodos);
@@ -1792,7 +1792,7 @@ public class Utilitarios {
                     destino = rand.nextInt(cantNodos);
                 }
                 obtenerTiempoDeVida(t);//cual es el parametro que recibe?
-                escribirArchivo(origen, destino, fs, k, t);
+                escribirArchivo(origen, destino, fs, lambda, t);
             }
         }
         return null;
@@ -1800,7 +1800,7 @@ public class Utilitarios {
 
     public static void escribirArchivo(int o, int d, int fs, int lambda, int t) throws IOException {
         BufferedWriter bw;
-        String ruta = "C:\\Users\\user\\Desktop\\req_" + lambda + "k_" + t + "t";
+        String ruta = "req_" + lambda + "k_" + t + "t";
         File archivo = new File(ruta);
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo, true));
