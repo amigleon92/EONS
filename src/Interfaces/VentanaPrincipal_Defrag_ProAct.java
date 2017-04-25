@@ -28,54 +28,44 @@ import org.jfree.data.xy.*;
  * de demanda que sera generada y guardada en un archivo.
  */
 public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
-
     private Topologias Redes; // topologias disponibles
-    private double factorTiempo; // factor de tiempo indicado por el usuario
-    private double factorCapacidad; // cantidad de FSs que contendra cada demanda
-    private int capacidadPorEnlace; // cantidad de FSs por enlace en la topologia elegida
+    
     private int tiempoTotal; // Iiempo que dura una simualcion
+    String redSeleccionada;
     private double anchoFS; // ancho de un FS en los enlaces
-    private int cantidadRedes; //cantidad de redes exitentes en el Simulador
+    private int capacidadPorEnlace; // cantidad de FSs por enlace en la topologia elegida
+    
+    private int Erlang;
+    private int Lambda;
+    private int HoldingTime; // Erlang / Lambda
+    private int FsMinimo; // Cantidad mínima de FS por enlace
+    private int FsMaximo; // Cantidad máxima de FS por enlace
+    
+
+    
+//    private int cantidadRedes; //cantidad de redes exitentes en el Simulador
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-    private List algoritmosCompletosParaEjecutar;
+   //private List algoritmosCompletosParaEjecutar;
     private List algoritmosCompletosParaGraficar;
     private int cantidadDeAlgoritmosRuteoSeleccionados;
     private int cantidadDeAlgoritmosTotalSeleccionados;
 
     public VentanaPrincipal_Defrag_ProAct() {
         initComponents();
-        /* Inicialmente no se muestran en panel para editar las caracteristicas de los enlaces
-         */
+        this.Redes = new Topologias(); // asignamos todas las topologias disponibles}
+        
 
- /*
-         */
-        this.Redes = new Topologias(); // asignamos todas las topologias disponibles
-        //obtenemos el factor de tiempo inidicado por el usuario
-        this.factorTiempo = Double.parseDouble(this.spinnerFactorTiempo.getValue().toString());
-        //obtenemos la cantidad de FS que tendra cada demanda indicado por el usuario
-        this.factorCapacidad = Double.parseDouble(this.spinnerFactorCapacidad.getValue().toString());
-        //obtenemos la cantidad de FS de los enlaces indicados por el usuario
-        this.capacidadPorEnlace = Integer.parseInt(this.textFieldCapacidadEnlace.getText());
-        //Tiempo de simulacion indicado por el usuario
-        this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString());
-        // ancho de los FSs de la toplogia elegida, tambien indicado por el usuario
-        this.anchoFS = Double.parseDouble(this.textFieldAnchoFS.getText());
+        
+        
         /*No mostramos inicialmente los paneles que muestran los Resultados
          */
-        this.etiquetaResultado.setVisible(true);
         this.panelResultado.setVisible(false);
-        /////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////
-        // this.algoritmosCompletos = new LinkedList();
-        this.panelAsignacionSpectro.setVisible(false);
-        this.botonGuardarAS.setEnabled(false);
-        this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
+        //this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
         this.cantidadDeAlgoritmosTotalSeleccionados = 0;
-        this.algoritmosCompletosParaEjecutar = new LinkedList();
+        //this.algoritmosCompletosParaEjecutar = new LinkedList();
         this.algoritmosCompletosParaGraficar = new LinkedList();
-        this.setTitle("EON Simulator");
-
+        this.setTitle("EON Simulator - Defragmentación ProActiva");
     }
 
     @SuppressWarnings("unchecked")
@@ -97,7 +87,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         etiquetaTextoDemandasTotales = new javax.swing.JLabel();
         etiquetaDemandasTotales = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        spinnerEarlang = new javax.swing.JSpinner();
+        spinnerErlang = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         textFieldCapacidadEnlace = new javax.swing.JTextField();
         etiquetaRSA1 = new javax.swing.JLabel();
@@ -145,21 +135,21 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         etiquetaTopologia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaTopologia.setText("Topologia");
-        getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 70, -1));
+        getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 70, -1));
         getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, 770, 23));
 
         etiquetaCapacidadActual.setText("Capacidad");
-        getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 110, 20));
+        getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 110, 20));
 
         etiquetaTiempoActual.setText("Tiempo de Simulacion");
-        getContentPane().add(etiquetaTiempoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 140, 20));
+        getContentPane().add(etiquetaTiempoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 140, 20));
 
         spinnerTiempoSimulacion.setModel(new javax.swing.SpinnerNumberModel(100, 50, 100000, 25));
-        getContentPane().add(spinnerTiempoSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 60, 20));
+        getContentPane().add(spinnerTiempoSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 60, 20));
 
         jLabel2.setText("FSs por Enlace");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, -1, 20));
-        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 320, 170));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, -1, 20));
+        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 320, 170));
 
         panelResultado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
@@ -177,7 +167,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(panelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 470, 280));
 
         jLabel5.setText("Unidades");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, -1, 20));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, -1, 20));
 
         etiquetaTextoDemandasTotales.setText("Cantidad total de Demandas:");
         getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 400, 170, 20));
@@ -186,15 +176,15 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jLabel4.setText("Carga de Trafico Maximo");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 150, 20));
 
-        spinnerEarlang.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1500, 100));
-        getContentPane().add(spinnerEarlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 70, 50, -1));
+        spinnerErlang.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1500, 100));
+        getContentPane().add(spinnerErlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 70, 50, -1));
 
-        jLabel6.setText("Earlang");
+        jLabel6.setText("Erlang");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 70, 50, 20));
 
         textFieldCapacidadEnlace.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldCapacidadEnlace.setText("50");
-        getContentPane().add(textFieldCapacidadEnlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 60, -1));
+        getContentPane().add(textFieldCapacidadEnlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 60, -1));
 
         etiquetaRSA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         etiquetaRSA1.setText("Algoritmo de Ruteo");
@@ -202,23 +192,19 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel9.setText("Otros");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 60, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, -1, -1));
 
-        listaRedes.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = {"Red 1","Red 2"};
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        listaRedes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Red 1", "Red 2" }));
         listaRedes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listaRedesActionPerformed(evt);
             }
         });
-        getContentPane().add(listaRedes, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 90, -1));
+        getContentPane().add(listaRedes, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 90, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel10.setText("Defragmentación ProActiva");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel11.setText("Resultados");
@@ -255,17 +241,23 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel12.setText("Red");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         jLabel3.setText("GHz");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 10, 30, 20));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, 30, 20));
 
         textFieldAnchoFS.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldAnchoFS.setText("2");
-        getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 80, 20));
+        textFieldAnchoFS.setEnabled(false);
+        textFieldAnchoFS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldAnchoFSActionPerformed(evt);
+            }
+        });
+        getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 30, 20));
 
         etiquetaAnchoFSActual.setText("Ancho FS");
-        getContentPane().add(etiquetaAnchoFSActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 10, 110, 20));
+        getContentPane().add(etiquetaAnchoFSActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 60, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -274,10 +266,23 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         /* Al inicio de cada Simulacion e+condemos los paneles de Resultado
          */
-        this.etiquetaResultado.setVisible(true);
         this.panelResultado.setVisible(false);
+        this.etiquetaTextoDemandasTotales.setVisible(false);
+        this.etiquetaDemandasTotales.setVisible(false);
+        
+        //leemos los valores seteados
+        this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); //Tiempo de simulacion indicado por el usuario
+        this.redSeleccionada = (String) this.listaRedes.getSelectedItem(); // obtenemos la topologia seleccionada
+        this.anchoFS = Double.parseDouble(this.textFieldAnchoFS.getText()); // ancho de los FSs de la toplogia elegida, tambien indicado por el usuario
+        this.capacidadPorEnlace = Integer.parseInt(this.textFieldCapacidadEnlace.getText()); //obtenemos la cantidad de FS de los enlaces indicados por el usuario
+        
+        this.Erlang = Integer.parseInt(this.spinnerErlang.getValue().toString()); //obtenemos Erlang indicados por el usuario
+        this.Lambda = Integer.parseInt(this.textFieldLambda.getText()); //obtenemos Erlang indicados por el usuario
+        this.HoldingTime = (Erlang/Lambda); // Erlang / Lambda
+        this.FsMinimo = Integer.parseInt(this.textFieldFSminimo.getText()); //obtenemos FSminimo indicados por el usuario
+        this.FsMaximo = Integer.parseInt(this.textFieldFSmaximo.getText()); //obtenemos FSmaximo indicados por el usuario
 
-        //si seleccionó el algoritmo FA-CA entonces guarda en la lista ahora
+        //Guardar el seleccionado en la lista de algoritmos seleccionados, más adelante ver como agregar más algoritmos a la lista
         List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
         String algoritmoSeleccionado = (String) algoritmosRuteoSeleccionados.get(0);
         //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
@@ -300,11 +305,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         List<String> RSA = new LinkedList<String>(); // lista de Algoritmos RSA seleccionados
         ResultadoRuteo r1 = new ResultadoRuteo(); // resultado optenido luego de ejecutarse un algoritmo de ruteo
 
-        int E = (int) this.spinnerEarlang.getValue(); // se obtiene el limite de carga (Erlang) de trafico seleccionado por el usuario
+        int E = (int) this.spinnerErlang.getValue(); // se obtiene el limite de carga (Erlang) de trafico seleccionado por el usuario
         int demandasPorUnidadTiempo = 0; //demandas por unidad de tiempo. Considerando el punt decimal
         int earlang = 0; //Carga de trafico en cada simulacion
         int k = -1; // contador auxiliar
-        int paso = (int) this.spinnerPaso.getValue(); // siguiente carga de trafico a simular (Erlang)
+        //int paso = (int) this.spinnerPaso.getValue(); // siguiente carga de trafico a simular (Erlang)
         int contD = 0; // contador de demandas totales
         int tiempoT = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); // Tiempo de simulacion especificada por el usaurio
         int capacidadE = Integer.parseInt(this.textFieldCapacidadEnlace.getText().toString()); // espectro por enalce
@@ -315,20 +320,14 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         System.out.println("Cantidad de FS por enlace:" + capacidadE);
         System.out.println("Cantidad Algoritmos:" + this.cantidadDeAlgoritmosTotalSeleccionados);
 
-        // tiempo de permanencia fijado por el usuario.
-        int t = (int) (Double.parseDouble(this.spinnerFactorTiempo.getValue().toString()) * tiempoT);
-        //cantidad de FS por demanda expresado pro el usuario (en la version 0.2 es el ancho de banda requerido por el usuario en Gbps)
-        int B = (int) (Double.parseDouble(this.spinnerFactorCapacidad.getValue().toString()));
-
         //if(this.listaDemandas.getSelectedIndex()>=0 && this.listaAlgoritmosRuteo.getSelectedIndex()>=0 && 
         //        this.listaRedes.getSelectedIndex()>=0 && this.listaAlgoritmosAS.getSelectedIndex()>=0 && this.cantidadDeAlgoritmosTotalSeleccionados >0){ // si todos los parametros fueron seleccionados
-        if (this.listaDemandas.getSelectedIndex() >= 0 && this.listaAlgoritmosRuteo.getSelectedIndex() >= 0
-                && this.listaRedes.getSelectedIndex() >= 0 && this.cantidadDeAlgoritmosTotalSeleccionados > 0) {
+        if (this.listaAlgoritmosRuteo.getSelectedIndex() >= 0 && this.listaRedes.getSelectedIndex() >= 0 && this.cantidadDeAlgoritmosTotalSeleccionados > 0) {
             this.etiquetaError.setVisible(true); // habilitamos la etiqueta de error
 
             RSA = this.algoritmosCompletosParaGraficar; // obtenemos los algoritmos RSA seleccionados
-            String redSeleccionada = this.listaRedes.getSelectedValue(); // obtenemos la topologia seleccionada
-            String demandaSeleccionada = this.listaDemandas.getSelectedValue(); // obtenemos el tipo de trafico seleccionado
+            
+            //String demandaSeleccionada = this.listaDemandas.getSelectedValue(); // obtenemos el tipo de trafico seleccionado
 
             int[] conexid = new int[RSA.size()];
 
@@ -413,22 +412,20 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             //}
             this.etiquetaError.setText("Simulacion Terminada...");
             // una vez finalizado, graficamos el resultado.
-            Utilitarios.GraficarResultado(prob, this.panelResultado, this.etiquetaResultado, RSA, paso);
+            //Utilitarios.GraficarResultado(prob, this.panelResultado, "Resultado de la Simulación", RSA, paso);
             String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
             this.etiquetaDemandasTotales.setText(demandasTotales);
+            this.etiquetaTextoDemandasTotales.setVisible(true);
+            this.etiquetaDemandasTotales.setVisible(true);
 
             ////////Vaciar listas para las siguientes simulaciones///////////////
             /////////////////////////////////////////////////////////////////////
-            this.algoritmosCompletosParaEjecutar.clear();
-            this.algoritmosCompletosParaGraficar.clear();
-            this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
+            //this.algoritmosCompletosParaEjecutar.clear();
+            //this.algoritmosCompletosParaGraficar.clear();
+            //this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
             this.cantidadDeAlgoritmosTotalSeleccionados = 0;
 
         } else { // control de errores posibles realizados al no completar los parametros de simulacion
-            if (listaDemandas.getSelectedIndex() < 0) {
-                mensajeError = mensajeError + "Demanda";
-
-            }
             if (this.listaAlgoritmosRuteo.getSelectedIndex() < 0) {
                 if (mensajeError == "Seleccione ") {
                     mensajeError = mensajeError + "Algoritmo RSA";
@@ -443,21 +440,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     mensajeError = mensajeError + ", Topologia";
                 }
             }
-            if (this.listaAlgoritmosAS.getSelectedIndex() < 0) {
-                if (mensajeError == "Seleccione ") {
-                    mensajeError = mensajeError + "Algoritmo AS";
-                } else {
-                    mensajeError = mensajeError + ", Algoritmo AS";
-                }
-            }
-            if (this.listaAlgoritmosAS.getSelectedIndex() < 0) {
-                if (mensajeError == "Seleccione ") {
-                    mensajeError = mensajeError + "No se Selecciono Ningun Algoritmo de Ruteo y Asignacion de Espectro";
-                } else {
-                    mensajeError = mensajeError + ", No se Selecciono Ningun Algoritmo de Ruteo y Asignacion de Espectro";
-                }
-            }
-
             if (mensajeError != "Seleccione ") {
                 this.etiquetaError.setText(mensajeError);
             }
@@ -466,14 +448,14 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
     private void listaAlgoritmosRuteoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosRuteoMouseClicked
         // TODO add your handling code here:
-        List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
-        String algoritmoSeleccionado = (String) algoritmosRuteoSeleccionados.get(0);
-        //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
-        if (algoritmoSeleccionado.equals("FAR")) {
-            this.panelAsignacionSpectro.setVisible(true);
-        } else {
-            this.panelAsignacionSpectro.setVisible(false);
-        }
+//        List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
+//        String algoritmoSeleccionado = (String) algoritmosRuteoSeleccionados.get(0);
+//        //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
+//        if (algoritmoSeleccionado.equals("FAR")) {
+//            this.panelAsignacionSpectro.setVisible(true);
+//        } else {
+//            this.panelAsignacionSpectro.setVisible(false);
+//        }
 
 
     }//GEN-LAST:event_listaAlgoritmosRuteoMouseClicked
@@ -503,6 +485,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private void textFieldLambdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldLambdaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFieldLambdaActionPerformed
+
+    private void textFieldAnchoFSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldAnchoFSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldAnchoFSActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -595,7 +581,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JList<String> listaAlgoritmosRuteo;
     private javax.swing.JComboBox<String> listaRedes;
     private javax.swing.JPanel panelResultado;
-    private javax.swing.JSpinner spinnerEarlang;
+    private javax.swing.JSpinner spinnerErlang;
     private javax.swing.JSpinner spinnerTiempoSimulacion;
     private javax.swing.JTextField textFieldAnchoFS;
     private javax.swing.JTextField textFieldCapacidadEnlace;
