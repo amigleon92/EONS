@@ -369,6 +369,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 for (int i = 0; i < tiempoT; i++) { // para cada unidad de tiempo
                     //archivoDemandas = Utilitarios.generarArchivoDemandas();
                     //d=leerLinea(linea);
+                    //cambiar por un while !EOF, aumentar la variable j++, obtener el tiempo de la primera linea, contar demandas dentro del while,
                     for (int j = 0; j < demandasPorUnidadTiempo; j++) { // para cada demanda
                         ListaEnlazada[] ksp = Utilitarios.KSP(G[0], d.getOrigen(), d.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
                         for (int a = 0; a < RSA.size(); a++) {

@@ -1779,7 +1779,7 @@ public class Utilitarios {
     t: Tiempo de simulacion
     minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
     public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos) throws IOException {
-        int i, cantidadDemandas, j, origen, destino, fs;
+        int i, cantidadDemandas, j, origen, destino, fs, tVida;
         String ruta = "req_" + lambda + "k_" + t + "t";
         File archivo = new File(ruta);
         if (archivo.exists()) {
@@ -1796,17 +1796,16 @@ public class Utilitarios {
                     while (origen == destino) {
                         destino = rand.nextInt(cantNodos);
                     }
-                    obtenerTiempoDeVida(t);//cual es el parametro que recibe?
-                    archivo = escribirArchivo(origen, destino, fs, lambda, t, ruta);
+                    tVida = obtenerTiempoDeVida(t);
+                    archivo = escribirArchivo(origen, destino, fs, lambda, t, archivo, tVida);
                 }
             }
             return archivo;
         }
     }
 
-    public static File escribirArchivo(int o, int d, int fs, int lambda, int t, String ruta) throws IOException {
+    public static File escribirArchivo(int o, int d, int fs, int lambda, int t, File archivo, int tVida) throws IOException {
         BufferedWriter bw;
-        File archivo = new File(ruta);
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo, true));
         } else {
@@ -1819,9 +1818,11 @@ public class Utilitarios {
         bw.write("" + d);
         bw.write(",");
         bw.write("" + fs);
+        bw.write(",");
+        bw.write("" + tVida);
         bw.write("\r\n");
         bw.close();
-        
+
         return archivo;
     }
 
