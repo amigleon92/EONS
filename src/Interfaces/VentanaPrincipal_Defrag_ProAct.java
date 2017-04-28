@@ -44,7 +44,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private int HoldingTime; // Erlang / Lambda
     private int FsMinimo; // Cantidad mínima de FS por enlace
     private int FsMaximo; // Cantidad máxima de FS por enlace
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> ee5f1d656140fe4b10b769c83785847d89848f36
 //    private int cantidadRedes; //cantidad de redes exitentes en el Simulador
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -56,7 +60,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     public VentanaPrincipal_Defrag_ProAct() {
         initComponents();
         this.Redes = new Topologias(); // asignamos todas las topologias disponibles}
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> ee5f1d656140fe4b10b769c83785847d89848f36
         /*No mostramos inicialmente los paneles que muestran los Resultados
          */
         this.panelResultado.setVisible(false);
@@ -65,6 +73,13 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         //this.algoritmosCompletosParaEjecutar = new LinkedList();
         this.algoritmosCompletosParaGraficar = new LinkedList();
         this.setTitle("EON Simulator - Defragmentación ProActiva");
+        
+        setearRed(); // setea la red que aparece por defecto
+        
+        // Al inicio de cada Simulacion e+condemos los paneles de Resultado
+        this.panelResultado.setVisible(false);
+        this.etiquetaTextoDemandasTotales.setVisible(false);
+        this.etiquetaDemandasTotales.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -110,7 +125,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         listaAlgoritmosRuteo.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "FAR", "FA", "FA-CA", " " };
+            String[] strings = { "FA", "FA-CA", "" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -122,7 +137,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(listaAlgoritmosRuteo);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 90, 112, 110));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 90, 112, 110));
 
         botonEjecutarSimulacion.setText("Simular");
         botonEjecutarSimulacion.addActionListener(new java.awt.event.ActionListener() {
@@ -130,12 +145,12 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 botonEjecutarSimulacionActionPerformed(evt);
             }
         });
-        getContentPane().add(botonEjecutarSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 240, 111, 46));
+        getContentPane().add(botonEjecutarSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 240, 111, 46));
 
         etiquetaTopologia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaTopologia.setText("Topologia");
         getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 70, -1));
-        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, 770, 23));
+        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 400, 420, 23));
 
         etiquetaCapacidadActual.setText("Capacidad");
         getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 110, 20));
@@ -148,7 +163,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         jLabel2.setText("FSs por Enlace");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, -1, 20));
-        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 320, 170));
+        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 320, 170));
 
         panelResultado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
@@ -169,17 +184,17 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, -1, 20));
 
         etiquetaTextoDemandasTotales.setText("Cantidad total de Demandas:");
-        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 400, 170, 20));
-        getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 390, 90, 30));
+        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, 170, 20));
+        getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 430, 90, 20));
 
         jLabel4.setText("Carga de Trafico Maximo");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 150, 20));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 150, 20));
 
         spinnerErlang.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1500, 100));
-        getContentPane().add(spinnerErlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 70, 50, -1));
+        getContentPane().add(spinnerErlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 70, 50, -1));
 
         jLabel6.setText("Erlang");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 70, 50, 20));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 70, 50, 20));
 
         textFieldCapacidadEnlace.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldCapacidadEnlace.setText("50");
@@ -187,11 +202,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         etiquetaRSA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         etiquetaRSA1.setText("Algoritmo de Ruteo");
-        getContentPane().add(etiquetaRSA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, -1, -1));
+        getContentPane().add(etiquetaRSA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 70, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel9.setText("Otros");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, -1, -1));
 
         listaRedes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Red 1", "Red 2" }));
         listaRedes.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +225,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
 
         etiquetaAnchoFSActual1.setText("Lambda");
-        getContentPane().add(etiquetaAnchoFSActual1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 110, 20));
+        getContentPane().add(etiquetaAnchoFSActual1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 110, 20));
 
         textFieldLambda.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldLambda.setText("2");
@@ -219,24 +234,24 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 textFieldLambdaActionPerformed(evt);
             }
         });
-        getContentPane().add(textFieldLambda, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 110, 40, 20));
+        getContentPane().add(textFieldLambda, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, 40, 20));
 
         etiquetaAnchoFSActual2.setText("mínimo");
-        getContentPane().add(etiquetaAnchoFSActual2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, 70, 20));
+        getContentPane().add(etiquetaAnchoFSActual2, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 150, 70, 20));
 
         textFieldFSminimo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldFSminimo.setText("2");
-        getContentPane().add(textFieldFSminimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 40, 20));
+        getContentPane().add(textFieldFSminimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 150, 40, 20));
 
         etiquetaAnchoFSActual3.setText("FS Rango");
-        getContentPane().add(etiquetaAnchoFSActual3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 150, 70, 20));
+        getContentPane().add(etiquetaAnchoFSActual3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 150, 70, 20));
 
         etiquetaAnchoFSActual4.setText("máximo");
-        getContentPane().add(etiquetaAnchoFSActual4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 70, 20));
+        getContentPane().add(etiquetaAnchoFSActual4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 180, 70, 20));
 
         textFieldFSmaximo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldFSmaximo.setText("2");
-        getContentPane().add(textFieldFSmaximo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 180, 40, 20));
+        getContentPane().add(textFieldFSmaximo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 180, 40, 20));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel12.setText("Red");
@@ -263,8 +278,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
     private void botonEjecutarSimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarSimulacionActionPerformed
 
-        /* Al inicio de cada Simulacion e+condemos los paneles de Resultado
-         */
+        // Al inicio de cada Simulacion e+condemos los paneles de Resultado
         this.panelResultado.setVisible(false);
         this.etiquetaTextoDemandasTotales.setVisible(false);
         this.etiquetaDemandasTotales.setVisible(false);
@@ -362,12 +376,45 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         G[i].insertarDatos(this.Redes.getTopologia(2));
                     }
             }
+<<<<<<< HEAD
             try {
                 //while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
                 archivoDemandas = Utilitarios.generarArchivoDemandas(Lambda, tiempoTotal, FsMinimo, FsMaximo, G[0].getCantidadDeVertices(), HoldingTime);
             } catch (IOException ex) {
                 Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
             }
+=======
+            //while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
+                for (int i = 0; i < tiempoT; i++) { // para cada unidad de tiempo
+                    //archivoDemandas = Utilitarios.generarArchivoDemandas();
+                    //d=leerLinea(linea);
+                    //cambiar por un while !EOF, aumentar la variable j++, obtener el tiempo de la primera linea, contar demandas dentro del while,
+                    for (int j = 0; j < demandasPorUnidadTiempo; j++) { // para cada demanda
+                        ListaEnlazada[] ksp = Utilitarios.KSP(G[0], d.getOrigen(), d.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
+                        for (int a = 0; a < RSA.size(); a++) {
+
+                            String algoritmoAejecutar = RSA.get(a);
+
+                            switch (algoritmoAejecutar) {
+                                case "FA":
+                                    System.out.println("entró");
+                                    r = Algoritmos_Defrag_ProAct.Def_FA(G[a], d, ksp, capacidadE);
+                                    if (r != null) {
+                                        Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
+                                    } else {
+                                        contB[a]++;
+                                    }
+                                    break;
+                                case "FA-CA":
+                                    r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], d, ksp, capacidadE);
+                                    if (r != null) {
+                                        Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
+                                    } else {
+                                        contB[a]++;
+                                    }
+                                    break;
+                            }
+>>>>>>> ee5f1d656140fe4b10b769c83785847d89848f36
 
             for (int i = 0; i < tiempoT; i++) {
                 try {
@@ -467,6 +514,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     }//GEN-LAST:event_listaAlgoritmosRuteoMouseClicked
 
     private void listaRedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaRedesActionPerformed
+        setearRed();
+    }//GEN-LAST:event_listaRedesActionPerformed
+
+    private void setearRed() {
         if (this.listaRedes.getSelectedIndex() >= 0) {
 
             ImageIcon Img = new ImageIcon(getClass().getResource("Imagenes/" + (listaRedes.getSelectedItem() + ".png")));
@@ -486,8 +537,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     break;
             }
         }
-    }//GEN-LAST:event_listaRedesActionPerformed
-
+    }
     private void textFieldLambdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldLambdaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFieldLambdaActionPerformed
