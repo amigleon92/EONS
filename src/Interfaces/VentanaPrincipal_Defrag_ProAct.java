@@ -3,7 +3,10 @@ package Interfaces;
 import EON.Utilitarios.*;
 import EON.*;
 import EON.Algoritmos.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -28,25 +31,24 @@ import org.jfree.data.xy.*;
  * de demanda que sera generada y guardada en un archivo.
  */
 public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
+
     private Topologias Redes; // topologias disponibles
-    
+
     private int tiempoTotal; // Iiempo que dura una simualcion
     String redSeleccionada;
     private double anchoFS; // ancho de un FS en los enlaces
     private int capacidadPorEnlace; // cantidad de FSs por enlace en la topologia elegida
-    
+
     private int Erlang;
     private int Lambda;
     private int HoldingTime; // Erlang / Lambda
     private int FsMinimo; // Cantidad mínima de FS por enlace
     private int FsMaximo; // Cantidad máxima de FS por enlace
-    
 
-    
 //    private int cantidadRedes; //cantidad de redes exitentes en el Simulador
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-   //private List algoritmosCompletosParaEjecutar;
+    //private List algoritmosCompletosParaEjecutar;
     private List algoritmosCompletosParaGraficar;
     private int cantidadDeAlgoritmosRuteoSeleccionados;
     private int cantidadDeAlgoritmosTotalSeleccionados;
@@ -54,10 +56,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     public VentanaPrincipal_Defrag_ProAct() {
         initComponents();
         this.Redes = new Topologias(); // asignamos todas las topologias disponibles}
-        
 
-        
-        
         /*No mostramos inicialmente los paneles que muestran los Resultados
          */
         this.panelResultado.setVisible(false);
@@ -269,16 +268,16 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         this.panelResultado.setVisible(false);
         this.etiquetaTextoDemandasTotales.setVisible(false);
         this.etiquetaDemandasTotales.setVisible(false);
-        
+
         //leemos los valores seteados
         this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); //Tiempo de simulacion indicado por el usuario
         this.redSeleccionada = (String) this.listaRedes.getSelectedItem(); // obtenemos la topologia seleccionada
         this.anchoFS = Double.parseDouble(this.textFieldAnchoFS.getText()); // ancho de los FSs de la toplogia elegida, tambien indicado por el usuario
         this.capacidadPorEnlace = Integer.parseInt(this.textFieldCapacidadEnlace.getText()); //obtenemos la cantidad de FS de los enlaces indicados por el usuario
-        
+
         this.Erlang = Integer.parseInt(this.spinnerErlang.getValue().toString()); //obtenemos Erlang indicados por el usuario
         this.Lambda = Integer.parseInt(this.textFieldLambda.getText()); //obtenemos Erlang indicados por el usuario
-        this.HoldingTime = (Erlang/Lambda); // Erlang / Lambda
+        this.HoldingTime = (Erlang / Lambda); // Erlang / Lambda
         this.FsMinimo = Integer.parseInt(this.textFieldFSminimo.getText()); //obtenemos FSminimo indicados por el usuario
         this.FsMaximo = Integer.parseInt(this.textFieldFSmaximo.getText()); //obtenemos FSmaximo indicados por el usuario
 
@@ -297,7 +296,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         GrafoMatriz G[] = new GrafoMatriz[this.algoritmosCompletosParaGraficar.size()]; // Se tiene una matriz de adyacencia por algoritmo RSA elegidos para por el usuario
 
         Demanda d = new Demanda();  // Demanda a recibir
-        File archivoDemandas;
+        File archivoDemandas = null;
         Resultado r = new Resultado(); // resultado obtenido en una demanda. Si r==null se cuenta como bloqueo
         String mensajeError = "Seleccione: "; // mensaje de error a mostrar eal usuario si no ha completado los parametros de
         // simulacion
@@ -306,7 +305,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         ResultadoRuteo r1 = new ResultadoRuteo(); // resultado optenido luego de ejecutarse un algoritmo de ruteo
 
         int E = (int) this.spinnerErlang.getValue(); // se obtiene el limite de carga (Erlang) de trafico seleccionado por el usuario
-        int demandasPorUnidadTiempo = 0; //demandas por unidad de tiempo. Considerando el punt decimal
+        ArrayList<Demanda> demandasPorUnidadTiempo = new ArrayList<>(); //ArrayList que contiene las demandas para una unidad de tiempo T
         int earlang = 0; //Carga de trafico en cada simulacion
         int k = -1; // contador auxiliar
         //int paso = (int) this.spinnerPaso.getValue(); // siguiente carga de trafico a simular (Erlang)
@@ -326,9 +325,8 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             this.etiquetaError.setVisible(true); // habilitamos la etiqueta de error
 
             RSA = this.algoritmosCompletosParaGraficar; // obtenemos los algoritmos RSA seleccionados
-            
-            //String demandaSeleccionada = this.listaDemandas.getSelectedValue(); // obtenemos el tipo de trafico seleccionado
 
+            //String demandaSeleccionada = this.listaDemandas.getSelectedValue(); // obtenemos el tipo de trafico seleccionado
             int[] conexid = new int[RSA.size()];
 
             for (int i = 0; i < conexid.length; i++) {
@@ -364,51 +362,59 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         G[i].insertarDatos(this.Redes.getTopologia(2));
                     }
             }
-            //while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
-                for (int i = 0; i < tiempoT; i++) { // para cada unidad de tiempo
-                    //archivoDemandas = Utilitarios.generarArchivoDemandas();
-                    //d=leerLinea(linea);
-                    //cambiar por un while !EOF, aumentar la variable j++, obtener el tiempo de la primera linea, contar demandas dentro del while,
-                    for (int j = 0; j < demandasPorUnidadTiempo; j++) { // para cada demanda
-                        ListaEnlazada[] ksp = Utilitarios.KSP(G[0], d.getOrigen(), d.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
-                        for (int a = 0; a < RSA.size(); a++) {
+            try {
+                //while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
+                archivoDemandas = Utilitarios.generarArchivoDemandas(Lambda, tiempoTotal, FsMinimo, FsMaximo, G[0].getCantidadDeVertices(), HoldingTime);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-                            String algoritmoAejecutar = RSA.get(a);
+            for (int i = 0; i < tiempoT; i++) {
+                try {
+                    demandasPorUnidadTiempo = Utilitarios.leerDemandasPorTiempo(archivoDemandas, i); //lee las demandas para el tiempo i
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                for (Demanda demanda : demandasPorUnidadTiempo) { // para cada demanda
+                    ListaEnlazada[] ksp = Utilitarios.KSP(G[0], demanda.getOrigen(), demanda.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
+                    for (int a = 0; a < RSA.size(); a++) {
 
-                            switch (algoritmoAejecutar) {
-                                case "FA":
-                                    r = Algoritmos_Defrag_ProAct.Def_FA(G[a], d, ksp, capacidadE);
-                                    if (r != null) {
-                                        Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
-                                    } else {
-                                        contB[a]++;
-                                    }
-                                    break;
-                                case "FA-CA":
-                                    r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], d, ksp, capacidadE);
-                                    if (r != null) {
-                                        Utilitarios.asignarFS_Defrag(ksp, r, G[a], d, ++conexid[a]);
-                                    } else {
-                                        contB[a]++;
-                                    }
-                                    break;
-                            }
+                        String algoritmoAejecutar = RSA.get(a);
 
+                        switch (algoritmoAejecutar) {
+                            case "FA":
+                                r = Algoritmos_Defrag_ProAct.Def_FA(G[a], demanda, ksp, capacidadE);
+                                if (r != null) {
+                                    Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
+                                } else {
+                                    contB[a]++;
+                                }
+                                break;
+                            case "FA-CA":
+                                r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], demanda, ksp, capacidadE);
+                                if (r != null) {
+                                    Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
+                                } else {
+                                    contB[a]++;
+                                }
+                                break;
                         }
-                        contD++;
+
                     }
-                    for (int j = 0; j < RSA.size(); j++) {
-                        Utilitarios.Disminuir(G[j]);
-                    }
+                    contD++;
                 }
-                ++k;
-                // almacenamos la probablidad de bloqueo final para cada algoritmo
-                for (int a = 0; a < RSA.size(); a++) {
-                    prob[a].add(((double) contB[a] / contD));
-                    System.out.println("Probabilidad: " + (double) prob[a].get(k) + " Algoritmo: " + a + " Earlang: " + earlang);
+                for (int j = 0; j < RSA.size(); j++) {
+                    Utilitarios.Disminuir(G[j]);
                 }
-                // avanzamos a la siguiente carga de trafico
-                //earlang += paso;
+            }
+            ++k;
+            // almacenamos la probablidad de bloqueo final para cada algoritmo
+            for (int a = 0; a < RSA.size(); a++) {
+                prob[a].add(((double) contB[a] / contD));
+                System.out.println("Probabilidad: " + (double) prob[a].get(k) + " Algoritmo: " + a + " Earlang: " + earlang);
+            }
+            // avanzamos a la siguiente carga de trafico
+            //earlang += paso;
             //}
             this.etiquetaError.setText("Simulacion Terminada...");
             // una vez finalizado, graficamos el resultado.

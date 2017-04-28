@@ -2,8 +2,11 @@ package EON.Utilitarios;
 
 import EON.*;
 import EON.Algoritmos.*;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -1778,9 +1781,9 @@ public class Utilitarios {
     lambda: valor para la distribucion de Poisson
     t: Tiempo de simulacion
     minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
-    public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos) throws IOException {
+    public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos, int HT) throws IOException {
         int i, cantidadDemandas, j, origen, destino, fs, tVida;
-        String ruta = "req_" + lambda + "k_" + t + "t";
+        String ruta = "C:\\Users\\user\\Desktop\\req_" + lambda + "k_" + t + "t.txt";
         File archivo = new File(ruta);
         if (archivo.exists()) {
             return archivo;
@@ -1796,15 +1799,15 @@ public class Utilitarios {
                     while (origen == destino) {
                         destino = rand.nextInt(cantNodos);
                     }
-                    tVida = obtenerTiempoDeVida(t);
-                    archivo = escribirArchivo(origen, destino, fs, lambda, t, archivo, tVida);
+                    tVida = obtenerTiempoDeVida(HT);
+                    archivo = escribirArchivo(origen, destino, fs, lambda, i, archivo, tVida, cantidadDemandas);
                 }
             }
             return archivo;
         }
     }
 
-    public static File escribirArchivo(int o, int d, int fs, int lambda, int t, File archivo, int tVida) throws IOException {
+    public static File escribirArchivo(int o, int d, int fs, int lambda, int t, File archivo, int tVida, int cantidadDemandas) throws IOException {
         BufferedWriter bw;
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo, true));
@@ -1812,6 +1815,8 @@ public class Utilitarios {
             bw = new BufferedWriter(new FileWriter(archivo));
         }
         bw.write("" + t);
+        bw.write(",");
+        bw.write("" + cantidadDemandas);
         bw.write(",");
         bw.write("" + o);
         bw.write(",");
@@ -1826,37 +1831,60 @@ public class Utilitarios {
         return archivo;
     }
 
-    public static Demanda leerLinea(String linea) {
-        Demanda d = null;
-        String[] line = linea.split(",", 4);
-        return d;
+    public static ArrayList<Demanda> leerDemandasPorTiempo(File archivo, int t) throws FileNotFoundException, IOException {
+        int i;
+        String linea;
+        ArrayList<Demanda> demandas = new ArrayList<>();
+
+        FileReader fr = new FileReader(archivo);
+        BufferedReader br = new BufferedReader(fr);
+
+        while (((linea = br.readLine()) != null)) {
+            String[] line = linea.split(",", 6);
+            if (Integer.parseInt(line[0]) > t) {
+                break;                          //
+            } else if (Integer.parseInt(line[0]) == t) {
+                Demanda d = new Demanda();
+                d.setOrigen(Integer.parseInt(line[2]));
+                d.setDestino(Integer.parseInt(line[3]));
+                d.setNroFS(Integer.parseInt(line[4]));
+                d.setTiempo(Integer.parseInt(line[5]));
+                demandas.add(d);
+            }
+        }
+        return demandas;
     }
 
     public static int poisson(int lambda) {
-        int a, b, bFact;
-        double s;
+        int b, bFact;
+        double s, a;
         double e = Math.E;
-        a = (int) (Math.random() * 1) + 0;
+        a = (Math.random() * 1) + 0;
         b = 0;
         bFact = factorial(b);
         s = (Math.pow(e, (-lambda))) * ((Math.pow(lambda, b)) / (bFact));
         while (a > s) {
             b++;
+            bFact = factorial(b);
             s = s + ((Math.pow(e, (-lambda))) * ((Math.pow(lambda, b)) / (bFact)));
         }
         return b;
     }
 
     public static int obtenerTiempoDeVida(int ht) {
-        int a, b;
-        double s, aux;
+        int b;
+        double s, a, aux, auxB, auxHT;
         double e = Math.E;
-        a = (int) (Math.random() * 1) + 0;
+        a = (Math.random() * 1) + 0;
         b = 1;
-        aux = -1 * (b / ht);
+        auxB = (double) b;
+        auxHT = (double) ht;
+        aux = (-1) * (auxB / auxHT);
         s = 1 - (Math.pow(e, (aux)));
         while (s < a) {
             b++;
+            auxB = (double) b;
+            aux = (-1) * (auxB / auxHT);
             s = 1 - (Math.pow(e, (aux)));
         }
         return b;
