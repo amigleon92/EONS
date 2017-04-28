@@ -1928,45 +1928,27 @@ public class Utilitarios {
     
 
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
-    public static void GraficarResultado(File Resultados, int tiempoTotal) throws FileNotFoundException, IOException{
+    public static void GraficarResultado(XYSeriesCollection datos, int tiempoTotal, String label, JPanel panelResultados) throws FileNotFoundException, IOException{
         
-        String linea;
-        FileReader fr = new FileReader(Resultados);
-        BufferedReader br = new BufferedReader(fr);
+        XYSplineRenderer renderer = new XYSplineRenderer();
+        //XYSeries series[] = new XYSeries[tiempoTotal];
+        //XYSeriesCollection datos = new XYSeriesCollection();
+        ValueAxis ejex = new NumberAxis();
+        ValueAxis ejey = new NumberAxis();
+        XYPlot plot;
+        panelResultados.removeAll();
 
-        while (((linea = br.readLine()) != null)) {
-            String[] line = linea.split(",", 6);
-            
-            double sum = 0;
-            XYSplineRenderer renderer = new XYSplineRenderer();
-            XYSeries series[] = new XYSeries[tiempoTotal];
-            XYSeriesCollection datos = new XYSeriesCollection();
-            ValueAxis ejex = new NumberAxis();
-            ValueAxis ejey = new NumberAxis();
-            XYPlot plot;
-            panelResultadosBloqueos.removeAll();
-            for (int i = 0; i < result.length; i++) {
-                series[i] = new XYSeries((String) lista.get(i));
-                for (int j = 0; j < result[i].size(); j++) {
-                    sum += paso;
-                    series[i].add(sum, (double) result[i].get(j));
-                }
-                sum = 1;
-                datos.addSeries(series[i]);
-            }
 
-            ejex.setLabel("Erlang");
-            ejey.setLabel("Probalididad de bloqueo(%)");
-            plot = new XYPlot(datos, ejex, ejey, renderer);
-            JFreeChart grafica = new JFreeChart(plot);
-            //grafica.setTitle("Probabilidad de Bloqueo");
-            ChartPanel panel = new ChartPanel(grafica);
-            panel.setBounds(2, 2, 466, 268);
-            panelResultado.add(panel);
-            panelResultado.repaint();
-            panelResultado.setVisible(true);
-            
-        }
+        ejex.setLabel("Erlang");
+        ejey.setLabel("Probalididad de bloqueo(%)");
+        plot = new XYPlot(datos, ejex, ejey, renderer);
+        JFreeChart grafica = new JFreeChart(plot);
+        //grafica.setTitle("Probabilidad de Bloqueo");
+        ChartPanel panel = new ChartPanel(grafica);
+        panel.setBounds(2, 2, 466, 268);
+        panelResultados.add(panel);
+        panelResultados.repaint();
+        //panelResultados.setVisible(true);
         
         
     }    
