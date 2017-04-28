@@ -1897,4 +1897,31 @@ public class Utilitarios {
         }
         return resultado;
     }
+    
+        public static void escribirArchivoResultados(File archivo, int tiempo, int cantB, int cantD, double entropia, double MSI, double BFR, int cantRutas) throws IOException {
+        BufferedWriter bw;
+        if (archivo.exists()) {
+            bw = new BufferedWriter(new FileWriter(archivo, true));
+        } else {
+            bw = new BufferedWriter(new FileWriter(archivo));
+        }
+        bw.write("" + tiempo);
+        bw.write(",");
+        bw.write("" + cantD);
+        bw.write(",");
+        bw.write("" + cantB);
+        bw.write(",");
+        bw.write("" + entropia);
+        bw.write(",");
+        bw.write("" + MSI);
+        bw.write(",");
+        bw.write("" + BFR);
+        bw.write(",");
+        bw.write("" + cantRutas);
+        bw.write("\r\n");
+        bw.close();
+
+        return;
+    }
+    
 }
