@@ -41,7 +41,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private int capacidadPorEnlace; // cantidad de FSs por enlace en la topologia elegida
 
     private int Erlang, rutas;
-    private int Lambda;
+    private int Lambda, contBloqueos;
     private int HoldingTime; // Erlang / Lambda
     private int FsMinimo; // Cantidad mínima de FS por enlace
     private int FsMaximo; // Cantidad máxima de FS por enlace
@@ -61,7 +61,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         /*No mostramos inicialmente los paneles que muestran los Resultados
          */
-        this.panelResultadosBloqueos.setVisible(false);
         //this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
         this.cantidadDeAlgoritmosTotalSeleccionados = 0;
         //this.algoritmosCompletosParaEjecutar = new LinkedList();
@@ -71,7 +70,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         setearRed(); // setea la red que aparece por defecto
 
         // Al inicio de cada Simulacion e+condemos los paneles de Resultado
-        this.panelResultadosBloqueos.setVisible(false);
         this.etiquetaTextoDemandasTotales.setVisible(false);
         this.etiquetaDemandasTotales.setVisible(false);
     }
@@ -431,7 +429,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String ruta = "C:\\Users\\user\\Desktop\\Resultados" + Lambda + "k_" + tiempoTotal + "t.txt";
+            String ruta = "C:\\Users\\user\\Desktop\\Tesis\\Pruebas\\Resultados\\Resultado" + Lambda + "k_" + tiempoTotal + "t-"+RSA.get(0)+".txt";
             File archivoResultados = new File(ruta);
             for (int i = 1; i <= tiempoT; i++) {
                 try {
@@ -452,6 +450,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                     Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
                                 } else {
                                     contB[a]++;
+                                    contBloqueos++;
                                 }
                                 break;
                             case "FA-CA":
@@ -461,33 +460,36 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                     //rutasEstablecidas.add();
                                 } else {
                                     contB[a]++;
+                                    contBloqueos++;
                                 }
                                 break;
                         }
 
                     }
                     contD++;
-                    for (int a = 0; a < RSA.size(); a++) {
-                        //Escribimos el archivo de resultados
-                        entropia = G[a].entropia();
-                        msi = Metricas.MSI(G[a], capacidadE);
-                        bfr = Metricas.BFR(G[a], capacidadE);
-                        try {
-                            Utilitarios.escribirArchivoResultados(archivoResultados, i, contB[a], contD, entropia, msi, bfr, rutas);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                }
+                for (int a = 0; a < RSA.size(); a++) {
+                    //Escribimos el archivo de resultados
+                    entropia = G[a].entropia();
+                    msi = Metricas.MSI(G[a], capacidadE);
+                    bfr = Metricas.BFR(G[a], capacidadE);
+                    
+                    try {
+                        Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, contD, entropia, msi, bfr, 0);
+                    } catch (IOException ex) {
+                        Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 for (int j = 0; j < RSA.size(); j++) {
                     Utilitarios.Disminuir(G[j]);
                 }
+                contBloqueos = 0;
             }
             ++k;
             // almacenamos la probablidad de bloqueo final para cada algoritmo
             for (int a = 0; a < RSA.size(); a++) {
                 prob[a].add(((double) contB[a] / contD));
-                System.out.println("Probabilidad: " + (double) prob[a].get(k) + " Algoritmo: " + a + " Earlang: " + earlang);
+                System.out.println("Probabilidad: " + (double) prob[a].get(k) + " Algoritmo: " + RSA.get(a));
             }
             // avanzamos a la siguiente carga de trafico
             //earlang += paso;
