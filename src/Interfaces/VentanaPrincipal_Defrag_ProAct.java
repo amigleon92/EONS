@@ -431,7 +431,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
             }
-<<<<<<< HEAD
             String ruta = "C:\\Users\\user\\Desktop\\Resultados" + Lambda + "k_" + tiempoTotal + "t.txt";
             File archivoResultados = new File(ruta);
             for (int i = 1; i <= tiempoT; i++) {
@@ -462,39 +461,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                     //rutasEstablecidas.add();
                                 } else {
                                     contB[a]++;
-=======
-                        for (int i = 1; i <= tiempoT; i++) {
-                            try {
-                                demandasPorUnidadTiempo = Utilitarios.leerDemandasPorTiempo(archivoDemandas, i); //lee las demandas para el tiempo i
-                            } catch (IOException ex) {
-                                Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            for (Demanda demanda : demandasPorUnidadTiempo) { // para cada demanda
-                                ListaEnlazada[] ksp = Utilitarios.KSP(G[0], demanda.getOrigen(), demanda.getDestino(), 5); // calculamos los k caminos mas cortos entre el origen y el fin. Con k=5 (pude ser mas, cambiar dependiendo de la necesidad)
-                                for (int a = 0; a < RSA.size(); a++) {
-
-                                    String algoritmoAejecutar = RSA.get(a);
-
-                                    switch (algoritmoAejecutar) {
-                                        case "FA":
-                                            r = Algoritmos_Defrag_ProAct.Def_FA(G[a], demanda, ksp, capacidadE);
-                                            if (r != null) {
-                                                Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
-                                            } else {
-                                                contB[a]++;
-                                            }
-                                            break;
-                                        case "FA-CA":
-                                            r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], demanda, ksp, capacidadE);
-                                            if (r != null) {
-                                                Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
-                                            } else {
-                                                contB[a]++;
-                                            }
-                                            break;
-                                    }
-
->>>>>>> c6e952a4cb6bb3c38cf4a7eb26ce870761dc6908
                                 }
                                 break;
                         }
@@ -511,7 +477,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
                         }
-<<<<<<< HEAD
                     }
                 }
                 for (int j = 0; j < RSA.size(); j++) {
@@ -543,30 +508,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             this.cantidadDeAlgoritmosTotalSeleccionados = 0;
 
         } else { // control de errores posibles realizados al no completar los parametros de simulacion
-=======
-                        // avanzamos a la siguiente carga de trafico
-                        //earlang += paso;
-                        //}
-                        this.etiquetaError.setText("Simulacion Terminada...");
-                        // una vez finalizado, graficamos el resultado.
-                        
-                        //leemos el archivo de resultados
-                     
-                        //Utilitarios.GraficarResultado(prob, this.panelResultado, "Resultado de la Simulación", RSA, paso);
-                        String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
-                        this.etiquetaDemandasTotales.setText(demandasTotales);
-                        this.etiquetaTextoDemandasTotales.setVisible(true);
-                        this.etiquetaDemandasTotales.setVisible(true);
-
-                        ////////Vaciar listas para las siguientes simulaciones///////////////
-                        /////////////////////////////////////////////////////////////////////
-                        //this.algoritmosCompletosParaEjecutar.clear();
-                        //this.algoritmosCompletosParaGraficar.clear();
-                        //this.cantidadDeAlgoritmosRuteoSeleccionados = 0;
-                        this.cantidadDeAlgoritmosTotalSeleccionados = 0;
-
-                    }else { // control de errores posibles realizados al no completar los parametros de simulacion
->>>>>>> c6e952a4cb6bb3c38cf4a7eb26ce870761dc6908
             if (this.listaAlgoritmosRuteo.getSelectedIndex() < 0) {
                 if (mensajeError == "Seleccione ") {
                     mensajeError = mensajeError + "Algoritmo RSA";

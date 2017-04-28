@@ -1899,7 +1899,7 @@ public class Utilitarios {
         return resultado;
     }
     
-<<<<<<< HEAD
+
         public static void escribirArchivoResultados(File archivo, int tiempo, int cantB, int cantD, double entropia, double MSI, double BFR, int cantRutas) throws IOException {
         BufferedWriter bw;
         if (archivo.exists()) {
@@ -1926,7 +1926,7 @@ public class Utilitarios {
         return;
     }
     
-=======
+
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
     public static void GraficarResultado(File Resultados, int tiempoTotal) throws FileNotFoundException, IOException{
         
@@ -1970,6 +1970,5 @@ public class Utilitarios {
         
         
     }    
->>>>>>> c6e952a4cb6bb3c38cf4a7eb26ce870761dc6908
 }
 
