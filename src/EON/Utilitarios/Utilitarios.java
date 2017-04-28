@@ -1785,7 +1785,7 @@ public class Utilitarios {
     minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
     public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos, int HT) throws IOException {
         int i, cantidadDemandas, j, origen, destino, fs, tVida;
-        String ruta = "C:\\Users\\user\\Desktop\\req_" + lambda + "k_" + t + "t.txt";
+        String ruta = "C:\\Users\\user\\Desktop\\Tesis\\Pruebas\\Requerimientos\\req_" + lambda + "k_" + t + "t.txt";
         File archivo = new File(ruta);
         if (archivo.exists()) {
             return archivo;
@@ -1928,7 +1928,7 @@ public class Utilitarios {
     
 
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
-    public static void GraficarResultado(File Resultados, int tiempoTotal) throws FileNotFoundException, IOException{
+    /*public static void GraficarResultado(File Resultados, int tiempoTotal) throws FileNotFoundException, IOException{
         
         String linea;
         FileReader fr = new FileReader(Resultados);
@@ -1969,6 +1969,6 @@ public class Utilitarios {
         }
         
         
-    }    
+    }    */
 }
 
