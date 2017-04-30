@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +49,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private int FsMaximo; // Cantidad máxima de FS por enlace
     private double entropia, msi, bfr;
     private ArrayList<Integer> rutasEstablecidas;
+    int hora, minutos, segundos, dia, mes, anho;
 //    private int cantidadRedes; //cantidad de redes exitentes en el Simulador
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -478,7 +481,19 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String ruta = System.getProperty("user.dir") + "Resultado" + Lambda + "k_" + tiempoTotal + "t-"+RSA.get(0)+".txt";
+            //Construimos el nombre del archivo con la fecha y hora
+            Calendar calendario = new GregorianCalendar();
+            hora = calendario.get(Calendar.HOUR_OF_DAY);
+            minutos = calendario.get(Calendar.MINUTE);
+            segundos = calendario.get(Calendar.SECOND);
+            dia = calendario.get(Calendar.DAY_OF_MONTH);
+            mes = calendario.get(Calendar.MONTH);
+            anho = calendario.get(Calendar.YEAR);
+            File carpeta = new File(System.getProperty("user.dir") + "\\src\\Defrag\\ProAct\\Archivos\\Resultados\\");
+            String ruta = System.getProperty("user.dir") + "\\src\\Defrag\\ProAct\\Archivos\\Resultados\\Resultado" + Lambda + "k_" + tiempoTotal + "t-" + RSA.get(0) + "-" + dia + "-" + mes + "-" + anho + "-" + hora + "_" + minutos + "_" + segundos + ".txt";
+            if (!carpeta.exists()) {
+                carpeta.mkdirs();
+            }
             File archivoResultados = new File(ruta);
             for (int i = 1; i <= tiempoT; i++) {
                 try {
@@ -497,6 +512,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                 r = Algoritmos_Defrag_ProAct.Def_FA(G[a], demanda, ksp, capacidadE);
                                 if (r != null) {
                                     Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
+                                    rutasEstablecidas.add(demanda.getTiempo());
                                 } else {
                                     contB[a]++;
                                     contBloqueos++;
@@ -506,7 +522,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                 r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], demanda, ksp, capacidadE);
                                 if (r != null) {
                                     Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
-                                    //rutasEstablecidas.add();
+                                    rutasEstablecidas.add(demanda.getTiempo());
                                 } else {
                                     contB[a]++;
                                     contBloqueos++;
@@ -519,13 +535,14 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 }
                 for (int a = 0; a < RSA.size(); a++) {
                     //Escribimos el archivo de resultados
+                    entropia = msi = bfr = 0.0;
                     entropia = G[a].entropia();
                     msi = Metricas.MSI(G[a], capacidadE);
                     bfr = Metricas.BFR(G[a], capacidadE);
-                    
+
                     try {
                         //Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, contD, entropia, msi, bfr, 0);
-                        Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, contD, (double)((int)((entropia*100))/100), (double)(((int)(msi*100))/100), (double)(((int)(bfr*100))/100), 0);
+                        Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, demandasPorUnidadTiempo.size(), entropia, msi, bfr, rutasEstablecidas.size());
                         //Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, contD, (int) entropia, (int) msi, (int) bfr, 0);
                     } catch (IOException ex) {
                         Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
@@ -533,6 +550,15 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 }
                 for (int j = 0; j < RSA.size(); j++) {
                     Utilitarios.Disminuir(G[j]);
+                }
+                //verificar si la ruta sigue activa o no dentro de la red.
+                for (int index = 0; index < rutasEstablecidas.size(); index++) {
+                    rutasEstablecidas.set(index, rutasEstablecidas.get(index) - 1);
+                }
+                for (int index = 0; index < rutasEstablecidas.size(); index++) {
+                    if (rutasEstablecidas.get(index) == 0) {
+                        rutasEstablecidas.remove(index);
+                    }
                 }
                 contBloqueos = 0;
             }
@@ -546,8 +572,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             //earlang += paso;
             //}
             this.etiquetaError.setText("Simulacion Terminada...");
-            
-            
+
             // una vez finalizado, graficamos el resultado.
             //leemos el archivo de resultados
             String linea;
@@ -564,30 +589,30 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 series[2] = new XYSeries("MSI");
                 series[3] = new XYSeries("BFR");
                 series[4] = new XYSeries("Cantidad de Light Paths");
-                
+
                 while (((linea = br.readLine()) != null)) {
                     contLinea++;
                     String[] line = linea.split(",", 7);
-               
+
                     series[0].add(contLinea, (double) Double.parseDouble(line[2]));
                     series[1].add(contLinea, (double) Double.parseDouble(line[3]));
                     series[2].add(contLinea, (double) Double.parseDouble(line[4]));
                     series[3].add(contLinea, (double) Double.parseDouble(line[5]));
                     series[4].add(contLinea, (double) Double.parseDouble(line[6]));
                 }
-                        
+
                 datos.addSeries(series[0]);
                 Utilitarios.GraficarResultado(datos, "Bloqueos", this.panelResultadosBloqueos);
                 datos = new XYSeriesCollection();
-                
+
                 datos.addSeries(series[1]);
                 Utilitarios.GraficarResultado(datos, "Entropía", this.panelResultadosEntropia);
                 datos = new XYSeriesCollection();
-                
+
                 datos.addSeries(series[2]);
                 Utilitarios.GraficarResultado(datos, "MSI", this.panelResultadosMSI);
                 datos = new XYSeriesCollection();
-                
+
                 datos.addSeries(series[3]);
                 Utilitarios.GraficarResultado(datos, "BFR", this.panelResultadosBFR);
                 datos = new XYSeriesCollection();
@@ -595,18 +620,17 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 datos.addSeries(series[4]);
                 Utilitarios.GraficarResultado(datos, "Cantidad de Light Paths", this.panelResultadosLightPaths);
                 datos = new XYSeriesCollection();
-                
+
                 datos.addSeries(series[0]);
                 datos.addSeries(series[1]);
                 datos.addSeries(series[2]);
                 datos.addSeries(series[3]);
                 datos.addSeries(series[4]);
                 Utilitarios.GraficarResultado(datos, "Todos", this.panelResultadosTodos);
-                
+
             } catch (IOException ioe) {
                 Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ioe);
             }
-            
 
             //Utilitarios.GraficarResultado(prob, this.panelResultado, "Resultado de la Simulación", RSA, paso);
             String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas

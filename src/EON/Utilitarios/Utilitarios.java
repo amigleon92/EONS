@@ -1736,9 +1736,8 @@ public class Utilitarios {
         PanelEntropia.repaint();
         PanelEntropia.setVisible(true);
     }
-    
+
     //ALGORITMOS DEFRAGMENTACIÓN PROACTIVA
-   
     /*Metodo que encuentra el minimo valor dentro de un ArrayList y retorna su posicion*/
     public static ArrayList encontrarMinimo(ArrayList<Integer> list) {
         int i, min;
@@ -1785,7 +1784,11 @@ public class Utilitarios {
     minFS y maxFS: Rango de variacion de cantidad de FS por demanda    */
     public static File generarArchivoDemandas(int lambda, int t, int minFS, int maxFS, int cantNodos, int HT) throws IOException {
         int i, cantidadDemandas, j, origen, destino, fs, tVida;
-        String ruta = System.getProperty("user.dir") + "req_" + lambda + "k_" + t + "t.txt";
+        File carpeta = new File(System.getProperty("user.dir") + "\\src\\Defrag\\ProAct\\Archivos\\Requerimientos\\");
+        String ruta = System.getProperty("user.dir") + "\\src\\Defrag\\ProAct\\Archivos\\Requerimientos\\req_" + lambda + "k_" + t + "t" + "FS_" + minFS + "-" + maxFS + ".txt";
+        if (!carpeta.exists()) {
+            carpeta.mkdirs();
+        }
         File archivo = new File(ruta);
         if (archivo.exists()) {
             return archivo;
@@ -1898,9 +1901,8 @@ public class Utilitarios {
         }
         return resultado;
     }
-    
 
-        public static void escribirArchivoResultados(File archivo, int tiempo, int cantB, int cantD, double entropia, double MSI, double BFR, int cantRutas) throws IOException {
+    public static void escribirArchivoResultados(File archivo, int tiempo, int cantB, int cantD, double entropia, double MSI, double BFR, int cantRutas) throws IOException {
         BufferedWriter bw;
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo, true));
@@ -1913,11 +1915,11 @@ public class Utilitarios {
         bw.write(",");
         bw.write("" + cantB);
         bw.write(",");
-        bw.write("" + entropia);
+        bw.write("" + redondearDecimales(entropia, 3));
         bw.write(",");
-        bw.write("" + MSI);
+        bw.write("" + redondearDecimales(MSI, 3));
         bw.write(",");
-        bw.write("" + BFR);
+        bw.write("" + redondearDecimales(BFR, 3));
         bw.write(",");
         bw.write("" + cantRutas);
         bw.write("\r\n");
@@ -1925,10 +1927,19 @@ public class Utilitarios {
 
         return;
     }
-    
+
+    public static double redondearDecimales(double valorInicial, int numeroDecimales) {
+        double parteEntera, resultado;
+        resultado = valorInicial;
+        parteEntera = Math.floor(resultado);
+        resultado = (resultado - parteEntera) * Math.pow(10, numeroDecimales);
+        resultado = Math.round(resultado);
+        resultado = (resultado / Math.pow(10, numeroDecimales)) + parteEntera;
+        return resultado;
+    }
 
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
-    public static void GraficarResultado(XYSeriesCollection datos, String label, JPanel panelResultados) throws FileNotFoundException, IOException{        
+    public static void GraficarResultado(XYSeriesCollection datos, String label, JPanel panelResultados) throws FileNotFoundException, IOException {
         XYSplineRenderer renderer = new XYSplineRenderer();
         //XYSeries series[] = new XYSeries[tiempoTotal];
         //XYSeriesCollection datos = new XYSeriesCollection();
@@ -1948,4 +1959,3 @@ public class Utilitarios {
         panelResultados.repaint();
     }
 }
-
