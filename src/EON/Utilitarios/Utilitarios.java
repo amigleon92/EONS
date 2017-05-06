@@ -1794,13 +1794,13 @@ public class Utilitarios {
             return archivo;
         } else {
             Random rand = new Random();
-            for (i = 0; i < t; i++) {
+            for (i = 1; i < t; i++) {
                 cantidadDemandas = poisson(lambda);
                 for (j = 0; j < cantidadDemandas; j++) {
                     rand = new Random();
                     origen = rand.nextInt(cantNodos);
                     destino = rand.nextInt(cantNodos);
-                    fs = (int) (Math.random() * maxFS) + minFS;
+                    fs = (int) (Math.random() * (maxFS-minFS+1)) + minFS;
                     while (origen == destino) {
                         destino = rand.nextInt(cantNodos);
                     }
