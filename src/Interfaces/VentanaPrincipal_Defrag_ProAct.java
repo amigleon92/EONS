@@ -380,6 +380,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         this.etiquetaDemandasTotales.setVisible(false);
         this.etiquetaTextoBloqueosTotales.setVisible(false);
         this.etiquetaBloqueosTotales.setVisible(false);
+        
+        //inicializamos algunas variables
+        this.cantidadDeAlgoritmosTotalSeleccionados = 0;
+        this.algoritmosCompletosParaGraficar.clear();
 
         //leemos los valores seteados
         this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); //Tiempo de simulacion indicado por el usuario
@@ -584,7 +588,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             try {
                 fr = new FileReader(archivoResultados);
                 BufferedReader br = new BufferedReader(fr);
-                series[0] = new XYSeries("Lista de Bloqueos");
+                series[0] = new XYSeries("Bloqueos");
                 series[1] = new XYSeries("Entropía");
                 series[2] = new XYSeries("MSI");
                 series[3] = new XYSeries("BFR");
@@ -592,6 +596,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
                 while (((linea = br.readLine()) != null)) {
                     contLinea++;
+                    if (contLinea > 1000) {
+                        System.out.println("hola");
+                    }
+                            
                     String[] line = linea.split(",", 7);
 
                     series[0].add(contLinea, (double) Double.parseDouble(line[2]));
@@ -629,13 +637,13 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 Utilitarios.GraficarResultado(datos, "Todos", this.panelResultadosTodos);
 
             } catch (IOException ioe) {
-                Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ioe);
+                Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ioe);  
             }
 
             //Utilitarios.GraficarResultado(prob, this.panelResultado, "Resultado de la Simulación", RSA, paso);
             String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
             this.etiquetaDemandasTotales.setText(demandasTotales);
-            // this.etiquetaBloqueosTotales.setText(contB[a]); //VE DIEGO PORFA SI PODES HACER QUE FUNCIONE ESTA LINEA JE
+            this.etiquetaBloqueosTotales.setText("" + contB[0]); //VE DIEGO PORFA SI PODES HACER QUE FUNCIONE ESTA LINEA JE
             this.etiquetaTextoDemandasTotales.setVisible(true);
             this.etiquetaDemandasTotales.setVisible(true);
             this.etiquetaTextoBloqueosTotales.setVisible(true);
