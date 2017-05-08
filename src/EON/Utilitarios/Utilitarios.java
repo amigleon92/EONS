@@ -2,6 +2,8 @@ package EON.Utilitarios;
 
 import EON.*;
 import EON.Algoritmos.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,10 +20,18 @@ import javax.swing.JPanel;
 import oracle.jrockit.jfr.events.Bits;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.XYTextAnnotation;
+import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -1939,23 +1949,86 @@ public class Utilitarios {
     }
 
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
-    public static void GraficarResultado(XYSeriesCollection datos, String label, JPanel panelResultados) throws FileNotFoundException, IOException {
-        XYSplineRenderer renderer = new XYSplineRenderer();
-        //XYSeries series[] = new XYSeries[tiempoTotal];
-        //XYSeriesCollection datos = new XYSeriesCollection();
-        ValueAxis ejex = new NumberAxis();
-        ValueAxis ejey = new NumberAxis();
-        XYPlot plot;
+    public static void GraficarResultado(XYSeries series[], List<XYTextAnnotation> annotation, JPanel panelResultados) throws FileNotFoundException, IOException {
+        XYSeriesCollection datos = new XYSeriesCollection();
         panelResultados.removeAll();
-        ejex.setLabel("tiempo");
-        ejey.setLabel(label);
+        // create subplot 1...
+        //final XYDataset data1 = createDataset1();
+        datos.addSeries(series[2]);
+        final XYItemRenderer renderer1 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis1 = new NumberAxis("MSI");
+        final XYPlot subplot1 = new XYPlot(datos, null, rangeAxis1, renderer1);
+        subplot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        datos = new XYSeriesCollection();
 
-        plot = new XYPlot(datos, ejex, ejey, renderer);
-        JFreeChart grafica = new JFreeChart(plot);
-        //grafica.setTitle("Probabilidad de Bloqueo");
-        ChartPanel panel = new ChartPanel(grafica);
-        panel.setBounds(2, 2, 466, 195);
+        // create subplot 2...
+        //final XYDataset data2 = createDataset2();
+        datos.addSeries(series[4]);
+        final XYItemRenderer renderer2 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis2 = new NumberAxis("Cant. Light Paths");
+        rangeAxis2.setAutoRangeIncludesZero(false);
+        final XYPlot subplot2 = new XYPlot(datos, null, rangeAxis2, renderer2);
+        subplot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        datos = new XYSeriesCollection();
+
+        // create subplot 3...
+        //final XYDataset data2 = createDataset2();
+        datos.addSeries(series[1]);
+        final XYItemRenderer renderer3 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis3 = new NumberAxis("Entropía");
+        rangeAxis3.setAutoRangeIncludesZero(false);
+        final XYPlot subplot3 = new XYPlot(datos, null, rangeAxis3, renderer3);
+        subplot3.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        datos = new XYSeriesCollection();
+
+        // create subplot 4...
+        //final XYDataset data2 = createDataset2();
+        datos.addSeries(series[3]);
+        final XYItemRenderer renderer4 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis4 = new NumberAxis("BFR");
+        rangeAxis4.setAutoRangeIncludesZero(false);
+        final XYPlot subplot4 = new XYPlot(datos, null, rangeAxis4, renderer4);
+        subplot4.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        datos = new XYSeriesCollection();
+
+        //agrega los bloqueos
+        //for (int a = 0; a < annotation.size(); a++) {
+        for (XYTextAnnotation anno : annotation) {
+            anno.setFont(new Font("SansSerif", Font.PLAIN, 15));
+            //anno.setRotationAngle(Math.PI / 4.0);
+            subplot1.addAnnotation(anno);
+            subplot2.addAnnotation(anno);
+            subplot3.addAnnotation(anno);
+            subplot4.addAnnotation(anno);
+
+            ValueMarker marker = new ValueMarker(anno.getX());  // position is the value on the axis
+            marker.setPaint(Color.black);
+            //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
+
+            subplot1.addDomainMarker(marker);
+            subplot2.addDomainMarker(marker);
+            subplot3.addDomainMarker(marker);
+            subplot4.addDomainMarker(marker);
+        }
+
+
+        // parent plot...
+        final CombinedDomainXYPlot plot = new CombinedDomainXYPlot(new NumberAxis("Tiempo"));
+        plot.setGap(10.0);
+
+        // add the subplots...
+        plot.add(subplot1, 1);
+        plot.add(subplot2, 1);
+        plot.add(subplot3, 1);
+        plot.add(subplot4, 1);
+        plot.setOrientation(PlotOrientation.VERTICAL);
+
+        final JFreeChart chart = new JFreeChart(null,JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        final ChartPanel panel = new ChartPanel(chart, true, true, true, false, true);
+        //panel.setPreferredSize(new java.awt.Dimension(500, 270));
+        //setContentPane(panel);
+        panel.setBounds(2, 2, 970, 640);
         panelResultados.add(panel);
-        panelResultados.repaint();
+        panelResultados.repaint();     
     }
 }
