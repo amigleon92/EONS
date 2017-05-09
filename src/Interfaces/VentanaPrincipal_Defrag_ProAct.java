@@ -24,6 +24,7 @@ import javax.swing.*;
 import org.jfree.data.xy.*;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -120,7 +121,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         etiquetaTextoBloqueosTotales = new javax.swing.JLabel();
         etiquetaBloqueosTotales = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableResultados = new javax.swing.JTable();
+        jTableResultadosBloqueos = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -293,7 +294,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(etiquetaTextoBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 170, 20));
         getContentPane().add(etiquetaBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 60, 20));
 
-        jTableResultados.setModel(new javax.swing.table.DefaultTableModel(
+        jTableResultadosBloqueos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -309,9 +310,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTableResultados.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTableResultados);
-        jTableResultados.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableResultadosBloqueos.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(jTableResultadosBloqueos);
+        jTableResultadosBloqueos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 420, 350));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 440, -1));
@@ -331,6 +332,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         //inicializamos algunas variables
         this.cantidadDeAlgoritmosTotalSeleccionados = 0;
         this.algoritmosCompletosParaGraficar.clear();
+        
+        //borramos los resultados que están en la tabla de bloqueos
+        reiniciarJTable(this.jTableResultadosBloqueos);
 
         //leemos los valores seteados
         this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); //Tiempo de simulacion indicado por el usuario
@@ -549,7 +553,8 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     //agrega en annotation todos los bloqueos para después agregarlos a los gráficos
                     if ((double) Double.parseDouble(line[2]) > 0) {
                         annotation.add(new XYTextAnnotation(line[2], (double) Double.parseDouble(line[0]), 0.02));
-                        DefaultTableModel model = (DefaultTableModel) this.jTableResultados.getModel();
+                        //agrega a la tabla los bloqueos
+                        DefaultTableModel model = (DefaultTableModel) this.jTableResultadosBloqueos.getModel();
                         model.addRow(new Object[]{line[0], line[1], line[2], (double) Double.parseDouble(line[4]), (double) Double.parseDouble(line[6]), (double) Double.parseDouble(line[3]), (double) Double.parseDouble(line[5])});
                     }
 
@@ -643,6 +648,12 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             }
         }
     }
+    
+    public static void reiniciarJTable(javax.swing.JTable Tabla){
+        DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);
+    }
+    
     private void textFieldLambdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldLambdaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFieldLambdaActionPerformed
@@ -744,7 +755,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTableResultados;
+    private javax.swing.JTable jTableResultadosBloqueos;
     private javax.swing.JList<String> listaAlgoritmosRuteo;
     private javax.swing.JComboBox<String> listaRedes;
     private javax.swing.JPanel panelResultados;
