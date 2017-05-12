@@ -21,7 +21,7 @@ public class GrafoMatriz {
     private int capacidadTotal;
     private double anchoFS;
     
-    public GrafoMatriz(int V){
+public GrafoMatriz(int V){
       
       this.marcas = new boolean[V];
       this.vertices = new Enlace[V][V];
