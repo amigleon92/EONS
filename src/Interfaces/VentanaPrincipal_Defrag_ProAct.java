@@ -5,6 +5,7 @@ import EON.*;
 import EON.Algoritmos.*;
 import EON.Metricas.Metricas;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import org.jfree.data.xy.*;
@@ -92,7 +94,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         etiquetaTiempoActual = new javax.swing.JLabel();
         spinnerTiempoSimulacion = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
-        etiquetaImagen = new javax.swing.JLabel();
+        etiquetaImagenTopologia = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         etiquetaTextoDemandasTotales = new javax.swing.JLabel();
         etiquetaDemandasTotales = new javax.swing.JLabel();
@@ -129,7 +131,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         listaAlgoritmosRuteo.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "FA", "FA-CA", "" };
+            String[] strings = { "FA", "FA-CA", "MTLSC" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -144,7 +146,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(listaAlgoritmosRuteo);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 112, 40));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 112, 90));
 
         botonEjecutarSimulacion.setText("Simular");
         botonEjecutarSimulacion.addActionListener(new java.awt.event.ActionListener() {
@@ -152,66 +154,68 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 botonEjecutarSimulacionActionPerformed(evt);
             }
         });
-        getContentPane().add(botonEjecutarSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, 111, 46));
+        getContentPane().add(botonEjecutarSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 100, 40));
 
         etiquetaTopologia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaTopologia.setText("Topologia");
-        getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 70, -1));
+        getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 70, 20));
 
         etiquetaError.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 360, 23));
 
         etiquetaCapacidadActual.setText("Capacidad");
-        getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 70, 20));
+        getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 70, 20));
 
         etiquetaTiempoActual.setText("Tiempo de Simulacion");
-        getContentPane().add(etiquetaTiempoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 140, 20));
+        getContentPane().add(etiquetaTiempoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 140, 20));
 
         spinnerTiempoSimulacion.setModel(new javax.swing.SpinnerNumberModel(100, 50, 100000, 25));
         spinnerTiempoSimulacion.setToolTipText("");
         spinnerTiempoSimulacion.setRequestFocusEnabled(false);
         spinnerTiempoSimulacion.setValue(1000);
-        getContentPane().add(spinnerTiempoSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 60, 20));
+        getContentPane().add(spinnerTiempoSimulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 60, 20));
 
         jLabel2.setText("FSs por Enlace");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, -1, 20));
-        getContentPane().add(etiquetaImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 100, 60));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, -1, 20));
+
+        etiquetaImagenTopologia.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        getContentPane().add(etiquetaImagenTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 150, 110));
 
         jLabel5.setText("unid.");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, -1, 20));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, -1, 20));
 
         etiquetaTextoDemandasTotales.setText("Cantidad total de Demandas:");
         getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 170, 20));
         getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 50, 20));
 
         jLabel4.setText("Trafico Maximo");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 100, 20));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 100, 20));
 
         spinnerErlang.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1500, 100));
-        getContentPane().add(spinnerErlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 50, -1));
+        getContentPane().add(spinnerErlang, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, 50, -1));
 
         jLabel6.setText("Erlang");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 50, 20));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, 50, 20));
 
         textFieldCapacidadEnlace.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldCapacidadEnlace.setText("50");
-        getContentPane().add(textFieldCapacidadEnlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 60, -1));
+        getContentPane().add(textFieldCapacidadEnlace, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 50, -1));
 
         etiquetaRSA1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         etiquetaRSA1.setText("Algoritmo de Ruteo");
-        getContentPane().add(etiquetaRSA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, -1, -1));
+        getContentPane().add(etiquetaRSA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 180, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel9.setText("Otros");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
-        listaRedes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Red 1", "Red 2" }));
+        listaRedes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NSFNet", "ARPA-2" }));
         listaRedes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listaRedesActionPerformed(evt);
             }
         });
-        getContentPane().add(listaRedes, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 60, -1));
+        getContentPane().add(listaRedes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 80, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel10.setText("Defragmentación ProActiva");
@@ -222,7 +226,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
         etiquetaAnchoFSActual1.setText("Lambda");
-        getContentPane().add(etiquetaAnchoFSActual1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 50, 20));
+        getContentPane().add(etiquetaAnchoFSActual1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 50, 20));
 
         textFieldLambda.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldLambda.setText("5");
@@ -231,31 +235,31 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 textFieldLambdaActionPerformed(evt);
             }
         });
-        getContentPane().add(textFieldLambda, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 40, 20));
+        getContentPane().add(textFieldLambda, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 40, 20));
 
-        etiquetaAnchoFSActual2.setText("mínimo");
-        getContentPane().add(etiquetaAnchoFSActual2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 70, 20));
+        etiquetaAnchoFSActual2.setText("mín");
+        getContentPane().add(etiquetaAnchoFSActual2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 30, 20));
 
         textFieldFSminimo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldFSminimo.setText("2");
-        getContentPane().add(textFieldFSminimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 40, 20));
+        getContentPane().add(textFieldFSminimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 30, 20));
 
         etiquetaAnchoFSActual3.setText("FS Rango");
-        getContentPane().add(etiquetaAnchoFSActual3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 70, 20));
+        getContentPane().add(etiquetaAnchoFSActual3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 70, 20));
 
-        etiquetaAnchoFSActual4.setText("máximo");
-        getContentPane().add(etiquetaAnchoFSActual4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 50, 20));
+        etiquetaAnchoFSActual4.setText("máx");
+        getContentPane().add(etiquetaAnchoFSActual4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 30, 20));
 
         textFieldFSmaximo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldFSmaximo.setText("8");
-        getContentPane().add(textFieldFSmaximo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 40, 20));
+        getContentPane().add(textFieldFSmaximo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 30, 20));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel12.setText("Red");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         jLabel3.setText("GHz");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 30, 20));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 30, 20));
 
         textFieldAnchoFS.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         textFieldAnchoFS.setText("2");
@@ -265,10 +269,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 textFieldAnchoFSActionPerformed(evt);
             }
         });
-        getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 30, 20));
+        getContentPane().add(textFieldAnchoFS, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 30, 20));
 
         etiquetaAnchoFSActual.setText("Ancho FS");
-        getContentPane().add(etiquetaAnchoFSActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 60, 20));
+        getContentPane().add(etiquetaAnchoFSActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 60, 20));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, 290));
@@ -352,13 +356,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
         String algoritmoSeleccionado = (String) algoritmosRuteoSeleccionados.get(0);
         //System.out.println("El algoritmosRuteoSeleccionados22:"+algoritmoSeleccionado);
-        if (algoritmoSeleccionado.equals("FA-CA")) {
-            this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "FA-CA");
-            this.cantidadDeAlgoritmosTotalSeleccionados++;
-        } else if (algoritmoSeleccionado.equals("FA")) {
-            this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, "FA");
-            this.cantidadDeAlgoritmosTotalSeleccionados++;
-        }
+        this.algoritmosCompletosParaGraficar.add(cantidadDeAlgoritmosTotalSeleccionados, algoritmoSeleccionado);
+        this.cantidadDeAlgoritmosTotalSeleccionados++;
+
 
         GrafoMatriz G[] = new GrafoMatriz[this.algoritmosCompletosParaGraficar.size()]; // Se tiene una matriz de adyacencia por algoritmo RSA elegidos para por el usuario
 
@@ -418,13 +418,13 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         G[i].insertarDatos(this.Redes.getTopologia(0));
                     }
                     break;
-                case "Red 1":
+                case "NSFNet":
                     for (int i = 0; i < RSA.size(); i++) {
                         G[i] = new GrafoMatriz(this.Redes.getRed(1).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(1));
                     }
                     break;
-                case "Red 2":
+                case "ARPA-2":
                     for (int i = 0; i < RSA.size(); i++) {
                         G[i] = new GrafoMatriz(this.Redes.getRed(2).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(2));
@@ -475,6 +475,16 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                                 break;
                             case "FA-CA":
                                 r = Algoritmos_Defrag_ProAct.Def_FACA(G[a], demanda, ksp, capacidadE);
+                                if (r != null) {
+                                    Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
+                                    rutasEstablecidas.add(demanda.getTiempo());
+                                } else {
+                                    contB[a]++;
+                                    contBloqueos++;
+                                }
+                                break;
+                           case "MTLSC":
+                                r = Algoritmos.MTLSC_Algorithm(G[a], demanda, ksp, capacidadE);
                                 if (r != null) {
                                     Utilitarios.asignarFS_Defrag(ksp, r, G[a], demanda, ++conexid[a]);
                                     rutasEstablecidas.add(demanda.getTiempo());
@@ -627,23 +637,26 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
     private void setearRed() {
         if (this.listaRedes.getSelectedIndex() >= 0) {
-
-            ImageIcon Img = new ImageIcon(getClass().getResource("Imagenes/" + (listaRedes.getSelectedItem() + ".png")));
-            etiquetaImagen.setIcon(Img);
-            etiquetaImagen.setBounds(210, 100, 320, 170);
-            etiquetaImagen.setVisible(true);
-            etiquetaImagen.setOpaque(false);
+            ImageIcon Img = new ImageIcon();
+            
             String redseleccionada = (String) this.listaRedes.getSelectedItem();
             switch (redseleccionada) {
-                case "Red 1":
+                case "NSFNet":
+                    Img = new ImageIcon(getClass().getResource(("Imagenes/" + ("Red 1.png"))));
                     this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(1).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
                     this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(1).getAnchoFS()));
                     break;
-                case "Red 2":
+                case "ARPA-2":
+                    Img = new ImageIcon(getClass().getResource(("Imagenes/" + ("Red 2.png"))));
                     this.textFieldCapacidadEnlace.setText(Integer.toString((int) (this.Redes.getRed(2).getCapacidadTotal() / this.Redes.getRed(1).getAnchoFS())));
                     this.textFieldAnchoFS.setText(Double.toString(this.Redes.getRed(2).getAnchoFS()));
                     break;
             }
+            
+            etiquetaImagenTopologia.setBounds(150, 110, 150, 110);
+            etiquetaImagenTopologia.setIcon(Img);
+            etiquetaImagenTopologia.setVisible(true);
+            etiquetaImagenTopologia.setOpaque(false);
         }
     }
     
@@ -734,7 +747,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaCapacidadActual;
     private javax.swing.JLabel etiquetaDemandasTotales;
     private javax.swing.JLabel etiquetaError;
-    private javax.swing.JLabel etiquetaImagen;
+    private javax.swing.JLabel etiquetaImagenTopologia;
     private javax.swing.JLabel etiquetaRSA1;
     private javax.swing.JLabel etiquetaTextoBloqueosTotales;
     private javax.swing.JLabel etiquetaTextoDemandasTotales;
