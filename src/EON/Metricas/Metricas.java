@@ -1,12 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package EON.Metricas;
 import EON.*;
 import EON.Utilitarios.*;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -15,10 +18,10 @@ import java.util.ArrayList;
 public class Metricas {
     
     /*
-     Bandwidth Fragmentation Ratio - Mide la cantidad de bloques de FS por enlace
+    Bandwidth Fragmentation Ratio - Mide la cantidad de bloques de FS por enlace
     @param
-        G - red actual
-        capacidad - cantdiad de FS por enlace
+    G - red actual
+    capacidad - cantdiad de FS por enlace
     
     */
     public static double BFR(GrafoMatriz G, int capacidad){
@@ -51,7 +54,7 @@ public class Metricas {
                         if (mayorSeguido==0){
                             System.out.println("");
                         }
-
+                        
                         if (contOcupados==capacidad){
                             maxBlocks[i][j] = 0;
                         }else{
@@ -61,7 +64,7 @@ public class Metricas {
                         if (maxBlocks[i][j]==1){
                             System.out.println("MaxBlock= "+mayorSeguido + " / (352 - subm(b) : "+ contOcupados);
                         }
-
+                        
                     }else{
                         maxBlocks[i][j] = -1;
                     }
@@ -88,7 +91,7 @@ public class Metricas {
         if (sumaEnlaces==G.getCantidadEnlaces()){
             System.out.println("");
         }
-
+        
         return (sumaEnlaces/G.getCantidadEnlaces());
         
         
@@ -96,10 +99,10 @@ public class Metricas {
     }
     
     /*
-     Maximu Used Index-Slot retorna el mayor indice usado en un enlace
+    Maximu Used Index-Slot retorna el mayor indice usado en un enlace
     @param
-        G - red actual
-        capacidad - cantidad de FS por enlace
+    G - red actual
+    capacidad - cantidad de FS por enlace
     */
     public static double MSI(GrafoMatriz G, int capacidad){
         ArrayList<Integer> lista = new ArrayList<>();
@@ -131,7 +134,7 @@ public class Metricas {
             lista.add(i);
         }
         
-
+        
         
         for (int i=0; i<indices.length; i++){
             sumaIndices = sumaIndices + indices[i];
@@ -140,4 +143,122 @@ public class Metricas {
         return (sumaIndices/G.getCantidadEnlaces());
     }
     
+    /*
+    Path Consecutiveness - Usado en DefragProAct
+    @param
+    G - red actual
+    capacidad - cantidad de FS por enlace
+    ListaEnlazada[] caminos - todos los caminos de dos enlaces de la red
+    */
+    public static float PathConsecutiveness (ListaEnlazada[] caminos, int capacidad, GrafoMatriz G){
+        int k = 0;
+        float cl = 0;
+        int OE[] = new int[(capacidad)];
+        
+        while (caminos.length > k && caminos[k] != null) {
+            //inicializa el espectro
+            for (int w = 0; w < (capacidad); w++) {
+                OE[w] = 1;
+            }
+            Nodo t = caminos[k].getInicio();
+            int Total = (G.acceder(t.getDato(), t.getSiguiente().getDato())).getFS().length;
+            //calcula la ocupacion real del espectro
+            for (int j = 0; j < Total; j++) {
+                for (t = caminos[k].getInicio(); t.getSiguiente().getSiguiente() != null; t = t.getSiguiente()) {
+                    if (G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[j].getEstado() == 0) {
+                        OE[j] = 0;
+                        break;
+                    }
+                }
+            }
+            int vector[] = new int[2];
+            List<int[]> BloquesE = new LinkedList<int[]>();
+            int cgb = 0;//contador global de bloques
+            for (int c = 0; c < OE.length; c++) {//de cuanto y cuantos bloques espectrales libres hay
+                int i = 0, f = 0;
+                if (OE[c] == 1) {
+                    cgb++;
+                    i = f = c;
+                    for (; c < OE.length; c++) {
+                        if (OE[c] == 0 || c == OE.length - 1) { //si encuentra un slot ocupado o si es el final de OE
+                            f = c;
+                            vector[0] = i;
+                            vector[1] = f;
+                            BloquesE.add(vector);
+                        }
+                    }
+                }
+            }
+            
+            t = caminos[k].getInicio();
+            FrecuencySlots enlace[] = new FrecuencySlots[G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length];
+            float sum = 0, cfs = 0;
+            cl = 0;
+            for (; t.getSiguiente().getSiguiente() != null; t = t.getSiguiente()) {
+                enlace = G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS();
+                //contador  frecuency slots
+                for (int j = 0; j < enlace.length - 1; j++) {
+                    sum += enlace[j].getEstado() * enlace[j + 1].getEstado(); //suma solo si son FS libres consecutivos
+                    if (enlace[j].getEstado() == 1) {
+                        cfs++;
+                    }
+                }
+                if (enlace[enlace.length - 1].getEstado() == 1) {
+                    cfs++;
+                }
+                cl = (sum / cgb) * (cfs / OE.length);
+            }
+            k++;
+        }
+        
+        return cl;
+    }
+    
+    /*
+    Entropia por el porcentaje de Uso del enlace - Usado en DefragProAct
+    @param
+    G - red actual
+    capacidad - cantidad de FS por enlace
+    ListaEnlazada[] caminos - todos los caminos de dos enlaces de la red
+    */
+    public static double EntropiaPorUso (ListaEnlazada[] caminos, int capacidad, GrafoMatriz G){
+        double uelink=0;
+        double entropy=0;
+        int countlinks=0;
+        int k = 0, suma = 0, uso = 0;
+        int OE[] = new int[(capacidad)];
+        Nodo t;
+        for (t = caminos[k].getInicio(); t.getSiguiente().getSiguiente() != null; t = t.getSiguiente()) {
+            int UEcont=0;
+            if(G.acceder(t.getDato(), t.getSiguiente().getDato())!=null){
+                for(int kk=0;kk<G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length-1;kk++){
+                    if(G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[kk].getEstado()!=G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[kk+1].getEstado()){
+                        UEcont++;
+                    }
+                }
+                uelink=uelink+((double)UEcont/(G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length-1));
+                countlinks++;
+            }
+        }
+        entropy=uelink/countlinks;
+        //inicializa el espectro
+        //Calcular el procentaje de uso
+        for (int w = 0; w < (capacidad); w++) {
+            OE[w] = 1;
+        }
+        Nodo n = caminos[k].getInicio();
+        int Total = (G.acceder(n.getDato(), n.getSiguiente().getDato())).getFS().length;
+        //calcula la ocupacion real del espectro
+        for (int j = 0; j < Total; j++) {
+            for (n = caminos[k].getInicio(); n.getSiguiente().getSiguiente() != null; n = n.getSiguiente()) {
+                if (G.acceder(n.getDato(), n.getSiguiente().getDato()).getFS()[j].getEstado() == 0) {
+                    OE[j] = 0;
+                    suma++;
+                    break;
+                }
+            }
+        }
+        uso = suma / capacidad;
+        return entropy*uso;
+    }
 }
