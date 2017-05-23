@@ -49,7 +49,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private int HoldingTime; // Erlang / Lambda
     private int FsMinimo; // Cantidad mínima de FS por enlace
     private int FsMaximo; // Cantidad máxima de FS por enlace
-    private double entropia, msi, bfr;
+    private double entropia, msi, bfr, pathConsec, entropiaUso;
     private ArrayList<Integer> rutasEstablecidas;
     int hora, minutos, segundos, dia, mes, anho;
 //    private int cantidadRedes; //cantidad de redes exitentes en el Simulador
@@ -345,7 +345,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
 
         GrafoMatriz G[] = new GrafoMatriz[this.algoritmosCompletosParaGraficar.size()]; // Se tiene una matriz de adyacencia por algoritmo RSA elegidos para por el usuario
-
+        ListaEnlazada[] caminosDeDosEnlaces = null;
         Demanda d = new Demanda();  // Demanda a recibir
         File archivoDemandas = null;
         Resultado r = new Resultado(); // resultado obtenido en una demanda. Si r==null se cuenta como bloqueo
@@ -407,12 +407,14 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         G[i] = new GrafoMatriz(this.Redes.getRed(1).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(1));
                     }
+                    caminosDeDosEnlaces = Utilitarios.hallarCaminosTomadosDeADos(this.Redes.getTopologia(1), 14, 21);
                     break;
                 case "ARPA-2":
                     for (int i = 0; i < RSA.size(); i++) {
                         G[i] = new GrafoMatriz(this.Redes.getRed(2).getCantidadDeVertices());
                         G[i].insertarDatos(this.Redes.getTopologia(2));
                     }
+                    caminosDeDosEnlaces = Utilitarios.hallarCaminosTomadosDeADos(this.Redes.getTopologia(2), 21, 26);
             }
             try {
                 //while (earlang <= E) { // mientras no se llega a la cargad de trafico maxima
@@ -488,10 +490,12 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     entropia = G[a].entropia();
                     msi = Metricas.MSI(G[a], capacidadE);
                     bfr = Metricas.BFR(G[a], capacidadE);
+                    pathConsec = Metricas.PathConsecutiveness(caminosDeDosEnlaces, capacidadE, G[a]);
+                    entropiaUso = Metricas.EntropiaPorUso(caminosDeDosEnlaces, capacidadE, G[a]);
 
                     try {
                         //Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, contD, entropia, msi, bfr, 0);
-                        Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, demandasPorUnidadTiempo.size(), entropia, msi, bfr, rutasEstablecidas.size());
+                        Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, demandasPorUnidadTiempo.size(), entropia, msi, bfr, rutasEstablecidas.size(), pathConsec, entropiaUso);
                         //Utilitarios.escribirArchivoResultados(archivoResultados, i, contBloqueos, contD, (int) entropia, (int) msi, (int) bfr, 0);
                     } catch (IOException ex) {
                         Logger.getLogger(VentanaPrincipal_Defrag_ProAct.class.getName()).log(Level.SEVERE, null, ex);
@@ -540,7 +544,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
                 while (((linea = br.readLine()) != null)) {
                     contLinea++;
-                    String[] line = linea.split(",", 7);
+                    String[] line = linea.split(",", 9);
                     
                     //agrega en annotation todos los bloqueos para después agregarlos a los gráficos
                     if ((double) Double.parseDouble(line[2]) > 0) {

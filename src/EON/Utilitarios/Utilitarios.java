@@ -13,12 +13,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import oracle.jrockit.jfr.events.Bits;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;
@@ -32,7 +30,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -1913,7 +1910,7 @@ public class Utilitarios {
         return resultado;
     }
 
-    public static void escribirArchivoResultados(File archivo, int tiempo, int cantB, int cantD, double entropia, double MSI, double BFR, int cantRutas) throws IOException {
+    public static void escribirArchivoResultados(File archivo, int tiempo, int cantB, int cantD, double entropia, double MSI, double BFR, int cantRutas, double pathConsec, double entropiaUso) throws IOException {
         BufferedWriter bw;
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo, true));
@@ -1933,6 +1930,10 @@ public class Utilitarios {
         bw.write("" + redondearDecimales(BFR, 3));
         bw.write(",");
         bw.write("" + cantRutas);
+        bw.write(",");
+        bw.write("" + redondearDecimales(pathConsec, 3));
+        bw.write(",");
+        bw.write("" + redondearDecimales(entropiaUso, 3));
         bw.write("\r\n");
         bw.close();
 
