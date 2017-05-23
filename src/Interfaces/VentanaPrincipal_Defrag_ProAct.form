@@ -19,7 +19,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-69,0,0,5,-94"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-70,0,0,5,-94"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -97,7 +97,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="1070" y="10" width="360" height="23"/>
+          <AbsoluteConstraints x="0" y="673" width="440" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -170,18 +170,18 @@
     </Component>
     <Component class="javax.swing.JLabel" name="etiquetaTextoDemandasTotales">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cantidad total de Demandas:"/>
+        <Property name="text" type="java.lang.String" value="Total Demandas:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="450" y="10" width="170" height="20"/>
+          <AbsoluteConstraints x="150" y="320" width="100" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="etiquetaDemandasTotales">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="620" y="10" width="50" height="20"/>
+          <AbsoluteConstraints x="250" y="320" width="50" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -437,18 +437,18 @@
     </Component>
     <Component class="javax.swing.JLabel" name="etiquetaTextoBloqueosTotales">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cantidad total de Bloqueos:"/>
+        <Property name="text" type="java.lang.String" value="Total Bloqueos:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="680" y="10" width="170" height="20"/>
+          <AbsoluteConstraints x="300" y="320" width="90" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="etiquetaBloqueosTotales">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="840" y="10" width="60" height="20"/>
+          <AbsoluteConstraints x="390" y="320" width="50" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -458,7 +458,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="10" y="340" width="420" height="350"/>
+          <AbsoluteConstraints x="10" y="340" width="430" height="330"/>
         </Constraint>
       </Constraints>
 
@@ -467,18 +467,30 @@
         <Component class="javax.swing.JTable" name="jTableResultadosBloqueos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="0">
+              <Table columnCount="9" rowCount="0">
                 <Column editable="true" title="Tiempo" type="java.lang.Integer"/>
                 <Column editable="true" title="Demandas" type="java.lang.Integer"/>
                 <Column editable="true" title="Bloqueos" type="java.lang.Integer"/>
-                <Column editable="true" title="MSI" type="java.lang.Double"/>
-                <Column editable="true" title="LightPaths" type="java.lang.Double"/>
                 <Column editable="true" title="Entrop&#xed;a" type="java.lang.Double"/>
+                <Column editable="true" title="MSI" type="java.lang.Double"/>
                 <Column editable="true" title="BFR" type="java.lang.Double"/>
+                <Column editable="true" title="LightPaths" type="java.lang.Double"/>
+                <Column editable="true" title="PathConse" type="java.lang.Object"/>
+                <Column editable="true" title="Entr/uso" type="java.lang.Double"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="1">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -534,7 +546,7 @@
     <Container class="javax.swing.JScrollPane" name="panelResultados">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="450" y="40" width="980" height="650"/>
+          <AbsoluteConstraints x="450" y="10" width="980" height="680"/>
         </Constraint>
       </Constraints>
 

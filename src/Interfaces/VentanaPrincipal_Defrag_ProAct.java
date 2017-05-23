@@ -161,7 +161,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 70, 20));
 
         etiquetaError.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 360, 23));
+        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 673, 440, 20));
 
         etiquetaCapacidadActual.setText("Capacidad");
         getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 70, 20));
@@ -184,9 +184,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jLabel5.setText("unid.");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, -1, 20));
 
-        etiquetaTextoDemandasTotales.setText("Cantidad total de Demandas:");
-        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 170, 20));
-        getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 50, 20));
+        etiquetaTextoDemandasTotales.setText("Total Demandas:");
+        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 100, 20));
+        getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 50, 20));
 
         jLabel4.setText("Trafico Maximo");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 100, 20));
@@ -277,20 +277,20 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, 290));
 
-        etiquetaTextoBloqueosTotales.setText("Cantidad total de Bloqueos:");
-        getContentPane().add(etiquetaTextoBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 170, 20));
-        getContentPane().add(etiquetaBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 60, 20));
+        etiquetaTextoBloqueosTotales.setText("Total Bloqueos:");
+        getContentPane().add(etiquetaTextoBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 90, 20));
+        getContentPane().add(etiquetaBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 50, 20));
 
         jTableResultadosBloqueos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Tiempo", "Demandas", "Bloqueos", "MSI", "LightPaths", "Entropía", "BFR"
+                "Tiempo", "Demandas", "Bloqueos", "Entropía", "MSI", "BFR", "LightPaths", "PathConse", "Entr/uso"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -301,9 +301,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableResultadosBloqueos);
         jTableResultadosBloqueos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 420, 350));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 430, 330));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 440, -1));
-        getContentPane().add(panelResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 980, 650));
+        getContentPane().add(panelResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 980, 680));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -529,7 +529,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             List<XYTextAnnotation> annotation = new LinkedList<>();
             String linea;
             int contLinea = 0;
-            XYSeries series[] = new XYSeries[5];
+            XYSeries series[] = new XYSeries[7];
             XYSeriesCollection datos = new XYSeriesCollection();
 
             FileReader fr;
@@ -541,6 +541,8 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 series[2] = new XYSeries("MSI");
                 series[3] = new XYSeries("BFR");
                 series[4] = new XYSeries("Cantidad de Light Paths");
+                series[5] = new XYSeries("Path Consecutiveness");
+                series[6] = new XYSeries("Entropía por su uso");
 
                 while (((linea = br.readLine()) != null)) {
                     contLinea++;
@@ -551,7 +553,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                         annotation.add(new XYTextAnnotation(line[2], (double) Double.parseDouble(line[0]), 0.02));
                         //agrega a la tabla los bloqueos
                         DefaultTableModel model = (DefaultTableModel) this.jTableResultadosBloqueos.getModel();
-                        model.addRow(new Object[]{line[0], line[1], line[2], (double) Double.parseDouble(line[4]), (double) Double.parseDouble(line[6]), (double) Double.parseDouble(line[3]), (double) Double.parseDouble(line[5])});
+                        model.addRow(new Object[]{line[0], line[1], line[2], (double) Double.parseDouble(line[3]), (double) Double.parseDouble(line[4]), (double) Double.parseDouble(line[5]), (double) Double.parseDouble(line[6]), (double) Double.parseDouble(line[7]), (double) Double.parseDouble(line[8])});
                     }
 
                     series[0].add(contLinea, (double) Double.parseDouble(line[2]));
@@ -559,6 +561,8 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     series[2].add(contLinea, (double) Double.parseDouble(line[4]));
                     series[3].add(contLinea, (double) Double.parseDouble(line[5]));
                     series[4].add(contLinea, (double) Double.parseDouble(line[6]));
+                    series[5].add(contLinea, (double) Double.parseDouble(line[7]));
+                    series[6].add(contLinea, (double) Double.parseDouble(line[8]));
                 }
 
                 Utilitarios.GraficarResultado(series, annotation, this.panelResultados);
@@ -571,7 +575,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             //Utilitarios.GraficarResultado(prob, this.panelResultado, "Resultado de la Simulación", RSA, paso);
             String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
             this.etiquetaDemandasTotales.setText(demandasTotales);
-            this.etiquetaBloqueosTotales.setText("" + contB[0]); //VE DIEGO PORFA SI PODES HACER QUE FUNCIONE ESTA LINEA JE
+            this.etiquetaBloqueosTotales.setText("" + contB[0]);
             this.etiquetaTextoDemandasTotales.setVisible(true);
             this.etiquetaDemandasTotales.setVisible(true);
             this.etiquetaTextoBloqueosTotales.setVisible(true);

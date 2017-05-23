@@ -1954,54 +1954,61 @@ public class Utilitarios {
     public static void GraficarResultado(XYSeries series[], List<XYTextAnnotation> annotation, JScrollPane panelResultados) throws FileNotFoundException, IOException {
         XYSeriesCollection datos = new XYSeriesCollection();
         panelResultados.removeAll();
+        
         // create subplot 1...
+        datos.addSeries(series[1]);
+        final XYItemRenderer renderer1 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis1 = new NumberAxis("Entropía");
+        rangeAxis1.setAutoRangeIncludesZero(false);
+        final XYPlot subplot1 = new XYPlot(datos, null, rangeAxis1, renderer1);
+        subplot1.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        datos = new XYSeriesCollection();
+        
+        // create subplot 2...
         //final XYDataset data1 = createDataset1();
         datos.addSeries(series[2]);
-        final XYItemRenderer renderer1 = new StandardXYItemRenderer();
-        final NumberAxis rangeAxis1 = new NumberAxis("MSI");
-        final XYPlot subplot1 = new XYPlot(datos, null, rangeAxis1, renderer1);
-        subplot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        datos = new XYSeriesCollection();
-
-        // create subplot 2...
-        //final XYDataset data2 = createDataset2();
-        datos.addSeries(series[4]);
         final XYItemRenderer renderer2 = new StandardXYItemRenderer();
-        final NumberAxis rangeAxis2 = new NumberAxis("Cant. Light Paths");
-        rangeAxis2.setAutoRangeIncludesZero(false);
+        final NumberAxis rangeAxis2 = new NumberAxis("MSI");
         final XYPlot subplot2 = new XYPlot(datos, null, rangeAxis2, renderer2);
-        subplot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        subplot2.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         datos = new XYSeriesCollection();
 
         // create subplot 3...
-        //final XYDataset data2 = createDataset2();
-        datos.addSeries(series[1]);
+        datos.addSeries(series[3]);
         final XYItemRenderer renderer3 = new StandardXYItemRenderer();
-        final NumberAxis rangeAxis3 = new NumberAxis("Entropía");
+        final NumberAxis rangeAxis3 = new NumberAxis("BFR");
         rangeAxis3.setAutoRangeIncludesZero(false);
         final XYPlot subplot3 = new XYPlot(datos, null, rangeAxis3, renderer3);
         subplot3.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
         datos = new XYSeriesCollection();
-
-        // create subplot 4...
+        
+        // create subplot 3...
         //final XYDataset data2 = createDataset2();
-        datos.addSeries(series[3]);
+        datos.addSeries(series[4]);
         final XYItemRenderer renderer4 = new StandardXYItemRenderer();
-        final NumberAxis rangeAxis4 = new NumberAxis("BFR");
+        final NumberAxis rangeAxis4 = new NumberAxis("Cant. Light Paths");
         rangeAxis4.setAutoRangeIncludesZero(false);
         final XYPlot subplot4 = new XYPlot(datos, null, rangeAxis4, renderer4);
         subplot4.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
         datos = new XYSeriesCollection();
+
+        // create subplot 5...
+        datos.addSeries(series[5]);
+        final XYItemRenderer renderer5 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis5 = new NumberAxis("Path Consecutiv.");
+        rangeAxis5.setAutoRangeIncludesZero(false);
+        final XYPlot subplot5 = new XYPlot(datos, null, rangeAxis5, renderer5);
+        subplot5.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        datos = new XYSeriesCollection();
         
-//        // create subplot 5...
-//        //final XYDataset data2 = createDataset2();
-//        datos.addSeries(series[3]);
-//        final XYItemRenderer renderer5 = new StandardXYItemRenderer();
-//        final NumberAxis rangeAxis5 = new NumberAxis("BFR");
-//        rangeAxis5.setAutoRangeIncludesZero(false);
-//        final XYPlot subplot5 = new XYPlot(datos, null, rangeAxis5, renderer5);
-//        subplot5.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-//       // datos = new XYSeriesCollection();
+        // create subplot 6...
+        datos.addSeries(series[6]);
+        final XYItemRenderer renderer6 = new StandardXYItemRenderer();
+        final NumberAxis rangeAxis6 = new NumberAxis("Entropía/Uso");
+        rangeAxis6.setAutoRangeIncludesZero(false);
+        final XYPlot subplot6 = new XYPlot(datos, null, rangeAxis6, renderer6);
+        subplot6.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        //datos = new XYSeriesCollection();
 
         //agrega los bloqueos
         //for (int a = 0; a < annotation.size(); a++) {
@@ -2012,7 +2019,8 @@ public class Utilitarios {
             subplot2.addAnnotation(anno);
             subplot3.addAnnotation(anno);
             subplot4.addAnnotation(anno);
-//            subplot5.addAnnotation(anno);
+            subplot5.addAnnotation(anno);
+            subplot6.addAnnotation(anno);
 
             ValueMarker marker = new ValueMarker(anno.getX());  // position is the value on the axis
             marker.setPaint(Color.black);
@@ -2022,7 +2030,8 @@ public class Utilitarios {
             subplot2.addDomainMarker(marker);
             subplot3.addDomainMarker(marker);
             subplot4.addDomainMarker(marker);
-//            subplot5.addDomainMarker(marker);
+            subplot5.addDomainMarker(marker);
+            subplot6.addDomainMarker(marker);
         }
 
 
@@ -2035,7 +2044,8 @@ public class Utilitarios {
         plot.add(subplot2, 1);
         plot.add(subplot3, 1);
         plot.add(subplot4, 1);
-//        plot.add(subplot5, 1);
+        plot.add(subplot5, 1);
+        plot.add(subplot6, 1);
         plot.setOrientation(PlotOrientation.VERTICAL);
 
         final JFreeChart chart = new JFreeChart(null,JFreeChart.DEFAULT_TITLE_FONT, plot, true);
