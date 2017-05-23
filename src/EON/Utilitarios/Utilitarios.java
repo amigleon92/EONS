@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import oracle.jrockit.jfr.events.Bits;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -1949,7 +1950,7 @@ public class Utilitarios {
     }
 
     /*Algotimo que se encarga de graficar el resultado final de las problidades de bloqueo con respecto al earlang*/
-    public static void GraficarResultado(XYSeries series[], List<XYTextAnnotation> annotation, JPanel panelResultados) throws FileNotFoundException, IOException {
+    public static void GraficarResultado(XYSeries series[], List<XYTextAnnotation> annotation, JScrollPane panelResultados) throws FileNotFoundException, IOException {
         XYSeriesCollection datos = new XYSeriesCollection();
         panelResultados.removeAll();
         // create subplot 1...
@@ -1990,6 +1991,16 @@ public class Utilitarios {
         final XYPlot subplot4 = new XYPlot(datos, null, rangeAxis4, renderer4);
         subplot4.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
         datos = new XYSeriesCollection();
+        
+//        // create subplot 5...
+//        //final XYDataset data2 = createDataset2();
+//        datos.addSeries(series[3]);
+//        final XYItemRenderer renderer5 = new StandardXYItemRenderer();
+//        final NumberAxis rangeAxis5 = new NumberAxis("BFR");
+//        rangeAxis5.setAutoRangeIncludesZero(false);
+//        final XYPlot subplot5 = new XYPlot(datos, null, rangeAxis5, renderer5);
+//        subplot5.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+//       // datos = new XYSeriesCollection();
 
         //agrega los bloqueos
         //for (int a = 0; a < annotation.size(); a++) {
@@ -2000,6 +2011,7 @@ public class Utilitarios {
             subplot2.addAnnotation(anno);
             subplot3.addAnnotation(anno);
             subplot4.addAnnotation(anno);
+//            subplot5.addAnnotation(anno);
 
             ValueMarker marker = new ValueMarker(anno.getX());  // position is the value on the axis
             marker.setPaint(Color.black);
@@ -2009,6 +2021,7 @@ public class Utilitarios {
             subplot2.addDomainMarker(marker);
             subplot3.addDomainMarker(marker);
             subplot4.addDomainMarker(marker);
+//            subplot5.addDomainMarker(marker);
         }
 
 
@@ -2021,6 +2034,7 @@ public class Utilitarios {
         plot.add(subplot2, 1);
         plot.add(subplot3, 1);
         plot.add(subplot4, 1);
+//        plot.add(subplot5, 1);
         plot.setOrientation(PlotOrientation.VERTICAL);
 
         final JFreeChart chart = new JFreeChart(null,JFreeChart.DEFAULT_TITLE_FONT, plot, true);
@@ -2030,5 +2044,42 @@ public class Utilitarios {
         panel.setBounds(2, 2, 970, 640);
         panelResultados.add(panel);
         panelResultados.repaint();     
+    }
+    
+    //halla todos los caminos tomados de a dos de una topología
+    public static ListaEnlazada[] hallarCaminosTomadosDeADos(double [][][] v, int cantNodos, int cantEnlaces) {
+        int promedioGrados = (cantEnlaces * 2)/cantNodos;
+        int cantCaminosDosEnlaces = (cantEnlaces * promedioGrados) / 2; // = (cantEnlaces * cantEnlaces / cantNodos)
+        ListaEnlazada A[] = new ListaEnlazada[cantCaminosDosEnlaces];
+        ListaEnlazada P = new ListaEnlazada();
+        ListaEnlazada Pinv = new ListaEnlazada(); //para probar la inversa si existe antes de agregar
+        int cont = 0; //cuenta los resultados
+        
+        for(int i=0;i<cantEnlaces;i++){
+            for(int j=0;j<cantEnlaces;j++){
+                if(v[i][j][1]!=0){ //si es adyacente al primer nodo agrega como primer camino
+                    for(int k=0;k<cantEnlaces;k++){ //por cada nodo
+                        if(v[i][j][1]!=0){ //si es adyacente al segundo nodo
+                            //el mismo path no puede existir porque va en orden, pero la inversa si, por eso se prueba la inversa si existe
+                            Pinv.insertarAlComienzo(k);
+                            Pinv.insertarAlfinal(j);
+                            Pinv.insertarAlfinal(i);
+                            if (verificar(A,3,Pinv)){ //si ya existe ese path en la lista enlazada, no estoy seguro que hace el 3, le puse nomas un nro
+                                Pinv = new ListaEnlazada(); //lo borra
+                            } else { //si no existe lo agrega
+                                //crea en el orden correcto para agregar
+                                P.insertarAlComienzo(i);
+                                P.insertarAlfinal(j);
+                                P.insertarAlfinal(k);
+                                A[cont] = P;
+                                cont++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+       return A;
     }
 }

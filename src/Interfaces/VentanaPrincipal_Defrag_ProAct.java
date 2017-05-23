@@ -119,12 +119,12 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         textFieldAnchoFS = new javax.swing.JTextField();
         etiquetaAnchoFSActual = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        panelResultados = new javax.swing.JPanel();
         etiquetaTextoBloqueosTotales = new javax.swing.JLabel();
         etiquetaBloqueosTotales = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableResultadosBloqueos = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
+        panelResultados = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -277,23 +277,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, 290));
 
-        panelResultados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        panelResultados.setPreferredSize(new java.awt.Dimension(480, 200));
-        panelResultados.setVerifyInputWhenFocusTarget(false);
-
-        javax.swing.GroupLayout panelResultadosLayout = new javax.swing.GroupLayout(panelResultados);
-        panelResultados.setLayout(panelResultadosLayout);
-        panelResultadosLayout.setHorizontalGroup(
-            panelResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 976, Short.MAX_VALUE)
-        );
-        panelResultadosLayout.setVerticalGroup(
-            panelResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(panelResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 980, 650));
-
         etiquetaTextoBloqueosTotales.setText("Cantidad total de Bloqueos:");
         getContentPane().add(etiquetaTextoBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 170, 20));
         getContentPane().add(etiquetaBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 60, 20));
@@ -320,6 +303,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 420, 350));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 440, -1));
+        getContentPane().add(panelResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 980, 650));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -769,7 +753,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JTable jTableResultadosBloqueos;
     private javax.swing.JList<String> listaAlgoritmosRuteo;
     private javax.swing.JComboBox<String> listaRedes;
-    private javax.swing.JPanel panelResultados;
+    private javax.swing.JScrollPane panelResultados;
     private javax.swing.JSpinner spinnerErlang;
     private javax.swing.JSpinner spinnerTiempoSimulacion;
     private javax.swing.JTextField textFieldAnchoFS;
