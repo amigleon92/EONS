@@ -2050,30 +2050,21 @@ public class Utilitarios {
     public static ListaEnlazada[] hallarCaminosTomadosDeADos(double [][][] v, int cantNodos, int cantEnlaces) {
         int promedioGrados = (cantEnlaces * 2)/cantNodos;
         int cantCaminosDosEnlaces = (cantEnlaces * promedioGrados) / 2; // = (cantEnlaces * cantEnlaces / cantNodos)
-        ListaEnlazada A[] = new ListaEnlazada[cantCaminosDosEnlaces];
-        ListaEnlazada P = new ListaEnlazada();
-        ListaEnlazada Pinv = new ListaEnlazada(); //para probar la inversa si existe antes de agregar
+        ListaEnlazada A[] = new ListaEnlazada[100];
+        ListaEnlazada P;
         int cont = 0; //cuenta los resultados
         
-        for(int i=0;i<cantEnlaces;i++){
-            for(int j=0;j<cantEnlaces;j++){
+        for(int i=0;i<cantNodos;i++){
+            for(int j=0;j<cantNodos;j++){
                 if(v[i][j][1]!=0){ //si es adyacente al primer nodo agrega como primer camino
-                    for(int k=0;k<cantEnlaces;k++){ //por cada nodo
-                        if(v[i][j][1]!=0){ //si es adyacente al segundo nodo
-                            //el mismo path no puede existir porque va en orden, pero la inversa si, por eso se prueba la inversa si existe
-                            Pinv.insertarAlComienzo(k);
-                            Pinv.insertarAlfinal(j);
-                            Pinv.insertarAlfinal(i);
-                            if (verificar(A,3,Pinv)){ //si ya existe ese path en la lista enlazada, no estoy seguro que hace el 3, le puse nomas un nro
-                                Pinv = new ListaEnlazada(); //lo borra
-                            } else { //si no existe lo agrega
-                                //crea en el orden correcto para agregar
-                                P.insertarAlComienzo(i);
-                                P.insertarAlfinal(j);
-                                P.insertarAlfinal(k);
-                                A[cont] = P;
-                                cont++;
-                            }
+                    for(int k=0;k<cantNodos;k++){ //por cada nodo
+                        if(v[j][k][1]!=0 && i<k){ //si es adyacente al segundo nodo y si i<k entonces no graba caminos inversos
+                            P = new ListaEnlazada(); //borra todo antes
+                            P.insertarAlComienzo(i);
+                            P.insertarAlfinal(j);
+                            P.insertarAlfinal(k);
+                            A[cont] = P;
+                            cont++;
                         }
                     }
                 }
