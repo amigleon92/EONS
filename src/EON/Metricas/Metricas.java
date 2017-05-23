@@ -228,12 +228,12 @@ public class Metricas {
         double uelink=0;
         double entropy=0;
         double total=0;
-        double promedio=0;
+        double promedio=0, uso = 0;
         int countlinks=0;
-        int k = 0, suma = 0, uso = 0;
+        int k = 0, suma = 0;
         int OE[] = new int[(capacidad)];
         Nodo t;
-        while (k>caminos.length){
+        while (k<caminos.length && caminos[k]!=null){
                     for (t = caminos[k].getInicio(); t.getSiguiente().getSiguiente() != null; t = t.getSiguiente()) {
                         int UEcont=0;
                         if(G.acceder(t.getDato(), t.getSiguiente().getDato())!=null){
