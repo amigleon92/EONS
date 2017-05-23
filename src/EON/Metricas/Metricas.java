@@ -6,7 +6,6 @@
 package EON.Metricas;
 import EON.*;
 import EON.Utilitarios.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -150,9 +149,11 @@ public class Metricas {
     capacidad - cantidad de FS por enlace
     ListaEnlazada[] caminos - todos los caminos de dos enlaces de la red
     */
-    public static float PathConsecutiveness (ListaEnlazada[] caminos, int capacidad, GrafoMatriz G){
+    public static double PathConsecutiveness (ListaEnlazada[] caminos, int capacidad, GrafoMatriz G){
         int k = 0;
         float cl = 0;
+        double suma=0;
+        double promedio;
         int OE[] = new int[(capacidad)];
         
         while (caminos.length > k && caminos[k] != null) {
@@ -172,9 +173,9 @@ public class Metricas {
                 }
             }
             int vector[] = new int[2];
-            List<int[]> BloquesE = new LinkedList<int[]>();
+            List<int[]> BloquesE = new LinkedList<int[]>(); //no necesito bloques
             int cgb = 0;//contador global de bloques
-            for (int c = 0; c < OE.length; c++) {//de cuanto y cuantos bloques espectrales libres hay
+            for (int c = 0; c < OE.length; c++) {//calcula la cantidad de bloques
                 int i = 0, f = 0;
                 if (OE[c] == 1) {
                     cgb++;
@@ -208,10 +209,12 @@ public class Metricas {
                 }
                 cl = (sum / cgb) * (cfs / OE.length);
             }
+            suma = suma + cl;
             k++;
         }
+        promedio = suma/caminos.length;
         
-        return cl;
+        return promedio;
     }
     
     /*
@@ -224,41 +227,48 @@ public class Metricas {
     public static double EntropiaPorUso (ListaEnlazada[] caminos, int capacidad, GrafoMatriz G){
         double uelink=0;
         double entropy=0;
+        double total=0;
+        double promedio=0;
         int countlinks=0;
         int k = 0, suma = 0, uso = 0;
         int OE[] = new int[(capacidad)];
         Nodo t;
-        for (t = caminos[k].getInicio(); t.getSiguiente().getSiguiente() != null; t = t.getSiguiente()) {
-            int UEcont=0;
-            if(G.acceder(t.getDato(), t.getSiguiente().getDato())!=null){
-                for(int kk=0;kk<G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length-1;kk++){
-                    if(G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[kk].getEstado()!=G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[kk+1].getEstado()){
-                        UEcont++;
+        while (k>caminos.length){
+                    for (t = caminos[k].getInicio(); t.getSiguiente().getSiguiente() != null; t = t.getSiguiente()) {
+                        int UEcont=0;
+                        if(G.acceder(t.getDato(), t.getSiguiente().getDato())!=null){
+                            for(int kk=0;kk<G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length-1;kk++){
+                                if(G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[kk].getEstado()!=G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS()[kk+1].getEstado()){
+                                    UEcont++;
+                                }
+                            }
+                            uelink=uelink+((double)UEcont/(G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length-1));
+                            countlinks++;
+                        }
                     }
-                }
-                uelink=uelink+((double)UEcont/(G.acceder(t.getDato(), t.getSiguiente().getDato()).getFS().length-1));
-                countlinks++;
-            }
+                    entropy=uelink/countlinks;
+                    //inicializa el espectro
+                    //Calcular el procentaje de uso
+                    for (int w = 0; w < (capacidad); w++) {
+                        OE[w] = 1;
+                    }
+                    Nodo n = caminos[k].getInicio();
+                    int Total = (G.acceder(n.getDato(), n.getSiguiente().getDato())).getFS().length;
+                    //calcula la ocupacion real del espectro
+                    for (int j = 0; j < Total; j++) {
+                        for (n = caminos[k].getInicio(); n.getSiguiente().getSiguiente() != null; n = n.getSiguiente()) {
+                            if (G.acceder(n.getDato(), n.getSiguiente().getDato()).getFS()[j].getEstado() == 0) {
+                                OE[j] = 0;
+                                suma++;
+                                break;
+                            }
+                        }
+                    }
+                    uso = suma / capacidad;
+                    total= total + (entropy*uso);
+                    k++;
         }
-        entropy=uelink/countlinks;
-        //inicializa el espectro
-        //Calcular el procentaje de uso
-        for (int w = 0; w < (capacidad); w++) {
-            OE[w] = 1;
-        }
-        Nodo n = caminos[k].getInicio();
-        int Total = (G.acceder(n.getDato(), n.getSiguiente().getDato())).getFS().length;
-        //calcula la ocupacion real del espectro
-        for (int j = 0; j < Total; j++) {
-            for (n = caminos[k].getInicio(); n.getSiguiente().getSiguiente() != null; n = n.getSiguiente()) {
-                if (G.acceder(n.getDato(), n.getSiguiente().getDato()).getFS()[j].getEstado() == 0) {
-                    OE[j] = 0;
-                    suma++;
-                    break;
-                }
-            }
-        }
-        uso = suma / capacidad;
-        return entropy*uso;
+        promedio = total/caminos.length;
+        return promedio;
     }
 }
