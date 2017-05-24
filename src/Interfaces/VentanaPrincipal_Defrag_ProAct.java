@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 import java.util.LinkedList;
@@ -75,9 +76,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         setearRed(); // setea la red que aparece por defecto
 
         // Al inicio de cada Simulacion e+condemos los paneles de Resultado
-        this.etiquetaTextoDemandasTotales.setVisible(false);
-        this.etiquetaDemandasTotales.setVisible(false);
         this.etiquetaTextoBloqueosTotales.setVisible(false);
+        this.etiquetaDemandasTotales.setVisible(false);
+        this.etiquetaTextoDemandasTotales.setVisible(false);
         this.etiquetaBloqueosTotales.setVisible(false);
     }
 
@@ -96,7 +97,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         etiquetaImagenTopologia = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        etiquetaTextoDemandasTotales = new javax.swing.JLabel();
+        etiquetaTextoMax = new javax.swing.JLabel();
         etiquetaDemandasTotales = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         spinnerErlang = new javax.swing.JSpinner();
@@ -122,11 +123,18 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         etiquetaTextoBloqueosTotales = new javax.swing.JLabel();
         etiquetaBloqueosTotales = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableResultadosBloqueos = new javax.swing.JTable();
+        jTableResultadosBloqueosMinMax = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
         panelResultados = new javax.swing.JScrollPane();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableResultadosBloqueos = new javax.swing.JTable();
+        etiquetaTextoDemandasTotales = new javax.swing.JLabel();
+        etiquetaTextoMin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setLocationByPlatform(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -160,8 +168,8 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         etiquetaTopologia.setText("Topologia");
         getContentPane().add(etiquetaTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 70, 20));
 
-        etiquetaError.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 673, 440, 20));
+        etiquetaError.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        getContentPane().add(etiquetaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 670, 430, 20));
 
         etiquetaCapacidadActual.setText("Capacidad");
         getContentPane().add(etiquetaCapacidadActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 70, 20));
@@ -178,14 +186,24 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         jLabel2.setText("FSs por Enlace");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, -1, 20));
 
-        etiquetaImagenTopologia.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        getContentPane().add(etiquetaImagenTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 150, 110));
+        etiquetaImagenTopologia.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        etiquetaImagenTopologia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        etiquetaImagenTopologia.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        etiquetaImagenTopologia.setOpaque(true);
+        etiquetaImagenTopologia.setVerifyInputWhenFocusTarget(false);
+        getContentPane().add(etiquetaImagenTopologia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, 150, 110));
 
         jLabel5.setText("unid.");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, -1, 20));
 
-        etiquetaTextoDemandasTotales.setText("Total Demandas:");
-        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 100, 20));
+        etiquetaTextoMax.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        etiquetaTextoMax.setText("max");
+        etiquetaTextoMax.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        etiquetaTextoMax.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        etiquetaTextoMax.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(etiquetaTextoMax, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 640, 30, 20));
+
+        etiquetaDemandasTotales.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         getContentPane().add(etiquetaDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 50, 20));
 
         jLabel4.setText("Trafico Maximo");
@@ -279,8 +297,38 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         etiquetaTextoBloqueosTotales.setText("Total Bloqueos:");
         getContentPane().add(etiquetaTextoBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 90, 20));
+
+        etiquetaBloqueosTotales.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         getContentPane().add(etiquetaBloqueosTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 50, 20));
 
+        jTableResultadosBloqueosMinMax.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Entropía", "MSI", "BFR", "LightPaths", "PathConse", "Entr/uso"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableResultadosBloqueosMinMax.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(jTableResultadosBloqueosMinMax);
+        jTableResultadosBloqueosMinMax.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 600, 290, 65));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 440, -1));
+
+        panelResultados.setViewportView(filler1);
+
+        getContentPane().add(panelResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 980, 680));
+
+        jTableResultadosBloqueos.setAutoCreateRowSorter(true);
         jTableResultadosBloqueos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -297,13 +345,26 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTableResultadosBloqueos.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTableResultadosBloqueos);
+        jScrollPane3.setViewportView(jTableResultadosBloqueos);
         jTableResultadosBloqueos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTableResultadosBloqueos.getColumnModel().getColumnCount() > 0) {
+            jTableResultadosBloqueos.getColumnModel().getColumn(0).setHeaderValue("Tiempo");
+            jTableResultadosBloqueos.getColumnModel().getColumn(1).setHeaderValue("Demandas");
+            jTableResultadosBloqueos.getColumnModel().getColumn(2).setHeaderValue("Bloqueos");
+        }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 430, 330));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 440, -1));
-        getContentPane().add(panelResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 980, 680));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 430, 250));
+
+        etiquetaTextoDemandasTotales.setText("Total Demandas:");
+        getContentPane().add(etiquetaTextoDemandasTotales, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 100, 20));
+
+        etiquetaTextoMin.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        etiquetaTextoMin.setText("min");
+        etiquetaTextoMin.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        etiquetaTextoMin.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(etiquetaTextoMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 630, 30, 20));
+
+        getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -312,17 +373,17 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
 
         // Al inicio de cada Simulacion e+condemos los paneles de Resultado
         //this.panelResultadosBloqueos.setVisible(false);
-        this.etiquetaTextoDemandasTotales.setVisible(false);
-        this.etiquetaDemandasTotales.setVisible(false);
-        this.etiquetaTextoBloqueosTotales.setVisible(false);
-        this.etiquetaBloqueosTotales.setVisible(false);
+//        this.etiquetaTextoMax.setVisible(false);
+//        this.etiquetaDemandasTotales.setVisible(false);
+//        this.etiquetaTextoBloqueosTotales.setVisible(false);
+//        this.etiquetaBloqueosTotales.setVisible(false);
         
         //inicializamos algunas variables
         this.cantidadDeAlgoritmosTotalSeleccionados = 0;
         this.algoritmosCompletosParaGraficar.clear();
         
         //borramos los resultados que están en la tabla de bloqueos
-        reiniciarJTable(this.jTableResultadosBloqueos);
+        reiniciarJTable(this.jTableResultadosBloqueosMinMax);
 
         //leemos los valores seteados
         this.tiempoTotal = Integer.parseInt(this.spinnerTiempoSimulacion.getValue().toString()); //Tiempo de simulacion indicado por el usuario
@@ -531,6 +592,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             int contLinea = 0;
             XYSeries series[] = new XYSeries[7];
             XYSeriesCollection datos = new XYSeriesCollection();
+            
+            //tabla
+            DefaultTableModel model = (DefaultTableModel) this.jTableResultadosBloqueos.getModel();
 
             FileReader fr;
             try {
@@ -552,7 +616,6 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     if ((double) Double.parseDouble(line[2]) > 0) {
                         annotation.add(new XYTextAnnotation(line[2], (double) Double.parseDouble(line[0]), 0.02));
                         //agrega a la tabla los bloqueos
-                        DefaultTableModel model = (DefaultTableModel) this.jTableResultadosBloqueos.getModel();
                         model.addRow(new Object[]{line[0], line[1], line[2], (double) Double.parseDouble(line[3]), (double) Double.parseDouble(line[4]), (double) Double.parseDouble(line[5]), (double) Double.parseDouble(line[6]), (double) Double.parseDouble(line[7]), (double) Double.parseDouble(line[8])});
                     }
 
@@ -564,7 +627,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                     series[5].add(contLinea, (double) Double.parseDouble(line[7]));
                     series[6].add(contLinea, (double) Double.parseDouble(line[8]));
                 }
-
+                
+                //hallar el max y min de la tabla
+                getMaxMin();
+                
+                //graficar
                 Utilitarios.GraficarResultado(series, annotation, this.panelResultados);
 
 
@@ -576,10 +643,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
             this.etiquetaDemandasTotales.setText(demandasTotales);
             this.etiquetaBloqueosTotales.setText("" + contB[0]);
-            this.etiquetaTextoDemandasTotales.setVisible(true);
-            this.etiquetaDemandasTotales.setVisible(true);
-            this.etiquetaTextoBloqueosTotales.setVisible(true);
-            this.etiquetaBloqueosTotales.setVisible(true);
+//            this.etiquetaTextoMax.setVisible(true);
+//            this.etiquetaDemandasTotales.setVisible(true);
+//            this.etiquetaTextoBloqueosTotales.setVisible(true);
+//            this.etiquetaBloqueosTotales.setVisible(true);
 
             ////////Vaciar listas para las siguientes simulaciones///////////////
             /////////////////////////////////////////////////////////////////////
@@ -609,6 +676,44 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEjecutarSimulacionActionPerformed
 
+    // get the maximum and the minimum
+    public void getMaxMin(){
+        DefaultTableModel model2 = (DefaultTableModel) this.jTableResultadosBloqueosMinMax.getModel();
+        ArrayList<Double> list0 = new ArrayList<Double>();
+        ArrayList<Double> list1 = new ArrayList<Double>();
+        ArrayList<Double> list2 = new ArrayList<Double>();
+        ArrayList<Double> list3 = new ArrayList<Double>();
+        ArrayList<Double> list4 = new ArrayList<Double>();
+        ArrayList<Double> list5 = new ArrayList<Double>();
+        for(int i = 0; i < jTableResultadosBloqueos.getRowCount(); i++){
+            list0.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,3).toString()));
+            list1.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,4).toString()));
+            list2.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,5).toString()));
+            list3.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,6).toString()));
+            list4.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,7).toString()));
+            list5.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,8).toString()));
+        }
+        
+        Double maxEntro = Collections.max(list0);
+        Double minEntro = Collections.min(list0);
+        Double maxMSI = Collections.max(list1);
+        Double minMSI = Collections.min(list1);
+        Double maxBRF = Collections.max(list2);
+        Double minBRF = Collections.min(list2);
+        Double maxLP = Collections.max(list3);
+        Double minLP = Collections.min(list3);
+        Double maxPC = Collections.max(list4);
+        Double minPC = Collections.min(list4);
+        Double maxEntroUso = Collections.max(list5);
+        Double minEntroUso = Collections.min(list5);
+        
+        //agrega a la tabla los bloqueos
+        model2.addRow(new Object[]{minEntro, minMSI, minBRF, minLP, minPC, minEntroUso});
+        model2.addRow(new Object[]{maxEntro, maxMSI, maxBRF, maxLP, maxPC, maxEntroUso});
+//        Tmax.setText(Integer.toString(max));
+//        Tmin.setText(Integer.toString(min));
+    }
+            
     private void listaAlgoritmosRuteoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaAlgoritmosRuteoMouseClicked
         // TODO add your handling code here:
 //        List algoritmosRuteoSeleccionados = this.listaAlgoritmosRuteo.getSelectedValuesList();
@@ -743,8 +848,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaRSA1;
     private javax.swing.JLabel etiquetaTextoBloqueosTotales;
     private javax.swing.JLabel etiquetaTextoDemandasTotales;
+    private javax.swing.JLabel etiquetaTextoMax;
+    private javax.swing.JLabel etiquetaTextoMin;
     private javax.swing.JLabel etiquetaTiempoActual;
     private javax.swing.JLabel etiquetaTopologia;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -756,9 +864,11 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTableResultadosBloqueos;
+    private javax.swing.JTable jTableResultadosBloqueosMinMax;
     private javax.swing.JList<String> listaAlgoritmosRuteo;
     private javax.swing.JComboBox<String> listaRedes;
     private javax.swing.JScrollPane panelResultados;
