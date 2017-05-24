@@ -310,7 +310,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class
+                java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -319,9 +319,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         });
         jTableResultadosBloqueosMinMax.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTableResultadosBloqueosMinMax);
-        jTableResultadosBloqueosMinMax.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableResultadosBloqueosMinMax.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 600, 290, 65));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 600, 290, 63));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 440, -1));
 
         panelResultados.setViewportView(filler1);
@@ -338,20 +338,16 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        jTableResultadosBloqueos.setColumnSelectionAllowed(true);
         jScrollPane3.setViewportView(jTableResultadosBloqueos);
-        jTableResultadosBloqueos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTableResultadosBloqueos.getColumnModel().getColumnCount() > 0) {
-            jTableResultadosBloqueos.getColumnModel().getColumn(0).setHeaderValue("Tiempo");
-            jTableResultadosBloqueos.getColumnModel().getColumn(1).setHeaderValue("Demandas");
-            jTableResultadosBloqueos.getColumnModel().getColumn(2).setHeaderValue("Bloqueos");
-        }
+        jTableResultadosBloqueos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 430, 250));
 
@@ -383,6 +379,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         this.algoritmosCompletosParaGraficar.clear();
         
         //borramos los resultados que están en la tabla de bloqueos
+        reiniciarJTable(this.jTableResultadosBloqueos);
         reiniciarJTable(this.jTableResultadosBloqueosMinMax);
 
         //leemos los valores seteados
@@ -643,10 +640,10 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             String demandasTotales = "" + contD; // mostramos la cantidad de demandas totales recibidas
             this.etiquetaDemandasTotales.setText(demandasTotales);
             this.etiquetaBloqueosTotales.setText("" + contB[0]);
-//            this.etiquetaTextoMax.setVisible(true);
-//            this.etiquetaDemandasTotales.setVisible(true);
-//            this.etiquetaTextoBloqueosTotales.setVisible(true);
-//            this.etiquetaBloqueosTotales.setVisible(true);
+            this.etiquetaTextoBloqueosTotales.setVisible(true);
+            this.etiquetaDemandasTotales.setVisible(true);
+            this.etiquetaTextoDemandasTotales.setVisible(true);
+            this.etiquetaBloqueosTotales.setVisible(true);
 
             ////////Vaciar listas para las siguientes simulaciones///////////////
             /////////////////////////////////////////////////////////////////////

@@ -485,7 +485,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="150" y="600" width="290" height="65"/>
+          <AbsoluteConstraints x="150" y="600" width="290" height="63"/>
         </Constraint>
       </Constraints>
 
@@ -499,12 +499,12 @@
                 <Column editable="true" title="MSI" type="java.lang.Double"/>
                 <Column editable="true" title="BFR" type="java.lang.Double"/>
                 <Column editable="true" title="LightPaths" type="java.lang.Double"/>
-                <Column editable="true" title="PathConse" type="java.lang.Object"/>
+                <Column editable="true" title="PathConse" type="java.lang.Double"/>
                 <Column editable="true" title="Entr/uso" type="java.lang.Double"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="1">
+              <TableColumnModel selectionModel="3">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -597,24 +597,24 @@
                 <Column editable="true" title="MSI" type="java.lang.Double"/>
                 <Column editable="true" title="BFR" type="java.lang.Double"/>
                 <Column editable="true" title="LightPaths" type="java.lang.Double"/>
-                <Column editable="true" title="PathConse" type="java.lang.Object"/>
+                <Column editable="true" title="PathConse" type="java.lang.Double"/>
                 <Column editable="true" title="Entr/uso" type="java.lang.Double"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="1">
+              <TableColumnModel selectionModel="3">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Tiempo"/>
+                  <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Demandas"/>
+                  <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Bloqueos"/>
+                  <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -650,6 +650,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
