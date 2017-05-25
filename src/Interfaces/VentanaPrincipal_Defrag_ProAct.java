@@ -4,11 +4,8 @@ import EON.Utilitarios.*;
 import EON.*;
 import EON.Algoritmos.*;
 import EON.Metricas.Metricas;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,16 +15,13 @@ import java.util.GregorianCalendar;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import org.jfree.data.xy.*;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -690,19 +684,33 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             list4.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,7).toString()));
             list5.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,8).toString()));
         }
+                Double maxEntro = 0.0;
+        Double minEntro = 0.0;
+        Double maxMSI = 0.0;
+        Double minMSI = 0.0;
+        Double maxBRF = 0.0;
+        Double minBRF = 0.0;
+        Double maxLP = 0.0;
+        Double minLP = 0.0;
+        Double maxPC = 0.0;
+        Double minPC = 0.0;
+        Double maxEntroUso = 0.0;
+        Double minEntroUso = 0.0;
         
-        Double maxEntro = Collections.max(list0);
-        Double minEntro = Collections.min(list0);
-        Double maxMSI = Collections.max(list1);
-        Double minMSI = Collections.min(list1);
-        Double maxBRF = Collections.max(list2);
-        Double minBRF = Collections.min(list2);
-        Double maxLP = Collections.max(list3);
-        Double minLP = Collections.min(list3);
-        Double maxPC = Collections.max(list4);
-        Double minPC = Collections.min(list4);
-        Double maxEntroUso = Collections.max(list5);
-        Double minEntroUso = Collections.min(list5);
+        if (contBloqueos!=0){
+            maxEntro = Collections.max(list0);
+            minEntro = Collections.min(list0);
+            maxMSI = Collections.max(list1);
+            minMSI = Collections.min(list1);
+            maxBRF = Collections.max(list2);
+            minBRF = Collections.min(list2);
+            maxLP = Collections.max(list3);
+            minLP = Collections.min(list3);
+            maxPC = Collections.max(list4);
+            minPC = Collections.min(list4);
+            maxEntroUso = Collections.max(list5);
+             minEntroUso = Collections.min(list5);
+        }
         
         //agrega a la tabla los bloqueos
         model2.addRow(new Object[]{minEntro, minMSI, minBRF, minLP, minPC, minEntroUso});
