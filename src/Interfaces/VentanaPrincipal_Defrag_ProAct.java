@@ -620,7 +620,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
                 }
                 
                 //hallar el max y min de la tabla
-                getMaxMin();
+                getMaxMin(contB[0]);
                 
                 //graficar
                 Utilitarios.GraficarResultado(series, annotation, this.panelResultados);
@@ -668,7 +668,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
     }//GEN-LAST:event_botonEjecutarSimulacionActionPerformed
 
     // get the maximum and the minimum
-    public void getMaxMin(){
+    public void getMaxMin(int contador){
         DefaultTableModel model2 = (DefaultTableModel) this.jTableResultadosBloqueosMinMax.getModel();
         ArrayList<Double> list0 = new ArrayList<Double>();
         ArrayList<Double> list1 = new ArrayList<Double>();
@@ -684,7 +684,9 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             list4.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,7).toString()));
             list5.add(Double.parseDouble(jTableResultadosBloqueos.getValueAt(i,8).toString()));
         }
-                Double maxEntro = 0.0;
+        
+        
+        Double maxEntro = 0.0;
         Double minEntro = 0.0;
         Double maxMSI = 0.0;
         Double minMSI = 0.0;
@@ -697,7 +699,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
         Double maxEntroUso = 0.0;
         Double minEntroUso = 0.0;
         
-        if (contBloqueos!=0){
+        if (contador!=0){
             maxEntro = Collections.max(list0);
             minEntro = Collections.min(list0);
             maxMSI = Collections.max(list1);
@@ -711,6 +713,7 @@ public class VentanaPrincipal_Defrag_ProAct extends javax.swing.JFrame {
             maxEntroUso = Collections.max(list5);
              minEntroUso = Collections.min(list5);
         }
+        
         
         //agrega a la tabla los bloqueos
         model2.addRow(new Object[]{minEntro, minMSI, minBRF, minLP, minPC, minEntroUso});
